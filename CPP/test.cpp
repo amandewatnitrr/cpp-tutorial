@@ -984,6 +984,9 @@ int count_subsequence_whose_sum_is_k(int i,vector<int> &ans,vector<int> &v,int k
 void combination_sum_39_leetcode(int i,int target,vector<int>& ans,vector<int>& v,vector<vector<int>>& ansm)
     {
         /*
+
+            Input: candidates = [2,3,6,7], target = 7
+            Output: [[2,2,3],[7]]
             The Time Complexity here is O(m*(2^n)).
             m considering the case where we put the sub-sequence into a data-structure.
             Where Space complexity is m*x;
