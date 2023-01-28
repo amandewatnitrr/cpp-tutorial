@@ -1,4 +1,7 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <math.h>
+
 using namespace std;
 
 
@@ -28,15 +31,15 @@ void array_traversal(int *,int);
 void insert_in_array_at_pos(int *, int &, int ,int );
 
 void vector_input(vector<int> &);
-void vector2d_input(vector<vector<int>> &);
+void vector2d_input(vector<vector<int> > &);
 void printvectorint(vector<int>&);
 void printvectorchar(vector<char>&);
-void search_in_rowise_and_colwise_sorted_2d_vector(vector<vector<int>> &,int);
+void search_in_rowise_and_colwise_sorted_2d_vector(vector<vector<int> > &,int);
 
 void subarrays_of_vector(vector<int> &);
 
 int maximum_circular_subarray_sum(vector<int> &);
-void spiral_order_traversal(vector<vector<int>>& );
+void spiral_order_traversal(vector<vector<int> >& );
 
 /*Basic Bit Manipulation Operations*/
 
@@ -76,28 +79,29 @@ bool print_1_subsequence_whose_sum_is_k(int ,vector<int> &,vector<int> &,int ,in
 
 int count_subsequence_whose_sum_is_k(int i,vector<int> &,vector<int> &,int ,int ,int &);
 
-void combination_sum_39_leetcode(int ,int ,vector<int>& ,vector<int>&,vector<vector<int>>&);
-void combination_sum_II_40_leetcode(int ,int ,vector<int>& ,vector<int>& ,vector<vector<int>>& );
+void combination_sum_39_leetcode(int ,int ,vector<int>& ,vector<int>&,vector<vector<int> >&);
+void combination_sum_II_40_leetcode(int ,int ,vector<int>& ,vector<int>& ,vector<vector<int> >& );
 
 vector<int> print_sum_of_all_subsets_in_ascending(vector<int>&, int,int ,vector<int>&,vector<int> &);
-void subsets_78_leetcode(int ,vector<int> &,vector<int> &,vector<vector<int>> &);
-void subsets_II_90_leetcode(int ,vector<int> &,vector<int> &,vector<vector<int>> &);
+void subsets_78_leetcode(int ,vector<int> &,vector<int> &,vector<vector<int> > &);
+void subsets_II_90_leetcode(int ,vector<int> &,vector<int> &,vector<vector<int> > &);
 
 void permutation_of_vector(vector<int> &,vector<int> &,vector<bool> &);
 
 bool nqueens_51_leetcode(int **,int,int);
 bool issafe(int **,int,int,int);
 
-bool sudoku_solver_leetcode_37(vector<vector<char>> &);
-bool isvalidsudoku(vector<vector<char>>&,int ,int , char );
+bool sudoku_solver_leetcode_37(vector<vector<char> > &);
+bool isvalidsudoku(vector<vector<char> >&,int ,int , char );
 
-void palindrome_partioning_leetcode_131(vector<vector<string>>&ans,string s,string temp,vector<string>v,int index);
+void palindrome_partioning_leetcode_131(vector<vector<string> >&ans,string s,string temp,vector<string>v,int index);
 bool isPalindromeString(string);
 
-void rat_in_maze(vector<vector<int>> &maze,int i,int j,vector<vector<int>> &vis,string s,int n,vector<string>&ans);
+void rat_in_maze(vector<vector<int> > &maze,int i,int j,vector<vector<int> > &vis,string s,int n,vector<string>&ans);
 
 int main()
 {
+    cout<<"Hello World";
 	return 0;
 }
 
@@ -111,7 +115,7 @@ void array_input(int *v,int n)
     }
 void array_traversal(int *arr,int n)
     {
-        for(auto i=0;i<n;i++)
+        for(int i=0;i<n;i++)
             {
                 cout<<arr[i]<<" ";
             }
@@ -138,12 +142,12 @@ void vector_input(vector<int>& v)
     }
 void vector_traversal(vector<int>& v)
     {
-        for(auto i:v)
+        for(int i=0;i<v.size();i++)
             {
-                cout<<i<<" ";
+                cout<<v[i]<<" ";
             }
     }
-void vector2d_input(vector<vector<int>> &v)
+void vector2d_input(vector<vector<int> > &v)
     {
         int r,c,x;
         cin>>r;
@@ -452,7 +456,7 @@ int maximum_circular_subarray_sum(vector<int> &v)
         return ans;
     }
 
-void spiral_order_traversal(vector<vector<int>> &v)
+void spiral_order_traversal(vector<vector<int> > &v)
 	{
 
         /* Time Complexity is O(n).*/
@@ -491,7 +495,7 @@ void spiral_order_traversal(vector<vector<int>> &v)
 
 	}
 
-void search_in_rowise_and_colwise_sorted_2d_vector(vector<vector<int>> &v,int ele)
+void search_in_rowise_and_colwise_sorted_2d_vector(vector<vector<int> > &v,int ele)
     {
         if(v.empty())
             {
@@ -981,7 +985,7 @@ int count_subsequence_whose_sum_is_k(int i,vector<int> &ans,vector<int> &v,int k
         return l+r;
     }
 
-void combination_sum_39_leetcode(int i,int target,vector<int>& ans,vector<int>& v,vector<vector<int>>& ansm)
+void combination_sum_39_leetcode(int i,int target,vector<int>& ans,vector<int>& v,vector<vector<int> >& ansm)
     {
         /*
 
@@ -1022,7 +1026,7 @@ void combination_sum_39_leetcode(int i,int target,vector<int>& ans,vector<int>& 
         combination_sum_39_leetcode(i+1,target,ans,v,ansm);
     
     }
-void combination_sum_II_40_leetcode(int i,int target,vector<int>& ans,vector<int>& v,vector<vector<int>>& ansm)
+void combination_sum_II_40_leetcode(int i,int target,vector<int>& ans,vector<int>& v,vector<vector<int> >& ansm)
     {
         /*
             Time Complexity is O(k*(2^n)).
@@ -1112,7 +1116,7 @@ vector<int> print_sum_of_all_subsets_in_ascending(vector<int>&v, int sum,int i,v
         */
     }
 
-void subsets_78_leetcode(int i,vector<int> &ans,vector<int> &v,vector<vector<int>> &ansm)
+void subsets_78_leetcode(int i,vector<int> &ans,vector<int> &v,vector<vector<int> > &ansm)
     {
         if(i>=v.size())
             {
@@ -1124,7 +1128,7 @@ void subsets_78_leetcode(int i,vector<int> &ans,vector<int> &v,vector<vector<int
         ans.pop_back();
         subsets_78_leetcode(i+1,ans,v,ansm);
     }
-void subsets_II_90_leetcode(int i,vector<int> &ans,vector<int> &v,vector<vector<int>> &ansm)
+void subsets_II_90_leetcode(int i,vector<int> &ans,vector<int> &v,vector<vector<int> > &ansm)
     {
         /*
             Given an integer array nums that may contain duplicates, return all possible subsets (the power set).
@@ -1230,7 +1234,7 @@ bool issafe(int **a,int i, int j,int n)
 		return true;
 	}
 
-bool sudoku_solver_leetcode_37(vector<vector<char>> &v)
+bool sudoku_solver_leetcode_37(vector<vector<char> > &v)
     {
         /*
             We traverse in the sudoku, looking for empty space, if we find a empty space, we check if a number can be put in that particular
@@ -1264,7 +1268,7 @@ bool sudoku_solver_leetcode_37(vector<vector<char>> &v)
             }
         return true;
     }
-bool isvalidsudoku(vector<vector<char>>& v,int r,int c, char m)
+bool isvalidsudoku(vector<vector<char> >& v,int r,int c, char m)
     {
         for(int i=0;i<9;i++)
             {
@@ -1284,7 +1288,7 @@ bool isvalidsudoku(vector<vector<char>>& v,int r,int c, char m)
         return true;
     }
 
-void palindrome_partioning_leetcode_131(vector<vector<string>>&ans,string s,string temp,vector<string>v,int index)
+void palindrome_partioning_leetcode_131(vector<vector<string> >&ans,string s,string temp,vector<string>v,int index)
     {
         if(index==s.length())
                 {
@@ -1367,7 +1371,7 @@ string getPermutation(int n,int k)
         return ans;
     }
 
-void rat_in_maze(vector<vector<int>> &maze,int i,int j,vector<vector<int>> &vis,string s,int n,vector<string> &ans)
+void rat_in_maze(vector<vector<int> > &maze,int i,int j,vector<vector<int> > &vis,string s,int n,vector<string> &ans)
     {
         if(i==n-1 && j==n-1)
             {
