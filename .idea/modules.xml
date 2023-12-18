@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/c++ programs.iml" filepath="$PROJECT_DIR$/.idea/c++ programs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cpp-tutorial.iml" filepath="$PROJECT_DIR$/.idea/cpp-tutorial.iml" />
     </modules>
   </component>
 </project>
