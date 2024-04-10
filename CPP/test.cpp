@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stack>
 #include <vector>
 #include <math.h>
 
@@ -99,9 +100,15 @@ bool isPalindromeString(string);
 
 void rat_in_maze(vector<vector<int> > &maze,int i,int j,vector<vector<int> > &vis,string s,int n,vector<string>&ans);
 
+void reverse_words_in_sentence(string str);
+
+int no_of_ways_n_elements_can_be_divided_into_groups(int n);
+
 int main()
 {
-    cout<<"Hello World";
+    string s;
+    getline(cin,s);
+    reverse_words_in_sentence(s);
 	return 0;
 }
 
@@ -1409,3 +1416,51 @@ void rat_in_maze(vector<vector<int> > &maze,int i,int j,vector<vector<int> > &vi
 
     }
 
+void reverse_words_in_sentence(string str){
+    stack<char> st;
+
+    // Traverse through the string and push all the characters in the stack till we encounter a space.
+    for(int i=0;i<str.length();i++){
+        if(str[i] != ' '){
+            st.push(str[i]);
+        }
+
+        // If we encounter a space, we pop all the characters from the stack and print them.
+        else{
+            while(!st.empty()){
+                cout<<st.top();
+                st.pop();
+            }
+            cout<<" ";
+        }
+    }
+
+    // Since the last word in the string will not have a space after it, we need to print it separately.
+    while(!st.empty()){
+        cout<<st.top();
+        st.pop();
+    }
+}
+
+int no_of_ways_n_elements_can_be_divided_into_groups(int n){
+    // These groups can only be of 2 types either single or pairs.
+
+    double a =1, b=2, c=0;
+
+    if(n<=2){
+        return n;
+    }
+
+    /*
+     * The concept behind this is that if the the nth element is alone, than we have to recurr for f(n-1)
+     * If nth element is paired with any of the (n-1) elements,
+     * than we have to recur for f(n-2) for the remaining elements, so (n-1)*f(n-2) is the number of ways.
+    */
+
+    for (int i=3;i<=n;i++){
+        c = b + (i-1)*a;
+        a = b;
+        b = c;
+    }
+    return c;
+}
