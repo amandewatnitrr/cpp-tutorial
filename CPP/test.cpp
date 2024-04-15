@@ -61,6 +61,7 @@ vector<int> sieve_of_eratosthenes(int );
 int shorter_angle_bw_hour_and_minute(int , int );
 
 bool isperfectnumber(int );
+bool check_2_numbers_same(int ,int );
 
 int reverse_the_number(int );
 
@@ -73,9 +74,7 @@ vector<int> first_and_last_occurance_of_ele_unsorted_array(int *, int , int , in
 int fibonaci_nth_term(int);
 
 void print_subsequence(int,vector<int> &,vector<int> &);
-
 void print_subsequence_whose_sum_is_k(int ,vector<int> &,vector<int> &,int,int );
-
 bool print_1_subsequence_whose_sum_is_k(int ,vector<int> &,vector<int> &,int ,int );
 
 int count_subsequence_whose_sum_is_k(int i,vector<int> &,vector<int> &,int ,int ,int &);
@@ -102,13 +101,20 @@ void rat_in_maze(vector<vector<int> > &maze,int i,int j,vector<vector<int> > &vi
 
 void reverse_words_in_sentence(string str);
 
-int no_of_ways_n_elements_can_be_divided_into_groups(int n);
+int no_of_ways_n_elements_can_be_divided_into_groups(int );
+int tiling_problem(int , int );
+int ways_to_reach_nth_stair_by_taking_atmost_k_steps(int , int );
+
+void remove_duplicates_from_sorted_array(vector<int> &v);
+
+
 
 int main()
 {
-    string s;
-    getline(cin,s);
-    reverse_words_in_sentence(s);
+    vector<int> v;
+    vector_input(v);
+    remove_duplicates_from_sorted_array(v);
+    printvectorint(v);
 	return 0;
 }
 
@@ -427,40 +433,55 @@ void subarrays_of_vector(vector<int> &v)
 
 int kadanealgos(vector<int> &a,int n)
     {
-        int csum=0;
-        int maxsum=0;
-        for (int i = 0; i <n;i++)
-            {
-                csum+=a[i];
-                if(csum<0)
-                    {
-                        csum=0;
-                    }
-                if(maxsum<csum)
-                    {
-                        maxsum=csum;
-                    }
-            }
-        return maxsum;
+        int currentSum = 0;
+        int maxSum = INT_MIN;
+        for (int num : a) {
+            currentSum = max(num, currentSum + num);
+            maxSum = max(maxSum, currentSum);
+        }
+        return maxSum;
     }
+
 int maximum_circular_subarray_sum(vector<int> &v)
     {
-        if(v.empty()) 
+        if(v.empty())
             {
                 return 0;
             }
 
+        // Check if all elements are negative
+        bool allNegative = true;
+        for (int num : v) {
+            if (num >= 0) {
+                allNegative = false;
+                break;
+            }
+        }
+
+        // If all elements are negative, return the maximum element
+        if (allNegative) {
+            int maxNegative = INT_MIN;
+            for (int num : v) {
+                maxNegative = max(maxNegative, num);
+            }
+            return maxNegative;
+        }
+
+        int maxKadane = kadanealgos(v,v.size());
+
         vector<int> nv;
         int totalsum=0;
-        for(int i=0;i<v.size();i++)
+        for(int num : v)
             {
-                totalsum+=v[i];
-                nv.push_back(-1*v[i]);
+                totalsum+=num;
+                nv.push_back(-1*num);
             }
-        int nvsum=kadanealgos(nv,nv.size());
-        int ans = nvsum + totalsum;
-        
-        return ans;
+
+        int nvkadane=kadanealgos(nv,nv.size());
+        int maxSubarraySum = totalsum + nvkadane;
+
+        return max(maxKadane, maxSubarraySum);
+
     }
 
 void spiral_order_traversal(vector<vector<int> > &v)
@@ -747,6 +768,14 @@ bool check_if_array_sorted(int *v,int n)
                 return false;
             }
     }
+
+
+bool check_2_numbers_same(int x,int y)
+    {
+        // Time Complexity is O(log(n)).
+        return ((x^y)==0);
+    }
+
 
 vector<int> first_and_last_occurance_of_ele_unsorted_array(int *a, int key, int i, int n, vector<int> &ans)
     {
@@ -1447,6 +1476,8 @@ int no_of_ways_n_elements_can_be_divided_into_groups(int n){
 
     double a =1, b=2, c=0;
 
+    // b represents the count of ways where the (i-1) friends are already paired up
+
     if(n<=2){
         return n;
     }
@@ -1459,8 +1490,109 @@ int no_of_ways_n_elements_can_be_divided_into_groups(int n){
 
     for (int i=3;i<=n;i++){
         c = b + (i-1)*a;
+        // (i - 1) * a represents the number of ways to pair the ith friend with each of the (i-1) already paired friends.
         a = b;
         b = c;
     }
     return c;
+
+    /*
+     * int count[n+1];
+     *
+     * for(int i=0;i<=n;i++){
+     *
+     *      if(i<=2){
+     *          count[i] = i;
+     *      }
+     *
+     *      else{
+     *          count[i] = count[i-1] + (i-1)*count[i-2];
+     *          // if the ith person is single, we have to iterate for (i-1)th person
+     *          // if the ith person is paired, we have to iterate for (i-2)th person
+     *      }
+     *   }
+     *   return count[n];
+     * }
+     *
+     */
+}
+
+int tiling_problem(int n, int m){
+    // The time complexity of this problem is O(n).
+    // The Size of tiles is 1*m.
+
+    int count[n+1];
+    count[0] = 0;
+
+    for(int i=0; i<=n;i++){
+        if(i>m){
+            count[i] = count[i-1] + count[i-m];
+        }
+        else if(i<m || i==1){
+            count[i] = 1; // base case or i=m=1
+        }
+        else{
+            count[i] = 2;
+        }
+    }
+}
+
+int ways_to_reach_nth_stair_by_taking_atmost_k_steps(int n, int k){
+    // The time complexity of this problem is O(n*k).
+    // The Space complexity of this problem is O(n).
+    int stairs = n+1;
+
+    /* The size of the array is n+1, because we need to store the number of ways to reach the nth stair.
+     * Assuming we have the 0th stair is 1st stair, so the size of the array is n+1.
+     */
+
+    int pw[stairs];
+    pw[0] = 1; // Assuming 0th leap exist, so we assign it value 1 for calculation.
+
+    // Loop to iterate all possible leaps upto k
+    for(int i=0; i<=k ;i++){
+
+        // Loop to count all possible ways to reach jth stair, with the help of ith leap or less.
+        for(int j=0;j<=n;j++){
+            if(j>=i){
+                // Condition to check leaps possible from current stair.
+                // We only consider leaps that are smaller than or equal to current stair position
+                // Because if leap i is greater than j, than it's not possible to reach the jth stair.
+                pw[j] += pw[j-i];
+
+                /* pw[j] represents the current count of possible ways to reach the stair j.
+                 *
+                 * pw[j-i] represents the count of possible ways to reach the stair j - i, where i is the current leap size.
+                 * This count indicates the number of ways to reach the current stair j using the leap size i or less.
+                 */
+            }
+        }
+    }
+    return pw[n];
+}
+
+void remove_duplicates_from_sorted_array(vector<int>& a){
+
+    // Time Complexity of this problem is O(n).
+    // Space Complexity of this problem is O(1).
+
+    bubblesort(a);
+
+    int n = a.size();
+    int j = 0;
+
+    for(int i=0;i<n-1;i++){
+        if(a[i] != a[i+1]){
+            a[j++] = a[i];
+        }
+    }
+    a[j++] = a[n-1];
+    a.resize(j);
+
+    // explain the code
+    // We start from the 0th index and compare it with the next element.
+    // If the current element is not equal to the next element, we increment the index j and assign the current element to the jth index.
+    // If the current element is equal to the next element, we skip the current element and move to the next element.
+    // Than, the last element is assigned to the jth index.
+    // We resize the array to the value of j, to remove the duplicates.
 }
