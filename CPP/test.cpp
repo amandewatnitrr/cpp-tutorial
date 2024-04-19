@@ -10,6 +10,28 @@
 
 using namespace std;
 
+// Linked List
+class llnode
+{
+public:
+    int data;
+    llnode* next; /*The type of pointer is same as the class, cause the pointer points to the next node.*/
+
+    llnode(int val)
+    {
+        data = val;
+        next = NULL;
+    }
+};
+
+void ll_insertathead(llnode* &head, int val);
+void ll_insertattail(llnode* &head, int val);
+void ll_display(llnode* head);
+bool ll_search(llnode* head,int key);
+void ll_deletee(llnode* &head, int val);
+void ll_deleteathead(llnode* &head);
+
+
 /*Sorting Algrithms*/
 
 int binarysearch(vector<int>,int h);
@@ -55,6 +77,8 @@ int updatebit(int , int, int);
 void binary_representation_of_number(int );
 vector<int> count0s1s_in_binary_represent_of_number(int );
 int onescomplement(int );
+
+// Interview Questions
 
 void generate_and_count_subset_of_set(vector<int> &);
 
@@ -1680,4 +1704,87 @@ bool isOdd(int n){
         return true;
     }
     return false;
+}
+
+void ll_insertattail(llnode* &head, int val)
+{
+    /* The head is passed by reference because we have to modify our Linked List.
+     * This causes insertion from the end of linked list.
+     */
+
+    llnode* n = new llnode(val);
+    llnode* temp =  head;
+    if(head == NULL)
+    {
+        head = n;
+        return;
+    }
+
+    while(temp->next!=NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = n;
+}
+
+void ll_insertathead(llnode* &head, int val)
+{
+    /* The head is passed by reference because we have to modify our Linked List.
+     * This causes insertion fromt the begining of the linked list.
+     */
+
+    llnode* n = new llnode(val);
+    n->next = head;
+    head = n;
+}
+
+void ll_deleteathead(llnode* &head)
+{
+    llnode* todelete = head->next;
+    head = head->next;
+
+    delete todelete;
+}
+
+void ll_deletee(llnode* &head, int val)
+{
+    if(head == NULL){return;}
+    if(head->next == NULL)
+    {
+        ll_deleteathead(head);
+        return;
+    }
+    llnode* temp = head;
+    while((temp->next->data != val) && (temp->next != NULL))
+    {
+        temp = temp->next;
+    }
+    llnode* todelete = temp->next;
+    temp->next = temp->next->next;
+
+    delete todelete;
+}
+
+bool ll_search(llnode* head,int key)
+{
+    llnode* temp = head;
+    while(temp!=NULL)
+    {
+        if(temp->data ==key){return true;}
+        temp = temp->next;
+    }
+    return false;
+
+}
+
+void ll_display(llnode* head)
+{
+    llnode* temp = head;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" ";
+        temp=temp->next;
+
+    }
+    cout<<endl;
 }
