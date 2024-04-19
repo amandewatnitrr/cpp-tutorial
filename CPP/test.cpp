@@ -30,6 +30,7 @@ void ll_display(llnode* head);
 bool ll_search(llnode* head,int key);
 void ll_deletee(llnode* &head, int val);
 void ll_deleteathead(llnode* &head);
+void ll_main();
 
 
 /*Sorting Algrithms*/
@@ -147,6 +148,7 @@ bool isOdd(int n);
 
 int main()
 {
+    ll_main();
     return 0;
 }
 
@@ -1704,6 +1706,27 @@ bool isOdd(int n){
         return true;
     }
     return false;
+}
+
+
+void ll_main(){
+    llnode* head = NULL;
+    int i;
+    cin>>i;
+    int val;
+    while(i)
+    {
+        i--;
+        cin>>val;
+        ll_insertattail(head,val);
+    }
+    int j,k;
+    cin>>j>>k;
+    ll_deletee(head,j);
+    bool state = ll_search(head,k);
+    cout<<state<<endl;
+
+    ll_display(head);
 }
 
 void ll_insertattail(llnode* &head, int val)
