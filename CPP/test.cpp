@@ -1,10 +1,14 @@
 #include <iostream>
 #include <stack>
 #include <vector>
+#include <thread>
+#include <mutex>
+#include <algorithm>
 #include <math.h>
+#include <atomic>
+#include <condition_variable>
 
 using namespace std;
-
 
 /*Sorting Algrithms*/
 
@@ -115,21 +119,10 @@ void print_all_anagrams_together(vector<string> &v);
 bool isEven(int n);
 bool isOdd(int n);
 
-
+// Multi-threading
 
 int main()
 {
-    vector<string> v;
-    int n;
-    cin>>n;
-    for(int i=0;i<n;i++)
-        {
-            string s;
-            cin>>s;
-            v.push_back(s);
-        }
-
-    print_all_anagrams_together(v);
     return 0;
 }
 
