@@ -107,15 +107,30 @@ int ways_to_reach_nth_stair_by_taking_atmost_k_steps(int , int );
 
 void remove_duplicates_from_sorted_array(vector<int> &v);
 
+void two_elements_whose_sum_closest_to_0(vector<int> &v);
+
+void createDuplicateArray(vector<pair<string, int> >& wordidx,vector<string>& v);
+void print_all_anagrams_together(vector<string> &v);
+
+bool isEven(int n);
+bool isOdd(int n);
+
 
 
 int main()
 {
-    vector<int> v;
-    vector_input(v);
-    remove_duplicates_from_sorted_array(v);
-    printvectorint(v);
-	return 0;
+    vector<string> v;
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++)
+        {
+            string s;
+            cin>>s;
+            v.push_back(s);
+        }
+
+    print_all_anagrams_together(v);
+    return 0;
 }
 
 void array_input(int *v,int n)
@@ -366,9 +381,9 @@ int partition_quicksort(vector<int> &v,int b,int e)
     }
 void swap_quicksort(vector<int> &v, int x,int y)
     {
-        int temp = v[x];
+        int temp = v[y];
         v[y] = v[x];
-        v[y] = temp;
+        v[x] = temp;
     }
 
 void dnfsort(int *a,int n)
@@ -1595,4 +1610,81 @@ void remove_duplicates_from_sorted_array(vector<int>& a){
     // If the current element is equal to the next element, we skip the current element and move to the next element.
     // Than, the last element is assigned to the jth index.
     // We resize the array to the value of j, to remove the duplicates.
+}
+
+void two_elements_whose_sum_closest_to_0(vector<int> &v){
+    int sum, min_sum= INT_MAX;
+    int b= 0, e = v.size()-1;
+    int min_l = b, min_r = v.size()-1;
+
+    if(v.size()<2){
+        cout<<"Invalid Input";
+        return;
+    }
+
+    quicksort(v,0,v.size()-1);
+
+    while(b<e){
+        sum = v[b] + v[e];
+
+        if(abs(sum)< abs(min_sum)){
+            min_sum = sum;
+            min_l = b;
+            min_r = e;
+        }
+
+        if(sum<0){
+            b++;
+        }
+
+        else{
+            e--;
+        }
+    }
+
+    cout << "The two elements whose sum is minimum are "<< v[min_l] << " and " << v[min_r];
+}
+
+void createDuplicateArray(vector<pair<string, int> >& wordidx,vector<string>& v)
+{
+    for (int i = 0; i < v.size(); i++) {
+        wordidx.push_back(make_pair(v[i], i));
+        // pair.first contains the input words and
+        // pair.second contains its index
+    }
+}
+
+void print_all_anagrams_together(vector<string> &v){
+    vector< pair<string,int> > wordidx;
+    createDuplicateArray(wordidx,v);
+
+    for(int i=0;i<wordidx.size();i++){
+        sort(wordidx[i].first.begin(),wordidx[i].first.end());
+    }
+
+    sort(wordidx.begin(),wordidx.end());
+    for(int i=0;i<wordidx.size();i++){
+        cout<<v[wordidx[i].second]<<" ";
+    }
+
+}
+
+bool isEven(int n){
+    /*
+     * We can also directly use return (!(n&1));
+     */
+    if(n&1){
+        return false;
+    }
+    return true;
+}
+
+bool isOdd(int n){
+    /*
+     * We can also directly use return (n&1);
+     */
+    if(n&1){
+        return true;
+    }
+    return false;
 }
