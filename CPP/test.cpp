@@ -8,6 +8,9 @@
 #include <atomic>
 #include <condition_variable>
 
+#define ll long long
+#define ld long double
+
 using namespace std;
 
 // Linked List
@@ -57,6 +60,7 @@ void array_swap(int *,int ,int );
 void array_input(int *,int);
 void array_traversal(int *,int);
 void insert_in_array_at_pos(int *, int &, int ,int );
+bool check_array_sorted(int *,int);
 
 void vector_input(vector<int> &);
 void vector2d_input(vector<vector<int> > &);
@@ -79,11 +83,20 @@ void binary_representation_of_number(int );
 vector<int> count0s1s_in_binary_represent_of_number(int );
 int onescomplement(int );
 
-// Interview Questions
 
-void generate_and_count_subset_of_set(vector<int> &);
+// Mathematical Operations
 
-vector<int> display_all_unique_elements_in_vector(vector<int> &v);
+int gcd(int, int);
+int find_gcd(int *,int );
+long long find_lcm(int *,int );
+
+bool check_armstrong(ll);
+
+ll count_digits(ll);
+
+bool isEven(int n);
+bool isOdd(int n);
+
 
 vector<int> sieve_of_eratosthenes(int );
 
@@ -94,13 +107,24 @@ bool check_2_numbers_same(int ,int );
 
 int reverse_the_number(int );
 
+void divisor_of_natural_number(ll);
+
+int fibonaci_nth_term(int);
+
+// Interview Questions
+
+void generate_and_count_subset_of_set(vector<int> &);
+
+void distinct_elements_in_array(int *,int);
+
+vector<int> display_all_unique_elements_in_vector(vector<int> &v);
+
+
 void print_permutations_of_string(string , string);
 
 bool check_if_array_sorted(int [],int);
 
 vector<int> first_and_last_occurance_of_ele_unsorted_array(int *, int , int , int , vector<int> &);
-
-int fibonaci_nth_term(int);
 
 void print_subsequence(int,vector<int> &,vector<int> &);
 void print_subsequence_whose_sum_is_k(int ,vector<int> &,vector<int> &,int,int );
@@ -141,14 +165,24 @@ void two_elements_whose_sum_closest_to_0(vector<int> &v);
 void createDuplicateArray(vector<pair<string, int> >& wordidx,vector<string>& v);
 void print_all_anagrams_together(vector<string> &v);
 
-bool isEven(int n);
-bool isOdd(int n);
+int knapsack_problem(int,int ,vector<int> ,vector<int> );
 
-// Multi-threading
+int trapping_rainwater(vector<int> &v);
+
+int top_left_to_bottom_right_no_blockage(int,int);
+
+void reverse_array(int *,int);
+
 
 int main()
 {
-    ll_main();
+    int n;
+    cin>>n;
+    int *a = new int[n];
+    array_input(a,n);
+    reverse_array(a,n);
+    array_traversal(a,n);
+
     return 0;
 }
 
@@ -359,9 +393,9 @@ void merge(vector<int>&v,int b,int mid,int e)
 
 void printvectorint(vector<int> &v)
     {
-        for(int i=0;i<v.size();i++)
+        for(int n: v)
             {
-                cout<<v[i]<<" ";
+                cout<<n<<" ";
             }
     }
 void printvectorchar(vector<char> &v)
@@ -863,24 +897,24 @@ int factorial(int n)
         /*
             Recursive way to calculate factorial. The Time complexity is O(n).
         */
-        if(n==1)
+        if(n==1 || n==0)
             {
                 return 1;
             }
         return n * factorial(n-1);
     }
 
-bool check_palindrome_string(string s,int i)
+bool check_palindrome_string(string s)
     {
-        if(i>=s.size()/2)
-            {
-                return true;
+        string t;
+        for (char c : s) {
+            if (isalnum(c)) {
+                t += tolower(c);
             }
-        if(s[i]!=s[s.size()-1-i])
-            {
-                return false;
-            }
-        return check_palindrome_string(s,i+1);
+        }
+        string r = t;
+        reverse(r.begin(), r.end());
+        return t == r;
     }
 
 int fibonaci_nth_term(int n)
@@ -1810,4 +1844,172 @@ void ll_display(llnode* head)
 
     }
     cout<<endl;
+}
+
+void distinct_elements_in_array(int *a,int n){
+    sort(a,a+n);
+    for(int i=0;i<n;i++){
+        while(i<n-1 && a[i]==a[i+1]){
+            i++;
+        }
+        cout<<a[i]<<" ";
+    }
+}
+
+int knapsack_problem(int n,int W,vector<int> w,vector<int> v){
+
+    if(n==0 || W==0){
+        return 0;
+    }
+
+    else{
+        if(w[n-1]>W){
+            return knapsack_problem(n-1,W,w,v);
+        }
+        else{
+            return max(v[n-1]+knapsack_problem(n-1,W-w[n-1],w,v),knapsack_problem(n-1,W,w,v));
+        }
+    }
+}
+
+int trapping_rainwater(vector<int> &v){
+    // Vector represents the height of each building.
+
+   int left = 0, right = v.size()-1;
+   int lmax = 0, rmax = 0;
+   int res = 0;
+
+    while (left<=right){
+
+        if(v[left]<=v[right])
+        {
+            if(v[left]>=lmax){
+                lmax = v[left];
+            }
+
+            else{
+                res += lmax - v[left];
+            }
+            left++;
+        }
+
+        else{
+            if(v[right]>=rmax){
+                rmax = v[right];
+            }
+
+            else{
+                res += rmax - v[right];
+            }
+
+            right--;
+        }
+    }
+
+    return res;
+
+}
+
+int top_left_to_bottom_right_no_blockage(int m, int n){
+    if(m==1 || n==1){
+        return 1;
+    }
+
+    return top_left_to_bottom_right_no_blockage(m-1,n) + top_left_to_bottom_right_no_blockage(m,n-1);
+}
+
+int gcd(int a, int b){
+    if(a==0){
+        return b;
+    }
+
+    return gcd(b % a,a);
+}
+
+
+int find_gcd(int *a,int n){
+    
+    int res = a[0];
+    for(int i=1;i<n;i++){
+        res = gcd(a[i],res);
+
+        if(res == 1){
+            return 1;
+        }
+    }
+    
+    return res;
+}
+
+long long find_lcm(int *a,int n){
+    long long res = a[0];
+    for(int i=1;i<n;i++){
+        res = ((a[i]*res)/(gcd(a[i],res)));
+    }
+    return res;
+}
+
+ll count_digits(ll n){
+    return floor(log10(n) + 1);
+}
+
+bool check_armstrong(ll n){
+    ll digits = count_digits(n);
+    int temp = n, sum = 0;
+
+    while(temp){
+        int r = temp % 10;
+        sum = sum + pow(r,digits);
+        temp = temp/10;
+    }
+
+    return (sum == n);
+}
+
+void divisor_of_natural_number(ll n){
+
+    vector<ll> v;
+
+    for(int i=1;i<=sqrt(n);i++){
+        if(n%i == 0){
+            if(n/i == i){
+                v.push_back(i);
+            }
+            else{
+                v.push_back(i);
+                v.push_back(n/i);
+            }
+        }
+    }
+
+    sort(v.begin(),v.end());
+    
+    for(ll i: v){
+        cout<<i<<" ";
+    }
+}
+
+bool check_array_sorted(int *a, int n){
+    
+    if(n == 0 || n == 1){
+        return true;
+    }
+
+    for(int i=1;i<n;i++){
+        if(a[i-1] > a[i]){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void reverse_array(int *a, int n){
+    int start = 0, end = n-1;
+
+    while(start<end){
+        swap(a[start],a[end]);
+        start++;
+        end--;
+    }
 }
