@@ -33,6 +33,13 @@ void ll_display(llnode* head);
 bool ll_search(llnode* head,int key);
 void ll_deletee(llnode* &head, int val);
 void ll_deleteathead(llnode* &head);
+void ll_make_intersect(llnode*, llnode*,int);
+void ll_intersection(llnode*,llnode*);
+int ll_length(llnode*);
+void ll_reverse(llnode* &head);
+llnode* ll_reverseknodes(llnode* &head,int k);
+void ll_makecycle(llnode* &head,int pos);
+bool ll_detectcycle(llnode* head);
 void ll_main();
 
 
@@ -1797,7 +1804,7 @@ void ll_insertathead(llnode* &head, int val)
 
 void ll_deleteathead(llnode* &head)
 {
-    llnode* todelete = head->next;
+    llnode* todelete = head;
     head = head->next;
 
     delete todelete;
@@ -1829,6 +1836,155 @@ bool ll_search(llnode* head,int key)
     {
         if(temp->data ==key){return true;}
         temp = temp->next;
+    }
+    return false;
+
+}
+
+int ll_length(node* head)
+    {
+        node* temp=head;
+        int count =0;
+        while(temp!=NULL)
+            {
+                temp = temp->next;
+                count++;
+            }
+        return count;
+    }
+
+void ll_make_intersect(llnode* a, llnode* b,int pos){
+    int count = 1;
+
+    if(pos == 0){
+        cout<<"Intersection not possible";
+        return;
+    }
+
+    llnode *tempa = a;
+    llnode *tempb = b;
+    
+    while((count != pos)&&(tempa->next != NULL)){
+        tempa= tempa -> next;
+        count++;
+    }
+
+    if(tempa->next == NULL){
+        cout<<"Intersection not possible";
+        return;
+    }
+
+    while(tempb->next != NULL){
+        tempb = tempb->next;
+    }
+
+    tempb->next = tempa;
+}
+
+void ll_intersection(llnode* a,llnode* b){
+    int la = ll_length(tempa);
+    int lb = ll_length(tempb);
+
+    int d = 0, count = 0;
+    llnode* ptr1;
+    llnode* ptr2;
+
+    if(l1>=l2){
+        d = l1-l2;
+        ptr1 = a;
+        ptr2 = b;
+
+    }
+
+    else{
+        d = l2 - l1;
+        ptr1 = b;
+        ptr2 = a;
+    }
+
+    count +=d;
+
+    while(d){
+        ptr1 = ptr1- > next;
+        if(ptr1 == NULL){return 0;}
+        d--;
+    }
+
+    while((ptr1 !=NULL)&&(ptr2!=(NULL))) {
+        if (ptr1==ptr2) {
+            return count;
+        }
+
+        ptr1 = ptr1->next;
+        ptr2 = ptr2->next;
+        count++;
+    }
+
+
+    return 0;
+}
+
+void ll_reverse(llnode* &head){
+    llnode* prev = NULL;
+    llnode* curr = head;
+    llnode* next;
+
+    while(curr!=NULL){
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+
+    head = prev;
+}
+
+llnode* ll_reverseknodes(llnode* &head,int k){
+    llnode* curr = head;
+    llnode* prev = NULL;
+    llnode* nxt;
+    int count = 0;
+    while((curr!=NULL) && (count<k)){
+        nxt = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = nxt;
+        count++ ;
+    }
+
+    if(nxt!=NULL){
+        head->next = ll_reverseknodes(nxt,k);
+    }
+    return prev;
+    
+}
+
+void ll_makecycle(llnode* &head,int pos);{
+    llnode* temp = head;
+    llnode* startnode;
+    int count = 1;
+    while(temp->next!=NULL){
+        if(count == pos){
+            startnode = temp;
+        }
+        temp = temp->next;
+        count++;
+    }
+    temp->next = startnode;
+
+}
+
+bool ll_detectcycle(llnode* head){
+    llnode* slow = head;
+    llnode* fast = head;
+
+    while((fast!=NULL)&&(fast->next!=NULL)){
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if(slow == fast){
+            return true;
+        }
     }
     return false;
 
