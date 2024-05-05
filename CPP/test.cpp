@@ -7,6 +7,8 @@
 #include <math.h>
 #include <atomic>
 #include <condition_variable>
+#include<map>
+#include<set>
 
 #define ll long long
 #define ld long double
@@ -34,14 +36,24 @@ bool ll_search(llnode* head,int key);
 void ll_deletee(llnode* &head, int val);
 void ll_deleteathead(llnode* &head);
 void ll_make_intersect(llnode*, llnode*,int);
-void ll_intersection(llnode*,llnode*);
+int ll_intersection(llnode*,llnode*);
 int ll_length(llnode*);
 void ll_reverse(llnode* &head);
 llnode* ll_reverseknodes(llnode* &head,int k);
 void ll_makecycle(llnode* &head,int pos);
 bool ll_detectcycle(llnode* head);
+void ll_kappend(llnode* &,int ,int );
+void ll_deletecycle(llnode* &head);
+void ll_bubblesort(llnode* &);
 void ll_main();
 
+/* Circular Linked List */
+
+void cll_insertathead(llnode* &head, int val);
+void cll_insertattail(llnode* &head, int val);
+void cll_deleteathead(llnode* &head);
+void cll_deletee(llnode* &head, int pos);
+void cll_display(llnode* head);
 
 /*Sorting Algrithms*/
 
@@ -59,21 +71,34 @@ int partition_quicksort(vector<int>&,int,int);
 void dnfsort(vector<int> &);
 void wavesort(int[],int);
 
-/*Kadane's Algorithm*/
-
-int kadanealgos(vector<int>&,int);
-void array_swap(int *,int ,int );
+/* Array Operations */
 
 void array_input(int *,int);
 void array_traversal(int *,int);
 void insert_in_array_at_pos(int *, int &, int ,int );
 bool check_array_sorted(int *,int);
+bool check_if_array_sorted(int [],int);
+bool check_if_array_sorted_even_if_rotated(int *,int);
+void reverse_array(int *,int);
+void second_largest_and_smallest_element_in_array(int *,int);
+void rotate_array_k_times_right(int *,int,int);
+vector<int> union_of_array(int *,int *, int, int);
+
+int find_missing_number_N(int *, int);
+
+/*Kadane's Algorithm*/
+
+int kadanealgos(vector<int>&,int);
+void array_swap(int *,int ,int );
+
+/* Vector Operations */
 
 void vector_input(vector<int> &);
 void vector2d_input(vector<vector<int> > &);
 void printvectorint(vector<int>&);
 void printvectorchar(vector<char>&);
 void search_in_rowise_and_colwise_sorted_2d_vector(vector<vector<int> > &,int);
+void rotate_vector_k_times_right(vector<int> &,int k);
 
 void subarrays_of_vector(vector<int> &);
 
@@ -126,10 +151,7 @@ void distinct_elements_in_array(int *,int);
 
 vector<int> display_all_unique_elements_in_vector(vector<int> &v);
 
-
 void print_permutations_of_string(string , string);
-
-bool check_if_array_sorted(int [],int);
 
 vector<int> first_and_last_occurance_of_ele_unsorted_array(int *, int , int , int , vector<int> &);
 
@@ -178,17 +200,25 @@ int trapping_rainwater(vector<int> &v);
 
 int top_left_to_bottom_right_no_blockage(int,int);
 
-void reverse_array(int *,int);
+void frequency_of_number_in_array(int *,int);
 
+void find_highest_and_lowest_frequency_element(int *, int);
+
+void move_all_the_zeros_to_right_array(int *,int);
 
 int main()
 {
-    int n;
+    llnode *a = NULL;
+    int n,val;
     cin>>n;
-    int *a = new int[n];
-    array_input(a,n);
-    reverse_array(a,n);
-    array_traversal(a,n);
+    int i=n;
+    while(i--){
+        cin>>val;
+        ll_insertattail(a,val);
+    }
+
+    ll_bubblesort(a);
+    ll_display(a);
 
     return 0;
 }
@@ -1658,7 +1688,8 @@ void remove_duplicates_from_sorted_array(vector<int>& a){
 
     for(int i=0;i<n-1;i++){
         if(a[i] != a[i+1]){
-            a[j++] = a[i];
+            a[j] = a[i];
+            j++;
         }
     }
     a[j++] = a[n-1];
@@ -1749,6 +1780,7 @@ bool isOdd(int n){
     return false;
 }
 
+/* LINKED LIST FUNCTIONS */
 
 void ll_main(){
     llnode* head = NULL;
@@ -1841,9 +1873,9 @@ bool ll_search(llnode* head,int key)
 
 }
 
-int ll_length(node* head)
+int ll_length(llnode* head)
     {
-        node* temp=head;
+        llnode* temp=head;
         int count =0;
         while(temp!=NULL)
             {
@@ -1881,9 +1913,9 @@ void ll_make_intersect(llnode* a, llnode* b,int pos){
     tempb->next = tempa;
 }
 
-void ll_intersection(llnode* a,llnode* b){
-    int la = ll_length(tempa);
-    int lb = ll_length(tempb);
+int ll_intersection(llnode* a,llnode* b){
+    int l1 = ll_length(a);
+    int l2 = ll_length(b);
 
     int d = 0, count = 0;
     llnode* ptr1;
@@ -1905,7 +1937,7 @@ void ll_intersection(llnode* a,llnode* b){
     count +=d;
 
     while(d){
-        ptr1 = ptr1- > next;
+        ptr1 = ptr1 -> next;
         if(ptr1 == NULL){return 0;}
         d--;
     }
@@ -1959,9 +1991,11 @@ llnode* ll_reverseknodes(llnode* &head,int k){
     
 }
 
-void ll_makecycle(llnode* &head,int pos);{
+void ll_makecycle(llnode* &head,int pos){
     llnode* temp = head;
     llnode* startnode;
+    int n = ll_length(head);
+    pos = pos % n;
     int count = 1;
     while(temp->next!=NULL){
         if(count == pos){
@@ -1990,6 +2024,76 @@ bool ll_detectcycle(llnode* head){
 
 }
 
+void ll_deletecycle(llnode* &head)
+    {
+        llnode* slow = head;
+        llnode* fast = head;
+        int count = 1;
+
+        
+        do{
+            fast = fast->next->next;
+            slow = slow->next;
+            }while(fast != slow);
+
+        fast = head;
+        while(slow->next != fast->next)
+            {
+                slow = slow->next;
+                fast = fast->next;
+            }
+        slow->next = NULL;
+        
+    }
+
+void ll_kappend(llnode* &head,int k,int n)
+    {
+        if(!head){
+            return;
+        }
+
+        k = k%n;
+
+        llnode* temp = head;
+        int count = 1;
+        llnode* newhead;
+        llnode* newtail;
+        
+        while(temp->next != NULL)
+            {
+                if(count == k)
+                    {
+                        newhead = temp->next;
+                        newtail = temp;
+                    }
+                temp = temp->next;
+                count++;
+            }
+        
+        temp->next = head;
+        head = newhead;
+        newtail->next = NULL;
+    }
+
+void ll_bubblesort(llnode*& head) {
+    int length = ll_length(head);
+    for (int i = 0; i < length - 1; i++) { // optimized loop condition
+        bool swapped = false; // use bool instead of int
+        llnode* curr = head;
+        for (int j = 0; j < length - i - 1; j++) {
+            llnode* nextNode = curr->next;
+            if (curr->data > nextNode->data) {
+                std::swap(curr->data, nextNode->data); // swap data, not nodes
+                swapped = true;
+            }
+            curr = nextNode;
+        }
+        if (!swapped) {
+            break; // optimization: exit early if no swaps occurred
+        }
+    }
+}
+
 void ll_display(llnode* head)
 {
     llnode* temp = head;
@@ -2001,6 +2105,101 @@ void ll_display(llnode* head)
     }
     cout<<endl;
 }
+
+/* CIRCULAR LINKEDLIST FUNCTION */
+
+void cll_insertathead(llnode* &head, int val)
+    {
+        llnode* n = new llnode(val);
+        llnode* temp = head;
+        
+        if(head == NULL)
+            {
+                n->next = n;
+                head = n;
+                return;
+            }
+
+        while(temp->next != head)
+            {
+                temp = temp->next;
+            }
+        temp->next = n;
+        n->next = head;
+    }
+
+void cll_insertattail(llnode* &head, int val)
+    {
+        /* The head is passed by reference because we have to modify our Linked List. 
+         * This causes insertion from the end of doubly linked list. 
+         */
+        if(head == NULL)
+            {
+                ll_insertathead(head,val);
+                return;
+            }
+
+        llnode* n = new llnode(val);
+        llnode* temp =  head;
+        
+        while(temp->next!=head)
+            {
+                temp = temp->next;
+            }
+        temp->next = n;
+        n->next = head;
+    }
+
+void cll_deleteathead(llnode* &head)
+    {
+        llnode* temp = head;
+        while(temp->next!=head)
+            {
+                temp = temp->next;
+            }
+        temp->next = head->next;
+        llnode* todelete = head;
+        head = head->next;
+
+        delete todelete;
+    }
+
+void cll_deletee(llnode* &head, int pos)
+    {
+        if(!head){return;}
+
+        if(pos==1)
+            {
+                cll_deleteathead(head);
+                return;
+            }
+
+        llnode* temp = head;
+        int count =1;
+
+        while(count != pos-1)
+            {
+                temp = temp->next;
+                count++;
+            }
+        llnode* todelete = temp->next;
+        temp->next = temp->next->next;
+        
+        delete todelete;
+    }
+
+
+void cll_display(llnode* head)
+    {
+        if(!head){return;}
+        llnode* temp = head;
+        do{
+                cout<<temp->data<<" ";
+                temp=temp->next;
+
+            }while(temp!=head);
+        cout<<endl;
+    }
 
 void distinct_elements_in_array(int *a,int n){
     sort(a,a+n);
@@ -2168,4 +2367,175 @@ void reverse_array(int *a, int n){
         start++;
         end--;
     }
+}
+
+
+void frequency_of_number_in_array(int *a,int n){
+    map<int,int> mp;
+    for(int i=0;i<n;i++){
+        mp[a[i]]++;
+    }
+
+    for(auto x: mp){
+        cout<<x.first<<" "<<x.second<<endl;
+    }
+}
+
+void find_highest_and_lowest_frequency_element(int *a, int n){
+    map<int,int> mp;
+    for(int i=0;i<n;i++){
+        mp[a[i]]++;
+    }
+
+    int max_freq = INT_MIN, min_freq = INT_MAX;
+    int max_ele = 0, min_ele = 0;
+
+    for(auto x: mp){
+        if(x.second>max_freq){
+            max_freq = x.second;
+            max_ele = x.first;
+        }
+
+        if(x.second<min_freq){
+            min_freq = x.second;
+            min_ele = x.first;
+        }
+    }
+
+    cout<<max_ele<<" "<<max_freq<<endl;
+    cout<<min_ele<<" "<<min_freq<<endl;
+}
+
+void second_largest_and_smallest_element_in_array(int *a,int n){
+
+    if(n==0){
+        cout<<"Invalid Input";
+        return;
+    }
+
+    if(n==1){
+        cout<<a[0];
+        return;
+    }
+
+    int small = INT_MAX, second_small = INT_MAX;
+    int large = INT_MIN, second_large = INT_MIN;
+
+    for(int i=0;i<n;i++){
+        if(a[i]<small){
+            second_small = small;
+            small = a[i];
+        }
+
+        else if(a[i]<second_small && a[i]!=small){
+            second_small = a[i];
+        }
+
+        if(a[i]>large){
+            second_large = large;
+            large = a[i];
+        }
+
+        else if(a[i]>second_large && a[i]!=large){
+            second_large = a[i];
+        }
+    }
+
+    cout<<second_small<<" "<<second_large;
+}
+
+bool check_if_array_sorted_even_if_rotated(int *a,int n){
+    if(n==0 || n==1){
+        return true;
+    }
+
+    int count = 0;
+
+    for(int i=1;i<n;i++){
+        if(a[i-1]-a[i]>=0){
+            count++;
+        }
+    }
+
+    if(a[0]<a[n-1]){
+        count++;
+    }
+
+    return (count<=1);
+}
+
+void rotate_array_k_times_right(int *a,int n,int k){
+    if(n==0 || n==1){
+        return;
+    }
+
+    if(k==n){
+        return;
+    }
+
+    if(k>n){
+        k = k%n;
+    }
+
+    for(int i=0;i<k;i++){
+        int temp = a[n-1];
+        for(int j=n-1;j>0;j--){
+            a[j] = a[j-1];
+        }
+        a[0] = temp;
+    }
+}
+
+void rotate_vector_k_times_right(vector<int> &nums,int k){
+    int n=nums.size();
+    k=k%n;
+    reverse(nums.begin(),nums.end());
+    reverse(nums.begin(),nums.begin()+k);
+    reverse(nums.begin()+k,nums.end());
+}
+
+void move_all_the_zeros_to_right_array(int *a,int n){
+
+    int insertatpos = 0;
+
+    for(int i=0;i<n;i++){
+        if(a[i]!=0){
+            a[insertatpos] = a[i];
+            insertatpos++;
+        }
+    }
+
+    while(insertatpos < n){
+        a[insertatpos] = 0;
+        insertatpos++;
+    }
+}
+
+vector<int> union_of_array(int *a,int *b, int an, int bn){
+    set<int> s;
+    for(int i=0;i<an;i++){
+        s.insert(a[i]);
+    }
+
+    for(int i=0;i<bn;i++){
+        s.insert(b[i]);
+    }
+
+    vector<int> unionn;
+    for(auto &x: s){
+        unionn.push_back(x);
+    }
+    
+    return unionn;
+}
+
+int find_missing_number_N(int *a, int n){
+    int sum =  (n * (n+1))/2;
+
+    int total = 0;
+    for(int i=0;i<n;i++){
+        total += a[i];
+    }
+
+    return sum - total;
 }
