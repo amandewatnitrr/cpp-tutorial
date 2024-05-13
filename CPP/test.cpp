@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stack>
+#include <queue>
 #include <vector>
 #include <thread>
 #include <mutex>
@@ -54,6 +55,28 @@ void cll_insertattail(llnode* &head, int val);
 void cll_deleteathead(llnode* &head);
 void cll_deletee(llnode* &head, int pos);
 void cll_display(llnode* head);
+
+/* Doubly Linked List */
+
+class dllnode{
+    public:
+    int data;
+    dllnode* next; /*The type of pointer is same as the class, cause the pointer points to the next node.*/
+    dllnode* prev;
+
+    dllnode(int val)
+        {
+            data = val;
+            next = NULL;
+            prev = NULL;
+        }
+};
+
+void dll_insertathead(dllnode* &head, int val);
+void dll_insertattail(dllnode* &head, int val);
+void dll_deleteathead(dllnode* &head);
+void dll_delete(dllnode* &head, int pos);
+void dll_display(dllnode* head);
 
 /*Sorting Algrithms*/
 
@@ -115,6 +138,158 @@ void binary_representation_of_number(int );
 vector<int> count0s1s_in_binary_represent_of_number(int );
 int onescomplement(int );
 
+
+/* Stack Implementation with Array */
+
+class stackk{
+    int* arr;
+    int top;
+
+    public:
+    stackk(int n)
+        {
+            arr = new int[n];
+            top= -1;
+        }
+    
+    void push(int x,int n)
+        {
+            if(top == n-1)
+                {
+                    cout<<"\nStack Overflow";
+                    return;
+                }
+            
+            top++;
+            arr[top] = x;
+        }
+
+    void pop()
+        {
+            if(top == -1)
+                {
+                    return;
+                }
+            top--;
+        }
+
+    int peek()
+        {
+            if(top == -1)
+                {
+                    cout<<"\nNo element ";
+                    return -1;
+                }
+            return arr[top];
+        }
+
+    bool empty()
+        {
+            return top==-1;
+        }
+};
+
+/* Stack Implementation using 2 queue */
+
+class stack2queue{
+    queue<int> q1;
+    queue<int> q2;
+
+    public:
+    void push(int x)
+        {
+            q1.push(x);
+        }
+
+    void pop()
+        {
+            if(q1.empty())
+                {
+                    return;
+                }
+            while(q1.size()!=1)
+                {
+                    q2.push(q1.front());
+                    q1.pop();
+                }
+            q1.pop();
+            swap(q1,q2);
+        }
+
+    int top()
+        {
+            if(q1.empty())
+                {
+                    return -1;
+                }
+            while(q1.size()!=1)
+                {
+                    q2.push(q1.front());
+                    q1.pop();
+                }
+            int x = q1.front();
+            q2.push(x);
+            swap(q1,q2);
+            return x;
+        }
+
+    bool empty()
+        {
+            return q1.empty();
+        }
+
+};
+
+/* Stack implementation using 1 Queue */
+
+class stack1queue{
+
+
+    queue<int> q1;
+
+    public:
+    void push(int x)
+        {
+            q1.push(x);
+            
+            if(q1.size() == 1){
+                return;
+            }
+
+            for(auto i=0;i<q1.size()-1;i++)
+                {
+                    q1.push(q1.front());
+                    q1.pop();
+                }
+        }
+
+    bool empty(){
+        return q1.empty();
+    }
+
+    int top(){
+        
+        if(q1.empty()){
+            return -1;
+        }
+
+        return q1.front();
+    }
+
+    void pop(){
+        
+        if(q1.empty()){
+            return;
+        }
+
+        q1.pop();
+    }
+};
+
+/* Stack */
+
+void reverse_stack(stack<int> &st);
+void print_stack(stack<int> s);
 
 // Mathematical Operations
 
@@ -206,20 +381,26 @@ void find_highest_and_lowest_frequency_element(int *, int);
 
 void move_all_the_zeros_to_right_array(int *,int);
 
+bool balanced_paranthesis_using_stack(string s);
+
+int largest_rectangle_on_histogram(vector<int> v);
+
+int _3sum(int *, int, int);
+
+int count_max_consc_1s_array(int *, int);
+
+int longest_subarray_sum_k(int *, int, int);
+
 int main()
 {
-    llnode *a = NULL;
-    int n,val;
-    cin>>n;
-    int i=n;
-    while(i--){
-        cin>>val;
-        ll_insertattail(a,val);
+    int n,sum;
+    cin>>n>>sum;
+    int *a = new int[n];
+    for(int i=0;i<n;i++){
+        cin>>a[i];
     }
 
-    ll_bubblesort(a);
-    ll_display(a);
-
+    cout<<count_max_consc_1s_array(a,n);
     return 0;
 }
 
@@ -2201,6 +2382,86 @@ void cll_display(llnode* head)
         cout<<endl;
     }
 
+/* DOUBLY LINKED LIST */
+
+void dll_insertathead(dllnode* &head, int val)
+    {
+        dllnode* n = new dllnode(val);
+        n->next = head;
+        if(head != NULL)
+            {
+                head->prev = n;
+            }
+        head = n;
+    }
+
+void dll_insertattail(dllnode* &head, int val)
+    {
+        /* The head is passed by reference because we have to modify our Linked List. 
+         * This causes insertion from the end of doubly linked list. 
+         */
+        if(head == NULL)
+            {
+                dll_insertathead(head,val);
+                return;
+            }
+
+        dllnode* n = new dllnode(val);
+        dllnode* temp =  head;
+        
+        while(temp->next!=NULL)
+            {
+                temp = temp->next;
+            }
+        temp->next = n;
+        n->prev = temp;
+    }
+
+void dll_deleteathead(dllnode* &head)
+    {
+        dllnode* todelete = head;
+        head = head->next;
+        head->prev = NULL;
+        delete head;
+    }
+
+void dll_delete(dllnode* &head, int pos)
+    {
+        if(!head){return;}
+        if(pos==1)
+            {
+                dll_deleteathead(head);
+                return;
+            }
+        dllnode* temp = head;
+        int count =1;
+        while((count != pos) && (temp != NULL))
+            {
+                temp = temp->next;
+                count++;
+            }
+        
+        temp->prev->next = temp->next;
+        if(temp->next != NULL)
+            {
+                temp->next->prev = temp->prev;
+            }
+        delete temp;
+    }
+
+
+void dll_display(dllnode* head)
+    {
+        dllnode* temp = head;
+        while(temp!=NULL)
+            {
+                cout<<temp->data<<" ";
+                temp=temp->next;
+
+            }
+        cout<<endl;
+    }
+
 void distinct_elements_in_array(int *a,int n){
     sort(a,a+n);
     for(int i=0;i<n;i++){
@@ -2538,4 +2799,157 @@ int find_missing_number_N(int *a, int n){
     }
 
     return sum - total;
+}
+
+/* STACK QUESTIONS */
+
+bool balanced_paranthesis_using_stack(string s){
+    stack<char> st;
+        
+    for(int i=0;i<s.length();i++)
+        {
+            if(s[i]=='(' || s[i]=='{' || s[i]=='[' )
+                {
+                    st.push(s[i]);
+                    continue;
+                }
+
+            if(st.empty()){return false;}
+
+            else if(s[i]==')')
+                {
+                    if(st.top()=='('){st.pop();}
+                    else{return false;}
+                }
+            else if(s[i]==']')
+                {
+                    if(st.top()=='['){st.pop();}
+                    else{return false;}
+                }
+            else if(s[i]=='}')
+                {
+                    if(st.top()=='{'){st.pop();}
+                    else{return false;}
+                }
+        }
+
+    if(!st.empty())
+        {
+            return false;
+        }
+
+    return true;
+}
+
+void print_stack(stack<int> s)
+{
+    // If stack is empty
+    if (s.empty()){
+        return;
+    }
+    
+    int x = s.top();
+    s.pop();
+    cout << x << ' ';
+ 
+    print_stack(s);
+    s.push(x);
+}
+
+void reverse_stack(stack<int> &st)
+    {
+        if(st.empty())
+            {
+                return;
+            }
+
+        stack<int> temp;
+        while(!st.empty())
+            {
+                temp.push(st.top());
+                st.pop();
+            }
+        st = temp;
+    }
+
+
+
+int largest_rectangle_on_histogram(vector<int> v){
+    stack<int> st;
+    int n = v.size();
+    int max_area = 0;
+    int tp;
+    int area_with_top;
+    int i = 0;
+
+    while(i<n){
+        if(st.empty() || v[st.top()]<=v[i]){
+            st.push(i++);
+        }
+
+        else{
+            tp = st.top();
+            st.pop();
+
+            area_with_top = v[tp] * (st.empty() ? i : i - st.top() - 1);
+
+            if(max_area<area_with_top){
+                max_area = area_with_top;
+            }
+        }
+    }
+
+    while(!st.empty()){
+        tp = st.top();
+        st.pop();
+
+        area_with_top = v[tp] * (st.empty() ? i : i - st.top() - 1);
+
+        if(max_area<area_with_top){
+            max_area = area_with_top;
+        }
+    }
+
+    return max_area;
+}
+
+int _3sum(int *a, int n, int sum){
+    
+    for(int i=0;i<n-2;i++){
+        
+        for(int j=i+1;j<n-1;j++){
+            
+            for(int k=j+1;k<n;k++){
+                
+                if(a[i]+a[j]+a[k] == sum){
+                    cout<<a[i]<<" "<<a[j]<<" "<<a[k];
+                    cout<<endl;
+                }
+
+            }
+
+        }
+
+    }
+
+    return 0;
+
+}
+
+int count_max_consc_1s_array(int *a, int n){
+
+    int maxx = INT_MIN, cnt = 0;
+
+    for(int i=0;i<n;i++){
+        if(a[i] == 1){
+            cnt++;
+        }
+
+        else{
+            cnt = 0;
+        }
+        maxx = max(cnt,maxx);
+    }
+
+    return maxx;
 }
