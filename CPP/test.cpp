@@ -61,7 +61,12 @@ using namespace std;
  * Pure Virtual Function is also known as Abstract Class and, it has no definition of itself in the parent class.
  * To create such a function 0 is assigned to that particular function.
  * 
- * The concept of "Interfaces" 
+ * The concept of "Interfaces" is alien to C++, but is pretty nessecary in Java.
+ * 
+ * Interface is similar to an abstract class with the difference that all it's functions are pur virtual functions,
+ * and, it has no member variables. 
+ * 
+ * The derived classes must implement each of it's virtual functions.
 */
 
 class base
