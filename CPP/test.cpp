@@ -8,13 +8,103 @@
 #include <math.h>
 #include <atomic>
 #include <condition_variable>
-#include<map>
-#include<set>
+#include <map>
+#include <set>
+#include <string>
 
 #define ll long long
 #define ld long double
 
+/*
+ * The internal command that is run by the C++ compiler to execute the program is 
+ * g++ main.cpp -o main.out
+*/
+
+/**
+ * Deep Copy vs Shallow Copy
+ * 
+ * Shallow copy doesn't create a seprate copy of the variables, it copies the pointer not the data.
+ * In deep copy, the data is cloned and the memory is not shared.
+ * Default constructor is an example of Shallow copy.
+ * 
+ * Shallow Copy is faster compared to Deep Copy.
+ * Shallow Copy reflects changes to both the new & the copied object.
+*/
+
 using namespace std;
+/**
+ * The keyword using technically means, use this whenever you can. 
+ * This refers, in this case, to the std namespace. 
+ * So whenever the computer comes across cout, cin, endl or anything of that matter, 
+ * it will read it as std::cout, std::cin or std::endl.
+*/
+
+/**
+ * STATIC
+ * When a variable is made static, the scope of the variable gets limited to that file only.
+ * When used with value inside a function, these static variables etain there values between fucntion calls.
+ * 
+ * 
+ * When used a STATIC member functions, that means function is independent of any obvject of the class.
+ * It can be called using using class name without actually creating the object of the class.
+ * 
+ * Static member functions cannot accept non-static data members directly because they don't have the access to object's state.
+ * These can be useful  for operations that are not specific to any object but are related to the class as a  whole.
+*/
+
+/* Virtual Class Implementation */
+
+/**
+ * Early Binding is the scenario where the compiler matches the function call with correct function definition at compile time.
+ * Late Binding happens in scenario where the compiler matches the function call with it;s definition at run-time.
+ * 
+ * Pure Virtual Function is also known as Abstract Class and, it has no definition of itself in the parent class.
+ * To create such a function 0 is assigned to that particular function.
+ * 
+ * The concept of "Interfaces" 
+*/
+
+class base
+    {
+        public:
+        
+        virtual void print() 
+            { //The keyword virtual enforces the binding of the pointer to the function of child class during run-time.
+                cout<<"This is the print function of base class"<<endl;
+            }
+        
+        void display()
+            {
+                cout<<"This is the display function of base class"<<endl;
+            }
+
+    };
+
+class child: public base
+    {
+        public:
+        
+        void print()
+            {
+                cout<<"This is the print function of child class"<<endl;
+            }
+        
+        void display()
+            {
+                cout<<"This is the display function of child class"<<endl;
+            }
+
+    };
+
+void virtual_class_demo(){
+
+    base *bptr = new child();
+    /**
+     * The above is a demonstration that we created a pointer of type of base class pointing to the child class object.
+    */
+    bptr->print(); // Here, because the print function in the base class is a virtual function, gets overriden by child.
+    bptr->display(); // While, in this case this doesn't happen so because, display is not a virtual function in the base class.
+}
 
 // Linked List
 class llnode
@@ -106,8 +196,11 @@ void reverse_array(int *,int);
 void second_largest_and_smallest_element_in_array(int *,int);
 void rotate_array_k_times_right(int *,int,int);
 vector<int> union_of_array(int *,int *, int, int);
-
 int find_missing_number_N(int *, int);
+
+/* Algorithms */
+
+int boyer_moore_voting_algo(int *, int);
 
 /*Kadane's Algorithm*/
 
@@ -127,6 +220,12 @@ void subarrays_of_vector(vector<int> &);
 
 int maximum_circular_subarray_sum(vector<int> &);
 void spiral_order_traversal(vector<vector<int> >& );
+
+/* String Operations */
+
+void input_string(string &str);
+void print_string(string &str);
+void print_string_by_char(string &str);
 
 /*Basic Bit Manipulation Operations*/
 
@@ -291,6 +390,121 @@ class stack1queue{
 void reverse_stack(stack<int> &st);
 void print_stack(stack<int> s);
 
+/* Queue implementation using Linked List */
+
+class queue_ll
+	{
+		llnode* front;
+		llnode* back;
+		
+		public:
+
+		queue_ll()
+			{
+				front = NULL;
+				back = NULL;	
+			}
+
+		void push(int x)
+            {
+                llnode* n = new llnode(x);
+                
+                if(isempty())
+                    {
+                        front = n;
+                        back = n;
+                    }
+
+                back->next = n;
+                back = n;
+
+            }
+
+		void pop()
+            {
+                if(isempty())
+                    {
+                        cout<<"Queue is empty";
+                        return ; 
+                    }
+                llnode* todelete = front;
+                front = front->next;
+                delete todelete;
+            }
+		int peek()
+            {
+                if(isempty())
+                    {
+                        cout<<"Queue is empty";
+                        exit(1);
+                    }
+                return front->data;
+            }
+
+		bool isempty()
+            {
+                if(front == NULL)
+                    {
+                        return true;
+                    }
+                else{return false;}
+            }
+	};
+
+/* Queue using 2 stack */
+
+class queueusing2stack
+	{
+		stack<int>s1;
+        stack<int>s2;
+
+		public:
+
+		void push(int x){
+				s1.push(x);
+		}
+
+        int top(){
+            if(s1.empty() and s2.empty())
+                {
+                    cout<<"Empty Queue";
+                    return -1;
+                }
+            while(s1.size()!=1){
+                s2.push(s1.top());
+                s1.pop();
+            }
+            int x = s1.top();
+            s1.pop();
+            s2.push(x);
+            swap(s1,s2);
+            return x;
+        }
+
+		int pop(){
+            if(s1.empty() and s2.empty())
+                {
+                    cout<<"Empty Queue";
+                    return -1;
+                }
+            while(s1.size()!=1){
+                s2.push(s1.top());
+                s1.pop();
+            }
+            int x = s1.top();
+            s1.pop();
+            swap(s1,s2);
+            return x;
+
+        }
+
+		bool isempty(){
+				if(s1.empty()){ return true;}
+				return false;
+        }	
+
+	};
+
 // Mathematical Operations
 
 int gcd(int, int);
@@ -391,17 +605,14 @@ int count_max_consc_1s_array(int *, int);
 
 int longest_subarray_sum_k(int *, int, int);
 
+vector<int> _2sum(vector<int> &, int);
+
+
+
 int main()
 {
-    int n,sum;
-    cin>>n>>sum;
-    int *a = new int[n];
-    for(int i=0;i<n;i++){
-        cin>>a[i];
-    }
-
-    cout<<count_max_consc_1s_array(a,n);
-    return 0;
+    
+    
 }
 
 void array_input(int *v,int n)
@@ -671,11 +882,11 @@ void dnfsort(int *a,int n)
                         mid++;
                         low++;
                     }
-                if(a[mid]==1)
+                else if(a[mid]==1)
                     {
                         mid++;
                     }
-                if(a[mid]==2)
+                else if(a[mid]==2)
                     {
                         array_swap(a,mid,high);
                         high--;
@@ -2952,4 +3163,147 @@ int count_max_consc_1s_array(int *a, int n){
     }
 
     return maxx;
+}
+
+int longest_subarray_sum_k(int *a, int n , int summ){
+
+    int tsum = 0,maxsize = 0;
+    for(int i=0;i<n;i++){
+        for(int j=i;j<n;j++){
+            for(int k=i;k<=j;k++){
+                tsum += a[k];
+            }
+            if(tsum==summ){
+                maxsize = max(maxsize,j-i+1);
+            }
+
+            tsum = 0;
+        }
+    }
+
+    if(maxsize){
+        return maxsize;
+    }
+
+    return 0;
+}
+
+vector<int> _2sum(vector<int>& a, int sum) {
+    vector<pair<int, int> > v;
+
+    vector<int> res;
+
+    for (int i = 0; i < a.size(); ++i) {
+        v.push_back(make_pair(a[i], i));
+    }
+
+    // Sort the vector of pairs based on the elements
+    sort(v.begin(), v.end());
+
+    // Two pointers to find the indices of elements adding up to the sum
+    int b = 0, e = a.size() - 1;
+
+    int csum = 0;
+
+    while (b < e) {
+        csum = v[b].first + v[e].first;
+        
+        if (csum == sum) {
+            vector<int> res;
+            res.push_back(v[b].second); // Add 1 to the index to get the 1-based index
+            res.push_back(v[e].second); // Add 1 to the index to get the 1-based index
+            return res;
+        } 
+        
+        else if (csum < sum) {
+            b++;
+        } 
+        
+        else {
+            e--;
+        }
+
+        csum = 0;
+    }
+
+
+    return res;
+}
+
+int boyer_moore_voting_algo(int *a, int n){
+
+    /**
+     * This technique can be used in questions such as 
+     * Find the majority element that occur N/2 times.
+    */
+
+    int cnt = 0;
+    int ele = 0;
+    for(int i=0;i<n;i++){
+        if(cnt == 0){
+            ele = a[i];
+            cnt++;
+        }
+
+        else if(a[i] == ele){
+            cnt++;
+        }
+
+        else{
+            cnt--;
+        }
+    }
+
+    int cnt1 = 0;
+    for (int i = 0; i < n; i++) {
+        if (a[i] == ele) cnt1++;
+    }
+
+    if (cnt1 > floor(n/2)){ 
+        return ele;
+    }
+
+    return -1;
+}
+
+/* STRING OPERATIONS */
+
+void input_string(string &str){
+    getline(cin,str);
+}
+
+void print_string(string &str){
+    cout<<str;
+}
+
+void print_string_by_char(string &str){
+    for(int i=0;i<str.length();i++){
+        cout<<str[i];
+    }
+}
+
+int minimum_add_make_paranthesis_valid(string &s){
+    stack<char> st;
+    int count = 0;
+
+    for(int i=0;i<s.length();i++){
+        
+        if(s[i] == '('){
+            st.push(s[i]);
+        }
+
+        else if(s[i] == ')'){
+            
+            if(st.empty()){
+                count++;
+            }
+
+            else{
+                st.pop();
+            }
+        }
+        
+    }
+
+    return (count + st.size());
 }
