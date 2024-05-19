@@ -62,6 +62,7 @@ using namespace std;
  * To create such a function 0 is assigned to that particular function.
  * 
  * The concept of "Interfaces" is alien to C++, but is pretty nessecary in Java.
+ * It is used to achieve abstraction and Multiple Inheritence in Java.
  * 
  * Interface is similar to an abstract class with the difference that all it's functions are pur virtual functions,
  * and, it has no member variables. 
@@ -173,7 +174,60 @@ void dll_deleteathead(dllnode* &head);
 void dll_delete(dllnode* &head, int pos);
 void dll_display(dllnode* head);
 
-/*Sorting Algrithms*/
+/* Binary Tree */
+
+class btnode{
+    public:
+
+    int data;
+    btnode* left;
+    btnode* right;
+
+    btnode(int val){
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+
+    /**
+     * In tree, data is stored in hierarichal order. A Tree is a non-linear Hierarichal Data Structure.
+     * It consists of nodes and subtrees.
+     * 
+     * Some terminologies associated with the tree:
+     * Parent Node: The Node which is predecessor of a node.
+     * Child Node: The Node which is immediate successor of a node.
+     * Root Node: The top-most node of a tree.
+     * Degree of Node: The total count of subtrees attached to that node.
+     * Leaf Node: A Node that does not have any child.
+     * Anceastor Node: Any predecessor node on path from root to that node.
+     * Sibling: Children of same parent node.
+     * Depth of a Node: The count of edges from root to that node.
+     * Internal Node: A Node with 1 child only.
+     * Maximum nodes at level L is 2^L.
+     * Maximum nodes in a tree of height H is (2^H) - 1.
+     * For N, nodes minimum possible height is log2(N+1).
+     * 
+     * Types of Binary Tree:
+     * - Full Binary tree: each internal node has exactly 2 or 0 children.
+     * - Perfect Binary tree: All leaf nodes are at same level, and each internal node has 2 children.
+     * - Complete Binary tree: When all it's levels are completely filled.
+     * - Pathelogical Binary Tree: Each Internal node has a single child, either left or right one.
+     * - Skewed Binary Tree: If all it's internal node has exactly 1 child, and either left or right child dominate the tree.
+    */
+};
+
+
+// Construct the Binary Tree with preorder and inorder.
+btnode* buildTree(vector<int>, vector<int>,int,int);
+int search_in_inorder(vector<int>,int,int,int);
+
+// Display the Binary Tree
+void preorder(btnode*);
+void inorder(btnode*);
+void postorder(btnode*);
+
+
+/* Sorting Algrithms */
 
 int binarysearch(vector<int>,int h);
 void bubblesort(vector<int>&);
@@ -616,8 +670,16 @@ vector<int> _2sum(vector<int> &, int);
 
 int main()
 {
-    
-    
+
+    vector<int> pre;
+    vector<int> in;
+    vector_input(pre);
+    vector_input(in);
+
+    btnode* bt1 = buildTree(pre,in,0,pre.size()-1);
+    preorder(bt1);
+
+    return 0;
 }
 
 void array_input(int *v,int n)
@@ -2177,6 +2239,8 @@ bool isOdd(int n){
     return false;
 }
 
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
 /* LINKED LIST FUNCTIONS */
 
 void ll_main(){
@@ -2503,6 +2567,8 @@ void ll_display(llnode* head)
     cout<<endl;
 }
 
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
 /* CIRCULAR LINKEDLIST FUNCTION */
 
 void cll_insertathead(llnode* &head, int val)
@@ -2598,6 +2664,9 @@ void cll_display(llnode* head)
         cout<<endl;
     }
 
+/*------------------------------------------------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------------------------------------------------*/
 /* DOUBLY LINKED LIST */
 
 void dll_insertathead(dllnode* &head, int val)
@@ -2677,6 +2746,9 @@ void dll_display(dllnode* head)
             }
         cout<<endl;
     }
+
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
 
 void distinct_elements_in_array(int *a,int n){
     sort(a,a+n);
@@ -3311,4 +3383,73 @@ int minimum_add_make_paranthesis_valid(string &s){
     }
 
     return (count + st.size());
+}
+
+/* BINARY TREE OPERATIONS */
+
+btnode* buildTree(vector<int> pre, vector<int> in,int s,int e){
+    
+    static int idx = 0;
+    
+    if(s>e){
+        return NULL; // s>e this means that the subtree is non-existent.
+    }
+
+    int curr = pre[idx];
+    idx++;
+    btnode* n = new btnode(curr);
+
+    if(s==e){
+        return n; // The logic here means that if s==e, this means that this node is the leaf node and has no children.
+    }
+
+    int pos = search_in_inorder(in,s,e,curr); // This will help us divide the tree in left and right sides.
+    n->left = buildTree(pre,in,s,pos-1);
+    n->right = buildTree(pre,in,pos+1,e);
+
+    return n;
+}
+
+int search_in_inorder(vector<int> in,int s,int e,int curr){
+    
+    for(int i=s;i<=e;i++){
+        if(in[i] == curr){
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+// Preorder Traversal of the Binary Tree
+void preorder(btnode* root){
+    if(root == NULL){
+        return;
+    }
+
+    cout<<root->data<<" ";
+    preorder(root->left);
+    preorder(root->right);;
+}
+
+// Inorder Traversal of the Binary Tree
+void inorder(btnode* root){
+    if(root == NULL){
+        return;
+    }
+
+    inorder(root->left);
+    cout<<root->data<<" ";
+    inorder(root->right);
+}
+
+// Postorder traversal of Binary Tree
+void postorder(btnode* root){
+    if(root == NULL){
+        return;
+    }
+
+    postorder(root->left);
+    postorder(root->right);
+    cout<<root->data<<" ";
 }
