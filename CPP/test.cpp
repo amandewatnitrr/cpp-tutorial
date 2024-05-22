@@ -218,14 +218,22 @@ class btnode{
 
 
 // Construct the Binary Tree with preorder and inorder.
-btnode* buildTree(vector<int>, vector<int>,int,int);
+btnode* buildTree(vector<int>, vector<int>,int,int,int &);
 int search_in_inorder(vector<int>,int,int,int);
+int height_bt(btnode*);
+int summ_all_nodes_bt(btnode*);
+int count_nodes_bt(btnode*);
+int diameter_bt(btnode*);
 
 // Display the Binary Tree
 void preorder(btnode*);
 void inorder(btnode*);
 void postorder(btnode*);
+void levelorder(btnode*);
+void print_kth_level_of_bt(btnode*,int);
 
+// Basic Binary Tree Questiohns
+int sum_all_node_kth_lvl_bt(btnode*, int);
 
 /* Sorting Algrithms */
 
@@ -248,6 +256,9 @@ void wavesort(int[],int);
 void array_input(int *,int);
 void array_traversal(int *,int);
 void insert_in_array_at_pos(int *, int &, int ,int );
+void quicksort_array(int *, int,int,int);
+int pivot_quicksort_array(int *, int,int,int);
+void swap(int &, int &);
 bool check_array_sorted(int *,int);
 bool check_if_array_sorted(int [],int);
 bool check_if_array_sorted_even_if_rotated(int *,int);
@@ -256,6 +267,9 @@ void second_largest_and_smallest_element_in_array(int *,int);
 void rotate_array_k_times_right(int *,int,int);
 vector<int> union_of_array(int *,int *, int, int);
 int find_missing_number_N(int *, int);
+void distinct_elements_in_array(int *,int);
+int longest_subarray_sum_k(int *, int, int);
+
 
 /* Algorithms */
 
@@ -279,6 +293,20 @@ void subarrays_of_vector(vector<int> &);
 
 int maximum_circular_subarray_sum(vector<int> &);
 void spiral_order_traversal(vector<vector<int> >& );
+
+vector<int> display_all_unique_elements_in_vector(vector<int> &v);
+
+void print_subsequence(int,vector<int> &,vector<int> &);
+void print_subsequence_whose_sum_is_k(int ,vector<int> &,vector<int> &,int,int );
+bool print_1_subsequence_whose_sum_is_k(int ,vector<int> &,vector<int> &,int ,int );
+
+int count_subsequence_whose_sum_is_k(int i,vector<int> &,vector<int> &,int ,int ,int &);
+
+void remove_duplicates_from_sorted_array(vector<int> &v);
+
+void two_elements_whose_sum_closest_to_0(vector<int> &v);
+
+void generate_and_count_subset_of_set(vector<int> &);
 
 /* String Operations */
 
@@ -569,45 +597,30 @@ class queueusing2stack
 int gcd(int, int);
 int find_gcd(int *,int );
 long long find_lcm(int *,int );
-
 bool check_armstrong(ll);
-
 ll count_digits(ll);
-
 bool isEven(int n);
 bool isOdd(int n);
-
-
 vector<int> sieve_of_eratosthenes(int );
-
 int shorter_angle_bw_hour_and_minute(int , int );
-
 bool isperfectnumber(int );
 bool check_2_numbers_same(int ,int );
-
 int reverse_the_number(int );
-
 void divisor_of_natural_number(ll);
-
 int fibonaci_nth_term(int);
+
+
+// String Operations
+
+void print_permutations_of_string(string , string);
+bool isPalindromeString(string);
+void reverse_words_in_sentence(string str);
 
 // Interview Questions
 
-void generate_and_count_subset_of_set(vector<int> &);
-
-void distinct_elements_in_array(int *,int);
-
-vector<int> display_all_unique_elements_in_vector(vector<int> &v);
-
-void print_permutations_of_string(string , string);
+bool balanced_paranthesis_using_stack(string s);
 
 vector<int> first_and_last_occurance_of_ele_unsorted_array(int *, int , int , int , vector<int> &);
-
-void print_subsequence(int,vector<int> &,vector<int> &);
-void print_subsequence_whose_sum_is_k(int ,vector<int> &,vector<int> &,int,int );
-bool print_1_subsequence_whose_sum_is_k(int ,vector<int> &,vector<int> &,int ,int );
-
-int count_subsequence_whose_sum_is_k(int i,vector<int> &,vector<int> &,int ,int ,int &);
 
 void combination_sum_39_leetcode(int ,int ,vector<int>& ,vector<int>&,vector<vector<int> >&);
 void combination_sum_II_40_leetcode(int ,int ,vector<int>& ,vector<int>& ,vector<vector<int> >& );
@@ -625,22 +638,17 @@ bool sudoku_solver_leetcode_37(vector<vector<char> > &);
 bool isvalidsudoku(vector<vector<char> >&,int ,int , char );
 
 void palindrome_partioning_leetcode_131(vector<vector<string> >&ans,string s,string temp,vector<string>v,int index);
-bool isPalindromeString(string);
 
 void rat_in_maze(vector<vector<int> > &maze,int i,int j,vector<vector<int> > &vis,string s,int n,vector<string>&ans);
 
-void reverse_words_in_sentence(string str);
+void createDuplicateArray(vector<pair<string, int> >& wordidx,vector<string>& v);
+void print_all_anagrams_together(vector<string> &v);
 
 int no_of_ways_n_elements_can_be_divided_into_groups(int );
 int tiling_problem(int , int );
 int ways_to_reach_nth_stair_by_taking_atmost_k_steps(int , int );
 
-void remove_duplicates_from_sorted_array(vector<int> &v);
-
-void two_elements_whose_sum_closest_to_0(vector<int> &v);
-
-void createDuplicateArray(vector<pair<string, int> >& wordidx,vector<string>& v);
-void print_all_anagrams_together(vector<string> &v);
+int largest_rectangle_on_histogram(vector<int> v);
 
 int knapsack_problem(int,int ,vector<int> ,vector<int> );
 
@@ -654,30 +662,27 @@ void find_highest_and_lowest_frequency_element(int *, int);
 
 void move_all_the_zeros_to_right_array(int *,int);
 
-bool balanced_paranthesis_using_stack(string s);
+int count_max_consc_1s_array(int *, int);
 
-int largest_rectangle_on_histogram(vector<int> v);
+int stock_buy_and_sell(int *, int);
+
+int rearrange_elements_by_sign_sorted(int*, int);
+
+vector<int> _2sum(vector<int> &, int);
 
 int _3sum(int *, int, int);
 
-int count_max_consc_1s_array(int *, int);
-
-int longest_subarray_sum_k(int *, int, int);
-
-vector<int> _2sum(vector<int> &, int);
 
 
 
 int main()
 {
 
-    vector<int> pre;
-    vector<int> in;
-    vector_input(pre);
-    vector_input(in);
-
-    btnode* bt1 = buildTree(pre,in,0,pre.size()-1);
-    preorder(bt1);
+    vector<int> v;
+    vector_input(v);
+    vector<int> ans;
+    vector<bool> map(v.size(),false);
+    permutation_of_vector(v,ans,map);
 
     return 0;
 }
@@ -3089,6 +3094,7 @@ int find_missing_number_N(int *a, int n){
     return sum - total;
 }
 
+
 /* STACK QUESTIONS */
 
 bool balanced_paranthesis_using_stack(string s){
@@ -3385,13 +3391,14 @@ int minimum_add_make_paranthesis_valid(string &s){
     return (count + st.size());
 }
 
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
 /* BINARY TREE OPERATIONS */
 
-btnode* buildTree(vector<int> pre, vector<int> in,int s,int e){
+btnode* buildTree(vector<int> pre, vector<int> in,int s,int e,int &idx){
     
-    static int idx = 0;
-    
-    if(s>e){
+    if(s>e || idx >= pre.size() || pre[idx] == -1){
+        idx++;
         return NULL; // s>e this means that the subtree is non-existent.
     }
 
@@ -3404,8 +3411,8 @@ btnode* buildTree(vector<int> pre, vector<int> in,int s,int e){
     }
 
     int pos = search_in_inorder(in,s,e,curr); // This will help us divide the tree in left and right sides.
-    n->left = buildTree(pre,in,s,pos-1);
-    n->right = buildTree(pre,in,pos+1,e);
+    n->left = buildTree(pre,in,s,pos-1,idx);
+    n->right = buildTree(pre,in,pos+1,e,idx);
 
     return n;
 }
@@ -3452,4 +3459,187 @@ void postorder(btnode* root){
     postorder(root->left);
     postorder(root->right);
     cout<<root->data<<" ";
+}
+
+int height_bt(btnode* bt){
+    if(bt==NULL){
+        return 0; // if the node is pointing to NULL return 0, as it doesn't have any height.
+    }
+
+    // Calculate the height of each subtree.
+
+    int lh = height_bt(bt->left); // Calculate the height of left subtree
+    int rh = height_bt(bt->right); // Calculate the height of right subtree
+
+    return (max(lh,rh) + 1); //  The one with the longest subtree is longest, and it becomes the height of the tree.
+}
+
+void print_kth_level_of_bt(btnode* bt,int i){
+
+    if(bt==NULL){
+        return; // If the node is null, we can't print anything neither can we traverse further so return.
+    }
+
+    if(i==1){
+        cout<<bt->data<<" "; // if the value of i is 1
+    }
+
+    else if(i>1){
+        print_kth_level_of_bt(bt->left,i-1); // We traverser for each sucessor of the left subtree
+        print_kth_level_of_bt(bt->right,i-1); // We traverse for each sucessor of the right subtree
+    }
+}
+
+void levelorder(btnode* bt){
+    
+    int h = height_bt(bt);
+    
+    for(int i=1;i<=h;i++){
+        print_kth_level_of_bt(bt,i);
+    }
+}
+
+int sum_all_node_kth_lvl_bt(btnode* bt, int k){
+
+    static int sum = 0;
+
+    if(bt==NULL){
+        return 0;
+    }
+
+    if(k==1){
+        sum += bt->data;
+    }
+
+    else if(k>1){
+        sum_all_node_kth_lvl_bt(bt->left,k-1);
+        sum_all_node_kth_lvl_bt(bt->right,k-1);
+    }
+
+    return sum;
+
+}
+
+int summ_all_nodes_bt(btnode* bt){
+    if(bt == NULL){
+        return 0;
+    }
+
+    return (summ_all_nodes_bt(bt->left) + summ_all_nodes_bt(bt->right) + bt->data);
+}
+
+int count_nodes_bt(btnode* bt){
+    if(bt == NULL){
+        return 0;
+    }
+
+    return (count_nodes_bt(bt->left) + count_nodes_bt(bt->right) + 1);
+}
+
+int diameter_bt(btnode* bt){
+    if (bt==NULL)
+    {
+        return 0;
+    }
+
+    int lh = height_bt(bt->left);
+    int rh = height_bt(bt->right);
+
+    int currdia = lh + rh + 1;
+    int ldia = diameter_bt(bt->left);
+    int rdia = diameter_bt(bt->right);
+
+    return max(currdia,max(ldia,rdia));
+    
+}
+
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
+
+int stock_buy_and_sell(int *a, int n){
+    int max_profit = 0;
+    int min_price = INT_MAX;
+
+    for(int i=0; i<n;i++){
+        min_price = min(min_price,a[i]);
+        max_profit = max(max_profit,a[i]-min_price);
+    }
+
+    return max_profit;
+}
+
+int rearrange_elements_by_sign_sorted(int* a, int n){
+    int* pos = new int [n];
+    int* neg = new int [n];
+    int nl = 0, pl = 0;
+
+    for(int i=0;i<n;i++){
+        if(a[i]<0){
+            neg[nl] = a[i];
+            nl++;
+        }
+        else{
+            pos[pl] = a[i];
+            pl++;
+        }
+    }
+
+    quicksort_array(pos,pl,0,pl-1);
+    quicksort_array(neg,nl,0,nl-1);
+
+    int index = 0;
+    
+
+    if (pl < nl) {
+        for (int i = 0; i < pl; i++) {
+            a[index++] = pos[i];
+            a[index++] = neg[i];
+        }
+
+        for (int i = pl; i < nl; i++) {
+            a[index++] = neg[i];
+        }
+    } 
+    else {
+        for (int i = 0; i < nl; i++) {
+            a[index++] = pos[i];
+            a[index++] = neg[i];
+        }
+
+        for (int i = nl; i < pl; i++) {
+            a[index++] = pos[i];
+        }
+    }
+}
+
+void quicksort_array(int *a, int n,int b, int e){
+
+    if(n==0 || n == 1){
+        return;
+    }
+
+    if(b<e){
+        int pivot = pivot_quicksort_array(a,n,b,e);
+        quicksort_array(a,n,b,pivot-1);
+        quicksort_array(a,n,pivot+1,e);
+    }
+}
+
+int pivot_quicksort_array(int *a, int n, int b,int e){
+    int pivot = a[e];
+    int i = b-1;
+    for(int j=b;j<e;j++){
+        if(a[j]<pivot){
+            i++;
+            swap(a[i],a[j]);
+        }
+    }
+    swap(a[i+1],a[e]);
+    return (i+1);
+}
+void swap(int &a, int &b){
+    int temp = a;
+    a = b;
+    b = temp;
+
 }
