@@ -258,7 +258,6 @@ void array_traversal(int *,int);
 void insert_in_array_at_pos(int *, int &, int ,int );
 void quicksort_array(int *, int,int,int);
 int pivot_quicksort_array(int *, int,int,int);
-void swap(int &, int &);
 bool check_array_sorted(int *,int);
 bool check_if_array_sorted(int [],int);
 bool check_if_array_sorted_even_if_rotated(int *,int);
@@ -594,6 +593,7 @@ class queueusing2stack
 
 // Mathematical Operations
 
+void swap(int &, int &);
 int gcd(int, int);
 int find_gcd(int *,int );
 long long find_lcm(int *,int );
@@ -672,8 +672,9 @@ vector<int> _2sum(vector<int> &, int);
 
 int _3sum(int *, int, int);
 
-
-
+/*****************************************************************************************************************/
+/******************************** MAIN SECTION OF PROGRAM ********************************************************/
+/*****************************************************************************************************************/
 
 int main()
 {
@@ -686,6 +687,11 @@ int main()
 
     return 0;
 }
+
+/*****************************************************************************************************************/
+/******************************** END OF MAIN SECTION  ***********************************************************/
+/*****************************************************************************************************************/
+
 
 void array_input(int *v,int n)
     {
