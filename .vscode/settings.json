@@ -16,7 +16,8 @@
         "string_view": "cpp",
         "unordered_map": "cpp",
         "condition_variable": "cpp",
-        "new": "cpp"
+        "new": "cpp",
+        "ostream": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

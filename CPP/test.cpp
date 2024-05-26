@@ -31,6 +31,41 @@
  * Shallow Copy reflects changes to both the new & the copied object.
 */
 
+/**
+ * RUNTIME ERROS:-
+ * 
+ * SIGSEV: 
+ * - The most common error i.e. a segmentation fault.
+ * - This is caused when something out of scope is trying to be accessed.
+ * - For example, an array index that goes out of it's scope causing buffer overflow
+ * or anincorrectly initialized pointer.
+ * - This happens when a program tries to write beyond it's allocated memory.
+ * 
+ * SIGXFSZ:
+ * - This means the "output limit is exceeded", and the program printed too much output data than anticipated.
+ * 
+ * SIGFPE:
+ * - This means a "Floating Point Error".
+ * - This occurs usaually when we are trying to divide a number by zero or trying to do square root of a negative number.
+ * 
+ * SIGABRT:
+ * - These are raised by the program itself.
+ * - The program gets aborted in the middle of execution, due to inefficient memory.
+ * 
+ * NZEC:
+ * - This means the program exited returning a value different from 0 to shell.
+ * 
+ * MEMORY-LIMIT-EXCEEDED:
+ * - This means the program tried to allocate memory beyond the memory allocated.
+ * 
+ * SIGTERM:
+ * - Generic Signal used to cause program termination, this can be blocked by the user.
+ * 
+ * 
+ * 
+ * 
+*/
+
 using namespace std;
 /**
  * The keyword using technically means, use this whenever you can. 
@@ -50,6 +85,21 @@ using namespace std;
  * 
  * Static member functions cannot accept non-static data members directly because they don't have the access to object's state.
  * These can be useful  for operations that are not specific to any object but are related to the class as a  whole.
+*/
+
+/**
+ * Class vs Structure
+ * 
+ * CLASSES:
+ * - User Defined data type with it's own data members and member functions
+ * - NULL Values are possible.
+ * - By default the data members and member functions are private.
+ * 
+ * STRUCTURE:
+ * - User defined data type to group items of different types together.
+ * - NULL Values are not possible.
+ * - The Data Members are public by default.
+ * 
 */
 
 /* Virtual Class Implementation */
@@ -111,6 +161,52 @@ void virtual_class_demo(){
     bptr->print(); // Here, because the print function in the base class is a virtual function, gets overriden by child.
     bptr->display(); // While, in this case this doesn't happen so because, display is not a virtual function in the base class.
 }
+
+
+/**
+ * POINTERS:
+ * - Pointers are special type of variables that contain address to another variable.
+ * 
+ * Types of pointers in C++:
+ * 
+ * 1. VOID-POINTER:
+ * - Special type of pointer in C++ which represents the absence of type.
+ * - Flexible as they can point to any type of data-type
+ * - Can't be directyl derefrenced and needs to be transformed into some data-type to be dereferenced.
+ * 
+ * 2. INVALID-POINTER:
+ * - A Pointer pointing to a valid address but not to a valid element.
+ * - For example, an un-initialized pointer variable is an example of invalid pointer.
+ * 
+ * 3. NULL-POINTER:
+ * - Pointer that points to no where and not just an invalid address.
+ * 
+ * 4. OPAQUE-POINTER:
+ * - Pointer that points to a structure whose contents are not known at the time of definition.
+ * 
+ * 5. NEAR-POINTER:
+ * - Near Pointers are used to store 16-bit addresses.
+ * - The Size of near pointer is 2 bytes.
+ * - Using a Near Pointer we can only reach upto 64KBs of data in the Data Segment.
+ * 
+ * 6. FAR-POINTER:
+ * - It stores data in two 16-bit registers that allow it to access the memory outside the current segment.
+ * - In Far Pointer, the segment can't be modified as increasing/decreasing only changes offset but not segment address.
+ * - The Size of Far Pointer is 4 bytes.
+ * 
+ * 7. HUGE-POINTER:
+ * - A Huge Pointer stores addresses in 2 registers, similar to a far pointer allowing it to access outside the current segment.
+ * - Both offset and segement address is changed. That is why we can jump from 1 segment to another.
+ * - The Huge Pointer always compares the absolute address.
+ * - The Size of Huge Pointer is 4 bytes.
+ * 
+ * 8. DANGLING-POINTER:
+ * - A pointer to a memory location that has been deleted is called a Dangling Pointer.
+ * 
+ * 9. WILD-POINTER:
+ * - A Pointer that has not been initialized to anything is known as Wild Pointer.
+ * 
+*/
 
 // Linked List
 class llnode
@@ -268,7 +364,9 @@ vector<int> union_of_array(int *,int *, int, int);
 int find_missing_number_N(int *, int);
 void distinct_elements_in_array(int *,int);
 int longest_subarray_sum_k(int *, int, int);
-
+void lexicographic_greater_permutation_main();
+vector<int> leaders_in_array(int *, int );
+bool linear_search_array(int *,int,int);
 
 /* Algorithms */
 
@@ -616,6 +714,16 @@ void print_permutations_of_string(string , string);
 bool isPalindromeString(string);
 void reverse_words_in_sentence(string str);
 
+// STAR DESIGN PATTERN
+
+void lbstar(int n);
+void rbstar(int n);
+void lastar(int n);
+void equilateral_triangle_pattern(int n);
+void diamond_pattern(int n);
+void left_base_triangle_pattern(int n);
+void right_base_triangle_pattern(int n);
+
 // Interview Questions
 
 bool balanced_paranthesis_using_stack(string s);
@@ -672,19 +780,22 @@ vector<int> _2sum(vector<int> &, int);
 
 int _3sum(int *, int, int);
 
+void lexicographic_greater_permutation(vector<int> &v,vector<int> &ans,vector<bool> &map, vector< vector<int> >  &res);
+
+int longest_successive_elements(int *, int);
+
 /*****************************************************************************************************************/
 /******************************** MAIN SECTION OF PROGRAM ********************************************************/
 /*****************************************************************************************************************/
 
 int main()
 {
-
-    vector<int> v;
-    vector_input(v);
-    vector<int> ans;
-    vector<bool> map(v.size(),false);
-    permutation_of_vector(v,ans,map);
-
+    int n;
+    cin>>n;
+    int *a = new int[n];
+    array_input(a,n);
+    int ans = longest_successive_elements(a,n);
+    cout<<ans;
     return 0;
 }
 
@@ -3643,9 +3754,222 @@ int pivot_quicksort_array(int *a, int n, int b,int e){
     swap(a[i+1],a[e]);
     return (i+1);
 }
+
 void swap(int &a, int &b){
     int temp = a;
     a = b;
     b = temp;
 
+}
+
+void lbstar(int n){
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=i;j++){
+            cout<<"* ";
+        }
+        cout<<endl;
+    }
+}
+
+void rbstar(int n) {
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (j <= n - i) {
+                cout<<" ";
+            } else {
+                cout<<"*";
+            }
+        }
+        cout<<endl;
+    }
+}
+
+void equilateral_triangle_pattern(int n) {
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (j <= n - i) {
+                cout<<" ";
+            } else {
+                cout<<" *";
+            }
+        }
+        cout<<endl;
+    }
+}
+
+void diamond_pattern(int n){
+    for (int i = 1; i <= n; i++) {
+        // Print leading spaces
+        for (int j = i; j < n; j++) {
+            cout << " ";
+        }
+        // Print stars
+        for (int j = 1; j <= (2 * i - 1); j++) {
+            cout << "*";
+        }
+        cout << endl;
+    }
+
+    // Print lower inverted triangle
+    for (int i = n-1; i >= 1; i--) {
+        // Print leading spaces
+        for (int j = n; j > i; j--) {
+            cout << " ";
+        }
+        // Print stars
+        for (int j = 1; j <= (2 * i - 1); j++) {
+            cout << "*";
+        }
+        cout << endl;
+    }
+}
+
+void left_base_triangle_pattern(int n){
+    cout<<endl;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=i;j++){
+            cout<<"* ";
+        }
+        cout<<endl;
+    }
+
+    for(int i=n-1;i>=1;i--){
+        for(int j=1;j<=i;j++){
+            cout<<"* ";
+        }
+        cout<<endl;
+    }
+}
+
+void right_base_triangle_pattern(int n){
+    cout<<endl;
+    int k;
+
+    for(int i=1;i<=n;i++){
+        k=0;
+        while(k!=(n-i)){
+            cout<<" ";
+            k++;
+        }
+        for(int j=1;j<=i;j++){
+            cout<<"*";
+        }
+        cout<<endl;
+    }
+
+    for(int i=1;i<n;i++){
+        k=0;
+        while(k!=i){
+            cout<<" ";
+            k++;
+        }
+        for(int j=i;j<n;j++){
+            cout<<"*";
+        }
+        cout<<endl;
+    }
+}
+
+void lastar(int n){
+    cout<<endl;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n-i+1;j++){
+            cout<<"* ";
+        }
+        cout<<endl;
+    }
+}
+
+void lexicographic_greater_permutation_main(){
+    vector<int> v,ans;
+    vector_input(v);
+    vector<bool> map(v.size(),false);
+    vector< vector<int> > res;
+    lexicographic_greater_permutation(v,ans,map, res);
+
+    sort(res.begin(),res.end());
+
+    for(int i=0;i<res.size();i++){
+        if(res[i]==v){
+            i++;
+            if(i==res.size()){
+                printvectorint(res[1]);
+            }
+            else{
+                printvectorint(res[i]);
+            }
+        }
+    }
+}
+
+void lexicographic_greater_permutation(vector<int> &v,vector<int> &ans,vector<bool> &map, vector< vector<int> >  &res)
+    {
+        /*
+            Time Complexity is O(n*n!).
+            Space Complexity us O(n)+O(n).
+        */
+
+       if(ans.size() == v.size())
+            {
+                res.push_back(ans);
+                return;
+            }
+
+        for(int i=0;i<v.size();i++)
+            {
+                if(!map[i])
+                    {
+                        map[i]=true;
+                        ans.push_back(v[i]);
+                        lexicographic_greater_permutation(v,ans,map,res);
+                        ans.pop_back();
+                        map[i]=false;
+                    }
+            }
+    }
+
+
+vector<int> leaders_in_array(int *a, int n){
+    vector<int> ans;
+
+    int max =  a[n-1];
+    ans.push_back(max);
+
+    for(int i=n-1;i>=0;i--){
+        if(a[i]>max){
+            max = a[i];
+            ans.push_back(max);
+        }
+    }
+    
+    return ans;
+}
+
+int longest_successive_elements(int *a, int n){
+    if(n==0 || n==1){
+        return n;
+    }
+    int longest = 1;
+    int x,count;
+    for(int i=0;i<n;i++){
+        x = a[i];
+        count = 1;
+
+        while(linear_search_array(a,n,x+1)){
+            count++;
+            x++;
+        }
+        longest = max(longest,count);
+    }
+
+    return longest;
+}
+
+bool linear_search_array(int *a,int n,int num){
+    for(int i=0;i<n;i++){
+        if(a[i]==num){
+            return true;
+        }
+    }
+    return false;
 }
