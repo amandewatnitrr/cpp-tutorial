@@ -367,6 +367,7 @@ int longest_subarray_sum_k(int *, int, int);
 void lexicographic_greater_permutation_main();
 vector<int> leaders_in_array(int *, int );
 bool linear_search_array(int *,int,int);
+int count_all_subarray_sum_k(int *, int, int);
 
 /* Algorithms */
 
@@ -3949,17 +3950,24 @@ int longest_successive_elements(int *a, int n){
     if(n==0 || n==1){
         return n;
     }
-    int longest = 1;
-    int x,count;
-    for(int i=0;i<n;i++){
-        x = a[i];
-        count = 1;
 
-        while(linear_search_array(a,n,x+1)){
-            count++;
-            x++;
+    quicksort_array(a,n,0,n-1);
+    int lastsm = a[0];
+    int cnt = 0;
+    int longest = 1;
+
+    for(int i=1;i<n;i++){
+        if(a[i]-1 == lastsm){
+            cnt++;
+            lastsm = a[i];
         }
-        longest = max(longest,count);
+
+        else if(a[i] != lastsm){
+            cnt = 1;
+            lastsm = a[i];
+        }
+
+        longest = max(longest,cnt);
     }
 
     return longest;
@@ -3972,4 +3980,22 @@ bool linear_search_array(int *a,int n,int num){
         }
     }
     return false;
+}
+
+int count_all_subarray_sum_k(int *a, int n, int k){
+
+    int cnt = 0;
+    int sum = 0;
+    for(int i=0;i<n;i++){
+        sum = 0; 
+        for(int j=i;j<n;j++){
+            sum += a[j];
+
+            if(sum == k){
+                cnt++;
+            }
+        }
+    }
+
+    return cnt;
 }
