@@ -423,6 +423,11 @@ vector<int> count0s1s_in_binary_represent_of_number(int );
 int onescomplement(int );
 
 
+/* Matrix / 2-D Array Operations */
+
+int** matrix_input(int , int);
+void print_matrix(int **, int , int );
+
 /* Stack Implementation with Array */
 
 class stackk{
@@ -791,12 +796,11 @@ int longest_successive_elements(int *, int);
 
 int main()
 {
-    int n;
-    cin>>n;
-    int *a = new int[n];
-    array_input(a,n);
-    int ans = longest_successive_elements(a,n);
-    cout<<ans;
+    int n, m;
+    cin >> n >> m;
+
+    int **a = matrix_input(n,m);
+    print_matrix(a,n,m);
     return 0;
 }
 
@@ -3999,3 +4003,36 @@ int count_all_subarray_sum_k(int *a, int n, int k){
 
     return cnt;
 }
+
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
+/* MATRIXX / 2D-ARRAY OPERATIONS */
+
+int** matrix_input(int n, int m){
+    int **a = new int* [n];
+
+    for(int i=0;i<n;i++){
+        a[i] = new int[m];
+        for(int j=0;j<m;j++){
+            cin >> a[i][j];
+        }
+    }
+
+    return a;
+}
+
+vector<int> search_matrix(int **a, int n, int m, int x){
+    
+} 
+
+void print_matrix(int **a, int n, int m){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            cout<<a[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+}
+
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
