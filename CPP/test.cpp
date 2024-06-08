@@ -427,6 +427,9 @@ int onescomplement(int );
 
 int** matrix_input(int , int);
 void print_matrix(int **, int , int );
+void set_matrix_zero(int **, int ,int );
+void rotate_matrix_clockwise(int **,int ,int );
+void spiral_traversal_matrix(int **, int , int );
 
 /* Stack Implementation with Array */
 
@@ -800,7 +803,7 @@ int main()
     cin >> n >> m;
 
     int **a = matrix_input(n,m);
-    print_matrix(a,n,m);
+    spiral_traversal_matrix(a,n,m);
     return 0;
 }
 
@@ -4022,8 +4025,96 @@ int** matrix_input(int n, int m){
 }
 
 vector<int> search_matrix(int **a, int n, int m, int x){
-    
-} 
+    vector<int> pos;
+    for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            if(a[i][j] == x){
+                pos.push_back(i);
+                pos.push_back(j);
+                return pos;
+            }
+        }
+    }
+
+    return pos;
+}
+
+void set_matrix_zero(int **a, int n,int m){
+    vector<int> pos = search_matrix(a,n,m,0);
+
+    if(pos.empty()){
+        return;
+    }
+
+    for(int i=0;i<n;i++){
+        a[i][pos[1]] = 0;
+    }
+
+    for(int j=0;j<m;j++){
+        a[pos[0]][j] = 0;
+    }
+
+}
+
+void rotate_matrix_clockwise(int **a,int n,int m){
+
+    // Transpose the Matrix
+    for(int i=0;i<n;i++){
+        for(int j=0;j<i;j++){
+            swap(a[i][j],a[j][i]);
+        }
+    }
+
+    // Reverse each row of the Matrix
+
+    int start = 0;
+    int end = m-1;
+
+    for(int i=0;i<n;i++){
+        start = 0;
+        end = m-1;
+
+        while(start<end){
+            swap(a[i][start],a[i][end]);
+            start++;
+            end--;
+        }
+    }
+}
+
+void spiral_traversal_matrix(int **a, int n, int m){
+    int rs = 0;
+    int re = n-1;
+
+    int cs = 0;
+    int ce = m-1;
+
+    while(rs<=re && cs<=ce){
+        for(int i=cs;i<=ce;i++){
+            cout<<a[rs][i]<<" ";
+        }
+
+        rs++;
+
+        for(int i=rs;i<=re;i++){
+            cout<<a[i][ce]<<" ";
+        }
+
+        ce--;
+
+        for(int i=ce;i>=cs;i--){
+            cout<<a[re][i]<<" ";
+        }
+
+        re--;
+
+        for(int i=re;i>=rs;i--){
+            cout<<a[i][cs]<<" ";
+        }
+
+        cs++;
+    }
+}
 
 void print_matrix(int **a, int n, int m){
     for(int i=0;i<n;i++){
