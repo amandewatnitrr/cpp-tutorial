@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stack>
+#include <bits/stdc++.h>
 #include <queue>
 #include <vector>
 #include <thread>
@@ -16,61 +17,61 @@
 #define ld long double
 
 /*
- * The internal command that is run by the C++ compiler to execute the program is 
+ * The internal command that is run by the C++ compiler to execute the program is
  * g++ main.cpp -o main.out
 */
 
 /**
  * Deep Copy vs Shallow Copy
- * 
+ *
  * Shallow copy doesn't create a seprate copy of the variables, it copies the pointer not the data.
  * In deep copy, the data is cloned and the memory is not shared.
  * Default constructor is an example of Shallow copy.
- * 
+ *
  * Shallow Copy is faster compared to Deep Copy.
  * Shallow Copy reflects changes to both the new & the copied object.
 */
 
 /**
  * RUNTIME ERROS:-
- * 
- * SIGSEV: 
+ *
+ * SIGSEV:
  * - The most common error i.e. a segmentation fault.
  * - This is caused when something out of scope is trying to be accessed.
  * - For example, an array index that goes out of it's scope causing buffer overflow
  * or anincorrectly initialized pointer.
  * - This happens when a program tries to write beyond it's allocated memory.
- * 
+ *
  * SIGXFSZ:
  * - This means the "output limit is exceeded", and the program printed too much output data than anticipated.
- * 
+ *
  * SIGFPE:
  * - This means a "Floating Point Error".
  * - This occurs usaually when we are trying to divide a number by zero or trying to do square root of a negative number.
- * 
+ *
  * SIGABRT:
  * - These are raised by the program itself.
  * - The program gets aborted in the middle of execution, due to inefficient memory.
- * 
+ *
  * NZEC:
  * - This means the program exited returning a value different from 0 to shell.
- * 
+ *
  * MEMORY-LIMIT-EXCEEDED:
  * - This means the program tried to allocate memory beyond the memory allocated.
- * 
+ *
  * SIGTERM:
  * - Generic Signal used to cause program termination, this can be blocked by the user.
- * 
- * 
- * 
- * 
+ *
+ *
+ *
+ *
 */
 
 using namespace std;
 /**
- * The keyword using technically means, use this whenever you can. 
- * This refers, in this case, to the std namespace. 
- * So whenever the computer comes across cout, cin, endl or anything of that matter, 
+ * The keyword using technically means, use this whenever you can.
+ * This refers, in this case, to the std namespace.
+ * So whenever the computer comes across cout, cin, endl or anything of that matter,
  * it will read it as std::cout, std::cin or std::endl.
 */
 
@@ -78,28 +79,28 @@ using namespace std;
  * STATIC
  * When a variable is made static, the scope of the variable gets limited to that file only.
  * When used with value inside a function, these static variables etain there values between fucntion calls.
- * 
- * 
+ *
+ *
  * When used a STATIC member functions, that means function is independent of any obvject of the class.
  * It can be called using using class name without actually creating the object of the class.
- * 
+ *
  * Static member functions cannot accept non-static data members directly because they don't have the access to object's state.
  * These can be useful  for operations that are not specific to any object but are related to the class as a  whole.
 */
 
 /**
  * Class vs Structure
- * 
+ *
  * CLASSES:
  * - User Defined data type with it's own data members and member functions
  * - NULL Values are possible.
  * - By default the data members and member functions are private.
- * 
+ *
  * STRUCTURE:
  * - User defined data type to group items of different types together.
  * - NULL Values are not possible.
  * - The Data Members are public by default.
- * 
+ *
 */
 
 /* Virtual Class Implementation */
@@ -107,28 +108,28 @@ using namespace std;
 /**
  * Early Binding is the scenario where the compiler matches the function call with correct function definition at compile time.
  * Late Binding happens in scenario where the compiler matches the function call with it;s definition at run-time.
- * 
+ *
  * Pure Virtual Function is also known as Abstract Class and, it has no definition of itself in the parent class.
  * To create such a function 0 is assigned to that particular function.
- * 
+ *
  * The concept of "Interfaces" is alien to C++, but is pretty nessecary in Java.
  * It is used to achieve abstraction and Multiple Inheritence in Java.
- * 
+ *
  * Interface is similar to an abstract class with the difference that all it's functions are pur virtual functions,
- * and, it has no member variables. 
- * 
+ * and, it has no member variables.
+ *
  * The derived classes must implement each of it's virtual functions.
 */
 
 class base
     {
         public:
-        
-        virtual void print() 
+
+        virtual void print()
             { //The keyword virtual enforces the binding of the pointer to the function of child class during run-time.
                 cout<<"This is the print function of base class"<<endl;
             }
-        
+
         void display()
             {
                 cout<<"This is the display function of base class"<<endl;
@@ -139,12 +140,12 @@ class base
 class child: public base
     {
         public:
-        
+
         void print()
             {
                 cout<<"This is the print function of child class"<<endl;
             }
-        
+
         void display()
             {
                 cout<<"This is the display function of child class"<<endl;
@@ -163,49 +164,89 @@ void virtual_class_demo(){
 }
 
 
+/* DIAMOND PROBLEM IN C++ */
+
+/**
+ * Inheritence in itself is a very useful concept in programming when it comes to Object Oriented Programming.
+ * But, not all type of inheritence have an advantage, some of these inheritence types might carry some of it's drawbacks.
+ *
+ * The most famous example of this is DIAMOND PROBLEM IN MULTIPLE INHERITENCE.
+ * So, let's say we have a class named BASE, which is inherited by PARENT-1 and PARENT-2.
+ * Now, PARENT-1 and PARENT-2 both are inherited into a single class named CHILD.
+ * This will cause a error to come up, as both the classes inherited into the CHILD class will have the same BASE class inherited into it.
+ * This will lead to confusion during method resolution and member access.
+ *
+ * This issue can be resolved using `Virtual Inheritence`.
+*/
+
+class base_diamond{
+    public:
+        void fun(){
+            cout<<"Hello World";
+        }
+};
+
+class parent_1_diamond: virtual public base_diamond{
+    public:
+};
+
+class parent_2_diamond: virtual public base_diamond{
+    public:
+};
+
+class child_diamond: public parent_1_diamond, public parent_2_diamond{
+
+};
+
+void main_diamond(){
+    child_diamond* obj = new child_diamond();
+    obj->fun();
+    return;
+}
+
 /**
  * POINTERS:
  * - Pointers are special type of variables that contain address to another variable.
- * 
+ *
  * Types of pointers in C++:
- * 
+ *
  * 1. VOID-POINTER:
  * - Special type of pointer in C++ which represents the absence of type.
  * - Flexible as they can point to any type of data-type
  * - Can't be directyl derefrenced and needs to be transformed into some data-type to be dereferenced.
- * 
+ *
  * 2. INVALID-POINTER:
  * - A Pointer pointing to a valid address but not to a valid element.
  * - For example, an un-initialized pointer variable is an example of invalid pointer.
- * 
+ *
  * 3. NULL-POINTER:
  * - Pointer that points to no where and not just an invalid address.
- * 
+ *
  * 4. OPAQUE-POINTER:
  * - Pointer that points to a structure whose contents are not known at the time of definition.
- * 
+ *
  * 5. NEAR-POINTER:
  * - Near Pointers are used to store 16-bit addresses.
  * - The Size of near pointer is 2 bytes.
  * - Using a Near Pointer we can only reach upto 64KBs of data in the Data Segment.
- * 
+ *
  * 6. FAR-POINTER:
  * - It stores data in two 16-bit registers that allow it to access the memory outside the current segment.
  * - In Far Pointer, the segment can't be modified as increasing/decreasing only changes offset but not segment address.
  * - The Size of Far Pointer is 4 bytes.
- * 
+ *
  * 7. HUGE-POINTER:
  * - A Huge Pointer stores addresses in 2 registers, similar to a far pointer allowing it to access outside the current segment.
  * - Both offset and segement address is changed. That is why we can jump from 1 segment to another.
  * - The Huge Pointer always compares the absolute address.
  * - The Size of Huge Pointer is 4 bytes.
- * 
+ *
  * 8. DANGLING-POINTER:
  * - A pointer to a memory location that has been deleted is called a Dangling Pointer.
- * 
+ *
  * 9. WILD-POINTER:
  * - A Pointer that has not been initialized to anything is known as Wild Pointer.
- * 
+ *
 */
 
 // Linked List
@@ -288,7 +329,7 @@ class btnode{
     /**
      * In tree, data is stored in hierarichal order. A Tree is a non-linear Hierarichal Data Structure.
      * It consists of nodes and subtrees.
-     * 
+     *
      * Some terminologies associated with the tree:
      * Parent Node: The Node which is predecessor of a node.
      * Child Node: The Node which is immediate successor of a node.
@@ -302,7 +343,7 @@ class btnode{
      * Maximum nodes at level L is 2^L.
      * Maximum nodes in a tree of height H is (2^H) - 1.
      * For N, nodes minimum possible height is log2(N+1).
-     * 
+     *
      * Types of Binary Tree:
      * - Full Binary tree: each internal node has exactly 2 or 0 children.
      * - Perfect Binary tree: All leaf nodes are at same level, and each internal node has 2 children.
@@ -350,6 +391,7 @@ void wavesort(int[],int);
 /* Array Operations */
 
 void array_input(int *,int);
+void subarray_of_array(int *,int);
 void array_traversal(int *,int);
 void insert_in_array_at_pos(int *, int &, int ,int );
 void quicksort_array(int *, int,int,int);
@@ -368,10 +410,18 @@ void lexicographic_greater_permutation_main();
 vector<int> leaders_in_array(int *, int );
 bool linear_search_array(int *,int,int);
 int count_all_subarray_sum_k(int *, int, int);
+int max_product_subarray(int *,int);
+vector<int> first_and_last_occurance_of_ele_unsorted_array(int *, int , int , int , vector<int> &);
+void remove_duplicates_from_sorted_array(vector<int> &v);
+void frequency_of_number_in_array(int *,int);
+void move_all_the_zeros_to_right_array(int *,int);
+int count_max_consc_1s_array(int *, int);
+int rearrange_elements_by_sign_sorted(int*, int);
 
 /* Algorithms */
 
 int boyer_moore_voting_algo(int *, int);
+vector<int> majority_element_n3(int *, int );
 
 /*Kadane's Algorithm*/
 
@@ -400,7 +450,7 @@ bool print_1_subsequence_whose_sum_is_k(int ,vector<int> &,vector<int> &,int ,in
 
 int count_subsequence_whose_sum_is_k(int i,vector<int> &,vector<int> &,int ,int ,int &);
 
-void remove_duplicates_from_sorted_array(vector<int> &v);
+
 
 void two_elements_whose_sum_closest_to_0(vector<int> &v);
 
@@ -443,7 +493,7 @@ class stackk{
             arr = new int[n];
             top= -1;
         }
-    
+
     void push(int x,int n)
         {
             if(top == n-1)
@@ -451,7 +501,7 @@ class stackk{
                     cout<<"\nStack Overflow";
                     return;
                 }
-            
+
             top++;
             arr[top] = x;
         }
@@ -543,7 +593,7 @@ class stack1queue{
     void push(int x)
         {
             q1.push(x);
-            
+
             if(q1.size() == 1){
                 return;
             }
@@ -560,7 +610,7 @@ class stack1queue{
     }
 
     int top(){
-        
+
         if(q1.empty()){
             return -1;
         }
@@ -569,7 +619,7 @@ class stack1queue{
     }
 
     void pop(){
-        
+
         if(q1.empty()){
             return;
         }
@@ -589,19 +639,19 @@ class queue_ll
 	{
 		llnode* front;
 		llnode* back;
-		
+
 		public:
 
 		queue_ll()
 			{
 				front = NULL;
-				back = NULL;	
+				back = NULL;
 			}
 
 		void push(int x)
             {
                 llnode* n = new llnode(x);
-                
+
                 if(isempty())
                     {
                         front = n;
@@ -618,7 +668,7 @@ class queue_ll
                 if(isempty())
                     {
                         cout<<"Queue is empty";
-                        return ; 
+                        return ;
                     }
                 llnode* todelete = front;
                 front = front->next;
@@ -694,7 +744,7 @@ class queueusing2stack
 		bool isempty(){
 				if(s1.empty()){ return true;}
 				return false;
-        }	
+        }
 
 	};
 
@@ -715,6 +765,7 @@ bool check_2_numbers_same(int ,int );
 int reverse_the_number(int );
 void divisor_of_natural_number(ll);
 int fibonaci_nth_term(int);
+int binomoal_coeff(int ,int);
 
 
 // String Operations
@@ -732,12 +783,19 @@ void equilateral_triangle_pattern(int n);
 void diamond_pattern(int n);
 void left_base_triangle_pattern(int n);
 void right_base_triangle_pattern(int n);
+void pascal_triangle(int );
+
+
+// MAP OPERATIONS
+map<int,int> map_input_int();
+void print_map_int(map<int,int> );
+int good_sequence_frequency_equals_number(int *a, int n);
 
 // Interview Questions
 
 bool balanced_paranthesis_using_stack(string s);
 
-vector<int> first_and_last_occurance_of_ele_unsorted_array(int *, int , int , int , vector<int> &);
+
 
 void combination_sum_39_leetcode(int ,int ,vector<int>& ,vector<int>&,vector<vector<int> >&);
 void combination_sum_II_40_leetcode(int ,int ,vector<int>& ,vector<int>& ,vector<vector<int> >& );
@@ -773,17 +831,9 @@ int trapping_rainwater(vector<int> &v);
 
 int top_left_to_bottom_right_no_blockage(int,int);
 
-void frequency_of_number_in_array(int *,int);
-
 void find_highest_and_lowest_frequency_element(int *, int);
 
-void move_all_the_zeros_to_right_array(int *,int);
-
-int count_max_consc_1s_array(int *, int);
-
 int stock_buy_and_sell(int *, int);
-
-int rearrange_elements_by_sign_sorted(int*, int);
 
 vector<int> _2sum(vector<int> &, int);
 
@@ -799,11 +849,15 @@ int longest_successive_elements(int *, int);
 
 int main()
 {
-    int n, m;
-    cin >> n >> m;
+    int n;
+    cin>>n;
 
-    int **a = matrix_input(n,m);
-    spiral_traversal_matrix(a,n,m);
+    int *a =  new int [n];
+    array_input(a,n);
+
+    int result = max_product_subarray(a,n);
+    cout<<result;
+
     return 0;
 }
 
@@ -811,6 +865,10 @@ int main()
 /******************************** END OF MAIN SECTION  ***********************************************************/
 /*****************************************************************************************************************/
 
+
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
+/* ARRAY OPERATIONS */
 
 void array_input(int *v,int n)
     {
@@ -836,6 +894,320 @@ void insert_in_array(int *arr,int &n, int pos, int val)
         arr[pos-1]=val;
         n++;
     }
+
+void subarray_of_array(int *a,int n){
+    for(int i=0;i<n;i++){
+        for(int j=i;j<n;j++){
+            for(int k=i;k<=j;k++){
+                cout<<a[k]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+
+    return;
+}
+
+bool check_array_sorted(int *a, int n){
+
+    if(n == 0 || n == 1){
+        return true;
+    }
+
+    for(int i=1;i<n;i++){
+        if(a[i-1] > a[i]){
+            return false;
+        }
+    }
+
+    return true;
+}
+
+void reverse_array(int *a, int n){
+    int start = 0, end = n-1;
+
+    while(start<end){
+        swap(a[start],a[end]);
+        start++;
+        end--;
+    }
+}
+
+
+void frequency_of_number_in_array(int *a,int n){
+    map<int,int> mp;
+    for(int i=0;i<n;i++){
+        mp[a[i]]++;
+    }
+
+    for(auto x: mp){
+        cout<<x.first<<" "<<x.second<<endl;
+    }
+}
+
+void find_highest_and_lowest_frequency_element(int *a, int n){
+    map<int,int> mp;
+    for(int i=0;i<n;i++){
+        mp[a[i]]++;
+    }
+
+    int max_freq = INT_MIN, min_freq = INT_MAX;
+    int max_ele = 0, min_ele = 0;
+
+    for(auto x: mp){
+        if(x.second>max_freq){
+            max_freq = x.second;
+            max_ele = x.first;
+        }
+
+        if(x.second<min_freq){
+            min_freq = x.second;
+            min_ele = x.first;
+        }
+    }
+
+    cout<<max_ele<<" "<<max_freq<<endl;
+    cout<<min_ele<<" "<<min_freq<<endl;
+}
+
+void second_largest_and_smallest_element_in_array(int *a,int n){
+
+    if(n==0){
+        cout<<"Invalid Input";
+        return;
+    }
+
+    if(n==1){
+        cout<<a[0];
+        return;
+    }
+
+    int small = INT_MAX, second_small = INT_MAX;
+    int large = INT_MIN, second_large = INT_MIN;
+
+    for(int i=0;i<n;i++){
+        if(a[i]<small){
+            second_small = small;
+            small = a[i];
+        }
+
+        else if(a[i]<second_small && a[i]!=small){
+            second_small = a[i];
+        }
+
+        if(a[i]>large){
+            second_large = large;
+            large = a[i];
+        }
+
+        else if(a[i]>second_large && a[i]!=large){
+            second_large = a[i];
+        }
+    }
+
+    cout<<second_small<<" "<<second_large;
+}
+
+bool check_if_array_sorted_even_if_rotated(int *a,int n){
+    if(n==0 || n==1){
+        return true;
+    }
+
+    int count = 0;
+
+    for(int i=1;i<n;i++){
+        if(a[i-1]-a[i]>=0){
+            count++;
+        }
+    }
+
+    if(a[0]<a[n-1]){
+        count++;
+    }
+
+    return (count<=1);
+}
+
+int count_max_consc_1s_array(int *a, int n){
+
+    int maxx = INT_MIN, cnt = 0;
+
+    for(int i=0;i<n;i++){
+        if(a[i] == 1){
+            cnt++;
+        }
+
+        else{
+            cnt = 0;
+        }
+        maxx = max(cnt,maxx);
+    }
+
+    return maxx;
+}
+
+vector<int> union_of_array(int *a,int *b, int an, int bn){
+    set<int> s;
+    for(int i=0;i<an;i++){
+        s.insert(a[i]);
+    }
+
+    for(int i=0;i<bn;i++){
+        s.insert(b[i]);
+    }
+
+    vector<int> unionn;
+    for(auto &x: s){
+        unionn.push_back(x);
+    }
+
+    return unionn;
+}
+
+void move_all_the_zeros_to_right_array(int *a,int n){
+
+    int insertatpos = 0;
+
+    for(int i=0;i<n;i++){
+        if(a[i]!=0){
+            a[insertatpos] = a[i];
+            insertatpos++;
+        }
+    }
+
+    while(insertatpos < n){
+        a[insertatpos] = 0;
+        insertatpos++;
+    }
+}
+
+void rotate_array_k_times_right(int *a,int n,int k){
+    if(n==0 || n==1){
+        return;
+    }
+
+    if(k==n){
+        return;
+    }
+
+    if(k>n){
+        k = k%n;
+    }
+
+    for(int i=0;i<k;i++){
+        int temp = a[n-1];
+        for(int j=n-1;j>0;j--){
+            a[j] = a[j-1];
+        }
+        a[0] = temp;
+    }
+}
+
+void remove_duplicates_from_sorted_array(vector<int>& a){
+
+    // Time Complexity of this problem is O(n).
+    // Space Complexity of this problem is O(1).
+
+    bubblesort(a);
+
+    int n = a.size();
+    int j = 0;
+
+    for(int i=0;i<n-1;i++){
+        if(a[i] != a[i+1]){
+            a[j] = a[i];
+            j++;
+        }
+    }
+    a[j++] = a[n-1];
+    a.resize(j);
+
+    // explain the code
+    // We start from the 0th index and compare it with the next element.
+    // If the current element is not equal to the next element, we increment the index j and assign the current element to the jth index.
+    // If the current element is equal to the next element, we skip the current element and move to the next element.
+    // Than, the last element is assigned to the jth index.
+    // We resize the array to the value of j, to remove the duplicates.
+}
+
+int max_product_subarray(int *a,int n){
+    /**
+     * max_prod keeps track of the maximum prodcut ending at current index i
+     * min_prod keeps track of the minimum product ending at current index i.
+     * Cause a negative number in the array can cause the largest product to become the smallest product.
+    */
+
+    int max_prod = a[0],min_prod = a[0],result = a[0];
+
+    for(int i=1;i<n;i++){
+        int temp = max(a[i],max(max_prod*a[i],min_prod*a[i]));
+        min_prod = min(a[i],min(max_prod*a[i],min_prod*a[i]));
+        max_prod = temp;
+
+        result = max(result,max_prod);
+    }
+
+    return result;
+
+}
+
+bool linear_search_array(int *a,int n,int num){
+    for(int i=0;i<n;i++){
+        if(a[i]==num){
+            return true;
+        }
+    }
+    return false;
+}
+
+vector<int> leaders_in_array(int *a, int n){
+
+    // Leader is an element in array which is greater than all it's elements on the right hand side.
+    vector<int> ans;
+
+    int max =  a[n-1];
+    ans.push_back(max);
+
+    for(int i=n-1;i>=0;i--){
+        if(a[i]>max){
+            max = a[i];
+            ans.push_back(max);
+        }
+    }
+
+    return ans;
+}
+
+void quicksort_array(int *a, int n,int b, int e){
+
+    if(n==0 || n == 1){
+        return;
+    }
+
+    if(b<e){
+        int pivot = pivot_quicksort_array(a,n,b,e);
+        quicksort_array(a,n,b,pivot-1);
+        quicksort_array(a,n,pivot+1,e);
+    }
+}
+
+int pivot_quicksort_array(int *a, int n, int b,int e){
+    int pivot = a[e];
+    int i = b-1;
+    for(int j=b;j<e;j++){
+        if(a[j]<pivot){
+            i++;
+            swap(a[i],a[j]);
+        }
+    }
+    swap(a[i+1],a[e]);
+    return (i+1);
+}
+
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
+
+
 
 void vector_input(vector<int>& v)
     {
@@ -941,7 +1313,7 @@ void selectionsort(vector<int>&v)
             {
                 small = v[i];
                 pos = i;
-                
+
                 for(int j=i+1;j<v.size();j++)
                     {
                         if(small>v[j])
@@ -967,7 +1339,7 @@ void mergesort(vector<int>&v,int b,int e)
 
             }
         /*
-        Time Complexity of merge Sort is n*log(n). 
+        Time Complexity of merge Sort is n*log(n).
         it's so because the inner working is based on Divide and conquer algorithm.
         And is multiplied with n because it takes linear time merging them.
         */
@@ -977,7 +1349,7 @@ void merge(vector<int>&v,int b,int mid,int e)
         int n1 = mid+1-b;
         int n2 = e - mid;
         vector<int> v1,v2;
-        
+
         for(int i=0;i<n1;i++)
             {
                 v1.push_back(v[b+i]);
@@ -986,7 +1358,7 @@ void merge(vector<int>&v,int b,int mid,int e)
             {
                 v2.push_back(v[i]);
             }
-        
+
         int i=0,j=0,k=b;
 
         while(i<n1 && j<n2)
@@ -994,7 +1366,7 @@ void merge(vector<int>&v,int b,int mid,int e)
                 if(v1[i]<v2[j])
                     {
                         v[k]=v1[i];
-                        i++;k++;   
+                        i++;k++;
                     }
                 else
                     {
@@ -1002,7 +1374,7 @@ void merge(vector<int>&v,int b,int mid,int e)
                         j++;k++;
                     }
             }
-        
+
         while(i<n1)
             {
                 v[k]=v1[i];
@@ -1031,7 +1403,7 @@ void printvectorchar(vector<char> &v)
                 cout<<v[i]<<" ";
             }
     }
-    
+
 void quicksort(vector<int> &v,int b,int e)
     {
         if(b<e)
@@ -1056,7 +1428,7 @@ int partition_quicksort(vector<int> &v,int b,int e)
             }
             swap_quicksort(v,i+1,e);
             return (i+1);
-            
+
     }
 void swap_quicksort(vector<int> &v, int x,int y)
     {
@@ -1089,7 +1461,7 @@ void dnfsort(int *a,int n)
                         high--;
                     }
             }
-        /*Time Complexity is O(n).*/    
+        /*Time Complexity is O(n).*/
     }
 void array_swap(int *v,int a,int b)
     {
@@ -1125,6 +1497,7 @@ void subarrays_of_vector(vector<int> &v)
             }
     }
 
+
 int kadanealgos(vector<int> &a,int n)
     {
         int currentSum = 0;
@@ -1135,6 +1508,90 @@ int kadanealgos(vector<int> &a,int n)
         }
         return maxSum;
     }
+
+int longest_subarray_sum_k(int *a, int n , int k){
+
+    if(n==0){
+        return 0;
+    }
+
+
+    // tsum records the running sum of elements
+    // maxsize stores the length of subarray with sum k
+    // mp map stores the running first occurance of the running sum when it doesnot match k.
+    int tsum = 0,maxsize = 0;
+    unordered_map<int, int> mp;
+
+    for(int i=0;i<n;i++){
+        tsum += a[i]; // Update tsum by adding a[i]
+
+        if(tsum ==  k){
+            maxsize = i+1; // We update the maxsize if tsum == k
+        }
+
+        /**
+         * If the tsum is not equal to sum we check if tsum-k is present in array.
+         * If present the size of this subarray that sums to k will be ( i - mp[ tsum - k ] ).
+        */
+        else if(mp.find(tsum-k) != mp.end()){
+            maxsize =  max(maxsize,i-mp[tsum-k]);
+        }
+
+        // If the tsum is not in the map, we add it to the map.
+        if(mp.find(tsum) == mp.end()){
+            mp[tsum] = i;
+        }
+    }
+
+    return maxsize;
+
+    /*
+
+    BRUTE FORCE APPROACH
+
+    Time Consuming as the time complexity is O(n^2).
+    Hence, inefficient when dealing with large arrays.
+
+    int tsum = 0,maxsize = 0;
+    for(int i=0;i<n;i++){
+        for(int j=i;j<n;j++){
+            for(int k=i;k<=j;k++){
+                tsum += a[k];
+            }
+            if(tsum==summ){
+                maxsize = max(maxsize,j-i+1);
+            }
+
+            tsum = 0;
+        }
+    }
+
+    if(maxsize){
+        return maxsize;
+    }
+
+    */
+
+    return 0;
+}
+
+int count_all_subarray_sum_k(int *a, int n, int k){
+
+    int cnt = 0;
+    int sum = 0;
+    for(int i=0;i<n;i++){
+        sum = 0;
+        for(int j=i;j<n;j++){
+            sum += a[j];
+
+            if(sum == k){
+                cnt++;
+            }
+        }
+    }
+
+    return cnt;
+}
 
 int maximum_circular_subarray_sum(vector<int> &v)
     {
@@ -1185,12 +1642,12 @@ void spiral_order_traversal(vector<vector<int> > &v)
 
 		int r = v.size();
 		int c = v[0].size();
-		
+
 		int rs = 0;
 		int re = r-1;
 		int cs = 0;
 		int ce = c-1;
-		
+
 		while(rs<=re && cs<=ce)
 			{
 				for(int i=cs;i<=ce;i++)
@@ -1224,7 +1681,7 @@ void search_in_rowise_and_colwise_sorted_2d_vector(vector<vector<int> > &v,int e
                 cout<<"Empty Vector";
                 return ;
             }
-        
+
         int r = 0;
         int c = v[0].size()-1;
         while(r<v.size() && c>=0)
@@ -1339,7 +1796,7 @@ vector<int> sieve_of_eratosthenes(int n)
             {
                 if(a[i]==true)
                     {
-                        
+
                         for(int j=pow(i,2);j<=n;j+=i)
                             {
                                 a[j]=false;
@@ -1366,18 +1823,18 @@ int shorter_angle_bw_hour_and_minute(int h, int m)
         anss =  abs(ma-ha);
         if(anss>180)
         {anss = 360-anss;}
-        return anss;        
+        return anss;
     }
 
 bool isperfectnumber(int x)
     {
-        
+
         int sum=0;
         for(int i=1;i<x;i++)
             {
                 if(x%i==0)
                 {
-                sum+=i; 
+                sum+=i;
                 }
             }
         if(sum==x)
@@ -1407,8 +1864,8 @@ void print_permutations_of_string(string s,string ans)
         // Time Complexity is O(n*n!) and Auxilary Space needed is O(|s|).
         // There are n! permutations and n times to print them.
         char ch;
-        /*The base case is condition checking if the string is empty, if so we print the answer. 
-        As we haave permuted for all the characters in s and s now is empty.*/ 
+        /*The base case is condition checking if the string is empty, if so we print the answer.
+        As we haave permuted for all the characters in s and s now is empty.*/
 
         if(s.length()==0)
             {
@@ -1416,12 +1873,12 @@ void print_permutations_of_string(string s,string ans)
                 return ;
             }
         /*
-        
+
         If not so than what we will do is choose a specific letter and make 2 substrings one from all the letters before ith letter and
         another after the ith letter, add them and add the ith character to the answer and go for further permutation of the remaing string.
         And This will happen similarly for all the letters.
 
-        */   
+        */
         else
             {
                 for(int i=0;i<s.length();i++)
@@ -1474,7 +1931,7 @@ bool check_2_numbers_same(int x,int y)
 vector<int> first_and_last_occurance_of_ele_unsorted_array(int *a, int key, int i, int n, vector<int> &ans)
     {
         /*
-        
+
         A recursive approach to find the first element in an unsorted array. The Time complexity is O(n).
         The Same could have been done even using a linear search using for loop as well.
 
@@ -1573,7 +2030,7 @@ void generate_and_count_subset_of_set(vector<int> &v)
                             }
                     }
                 cout<<"}";
-                count++; 
+                count++;
                 cout<<endl;
             }
         cout<<"Subsets = "<<count;
@@ -1613,7 +2070,7 @@ void print_subsequence(int i,vector<int> &ans,vector<int> &v)
                 cout<<endl;
                 return;
             }
-        
+
         ans.push_back(v[i]);
         print_subsequence(i+1,ans,v);
         ans.pop_back();
@@ -1647,18 +2104,18 @@ void print_subsequence_whose_sum_is_k(int i,vector<int> &ans,vector<int> &v,int 
             }
 
         if(i>=v.size())
-            {   
+            {
                 if(sum==k)
                     {
                         cout<<"{ ";
                         printvectorint(ans);
                         cout<<"}";
                         cout<<endl;
-                        
+
                     }
                 return;
             }
-        
+
         ans.push_back(v[i]);
         sum +=v[i];
         print_subsequence_whose_sum_is_k(i+1,ans,v,k,sum);
@@ -1694,18 +2151,18 @@ int count_subsequence_whose_sum_is_k(int i,vector<int> &ans,vector<int> &v,int k
             }
 
         if(i>=v.size())
-            {   
+            {
                 if(sum==k)
                     {
                         cout<<"{ ";
                         printvectorint(ans);
                         cout<<"}";
-                        cout<<endl; 
+                        cout<<endl;
                         return 1;
                     }
                 return 0;
             }
-        
+
         ans.push_back(v[i]);
         sum +=v[i];
         int l = count_subsequence_whose_sum_is_k(i+1,ans,v,k,sum,count);
@@ -1731,8 +2188,8 @@ void combination_sum_39_leetcode(int i,int target,vector<int>& ans,vector<int>& 
             we check if the sum needed is achieved or not i.e. target =0 or not if so, we push the answer into vectoe and return,
             else we simply return.
 
-            Now for further as the repeated use of the element is allowed , assuming that, 
-            we check if the element is less than the target, if it's less we keep, pushing the same element into our 
+            Now for further as the repeated use of the element is allowed , assuming that,
+            we check if the element is less than the target, if it's less we keep, pushing the same element into our
             vector representing the subsequence and deducting the target by that value, if sum is achieved it gets pushed into the
             answer vector, if not we just pop out all the elements.
 
@@ -1754,7 +2211,7 @@ void combination_sum_39_leetcode(int i,int target,vector<int>& ans,vector<int>& 
                 ans.pop_back();
             }
         combination_sum_39_leetcode(i+1,target,ans,v,ansm);
-    
+
     }
 void combination_sum_II_40_leetcode(int i,int target,vector<int>& ans,vector<int>& v,vector<vector<int> >& ansm)
     {
@@ -1768,22 +2225,22 @@ void combination_sum_II_40_leetcode(int i,int target,vector<int>& ans,vector<int
                 ansm.push_back(ans);
                 return;
             }
-        
-        for(int j=i;j<v.size();j++) 
-            {   
 
-                /* 
+        for(int j=i;j<v.size();j++)
+            {
+
+                /*
                     taking one element into consideration as start, we loop for other elements of the sub-sequence.
                     point to be noted the array or vector must be sorted.
                 */
 
-                /* During the process, we have 2 choices, 
-                either we pick the element, or we leave it, 
+                /* During the process, we have 2 choices,
+                either we pick the element, or we leave it,
                 that's how recursion tree works in case of sub-sequences.*/
 
                 /*
                     So, we first check starting the loop from ith index if this element is bigger than the target,
-                    if yes, there's no point going ahead simply break out of loop. 
+                    if yes, there's no point going ahead simply break out of loop.
 
                     If not than we check if j>i and if the current element is not same as the previous element, in
                     order to avoid having any duplicates in the answer, if so we skip.
@@ -1794,7 +2251,7 @@ void combination_sum_II_40_leetcode(int i,int target,vector<int>& ans,vector<int
                     Now befor looking for another subsequence, we pop out th elements stored in the vector.
                 */
                 if((j>i)&&(v[j]==v[j-1])){continue;}
-                if(v[j]>target) {break;} 
+                if(v[j]>target) {break;}
                 ans.push_back(v[j]);
                 combination_sum_II_40_leetcode(j+1,target-v[j],ans,v,ansm);
                 ans.pop_back();
@@ -1802,7 +2259,7 @@ void combination_sum_II_40_leetcode(int i,int target,vector<int>& ans,vector<int
             }
     }
 vector<int> print_sum_of_all_subsets_in_ascending(vector<int>&v, int sum,int i,vector<int>& ans,vector<int> &ansm)
-    {   
+    {
 
         if(i>=v.size())
             {
@@ -1921,7 +2378,7 @@ bool nqueens_51_leetcode(int **ar, int c,int n)
 				// printsol(ar,n);
 				return true;
 			}
-			
+
 		for(int i=0;i<n;i++)
 			{
 				if(issafe(ar,i,c,n))
@@ -1960,7 +2417,7 @@ bool issafe(int **a,int i, int j,int n)
 				return false;
 			}
 		}
-			
+
 		return true;
 	}
 
@@ -1968,7 +2425,7 @@ bool sudoku_solver_leetcode_37(vector<vector<char> > &v)
     {
         /*
             We traverse in the sudoku, looking for empty space, if we find a empty space, we check if a number can be put in that particular
-            empty space and it's exsistence there is valid or not, if yes, we put it in there and than check through recursive call that if 
+            empty space and it's exsistence there is valid or not, if yes, we put it in there and than check through recursive call that if
             keeping that number solves it, if solves we return true, if not , we keep the space empty and check for other characters.
 
             If any of them deoesn't seem to solve we return false.
@@ -2032,7 +2489,7 @@ void palindrome_partioning_leetcode_131(vector<vector<string> >&ans,string s,str
                     ans.push_back(v);
                     return;
                 }
-        
+
      for(int i=index;i<s.length();i++)
      {
          string temp=s.substr(index,i-index+1);
@@ -2056,24 +2513,24 @@ bool isPalindromeString(string str)
         {
             return true;
         }
-        
+
         return false;
     }
 
 string getPermutation(int n,int k)
     {
         /*
-            To optimize the above method mentioned above, observe that the value of k can be 
-            directly used to find the number at each index of the sequence.The first position of an n length sequence 
-            is occupied by each of the numbers from 1 to n exactly n! / n that is (n-1)! number of times and in ascending order. 
-            So the first position of the kth sequence will be occupied by the number present 
+            To optimize the above method mentioned above, observe that the value of k can be
+            directly used to find the number at each index of the sequence.The first position of an n length sequence
+            is occupied by each of the numbers from 1 to n exactly n! / n that is (n-1)! number of times and in ascending order.
+            So the first position of the kth sequence will be occupied by the number present
             at index = k / (n-1)! (according to 1-based indexing).
-            The currently found number can not occur again so it is removed from the original n numbers and 
+            The currently found number can not occur again so it is removed from the original n numbers and
             now the problem reduces to finding the ( k % (n-1)! )th permutation sequence of the remaining n-1 numbers.
-            This process can be repeated until we have only one number left which will be placed in the first position of the 
-            last 1-length sequence. The factorial values involved here can be very large as compared to k. 
-            So, the trick used to avoid the full computation of such large factorials is that as soon as the product n * (n-1) * … 
-            becomes greater than k, we no longer need to find the actual factorial value because: 
+            This process can be repeated until we have only one number left which will be placed in the first position of the
+            last 1-length sequence. The factorial values involved here can be very large as compared to k.
+            So, the trick used to avoid the full computation of such large factorials is that as soon as the product n * (n-1) * …
+            becomes greater than k, we no longer need to find the actual factorial value because:
         */
         int fact =1;
         vector<int> numbers;
@@ -2108,7 +2565,7 @@ void rat_in_maze(vector<vector<int> > &maze,int i,int j,vector<vector<int> > &vi
                 ans.push_back(s);
                 return ;
             }
-        
+
         if(i+1<n && !vis[i+1][j] && maze[i+1][j]==1)//Down
             {
                 vis[i][j] = 1;
@@ -2122,7 +2579,7 @@ void rat_in_maze(vector<vector<int> > &maze,int i,int j,vector<vector<int> > &vi
                 rat_in_maze(maze,i,j-1,vis,s+'L',n,ans);
                 vis[i][j] = 0;
             }
-            
+
         if(j+1<n && !vis[i][j+1] && maze[i][j+1]==1)//Right
             {
                 vis[i][j] = 1;
@@ -2263,33 +2720,6 @@ int ways_to_reach_nth_stair_by_taking_atmost_k_steps(int n, int k){
         }
     }
     return pw[n];
-}
-
-void remove_duplicates_from_sorted_array(vector<int>& a){
-
-    // Time Complexity of this problem is O(n).
-    // Space Complexity of this problem is O(1).
-
-    bubblesort(a);
-
-    int n = a.size();
-    int j = 0;
-
-    for(int i=0;i<n-1;i++){
-        if(a[i] != a[i+1]){
-            a[j] = a[i];
-            j++;
-        }
-    }
-    a[j++] = a[n-1];
-    a.resize(j);
-
-    // explain the code
-    // We start from the 0th index and compare it with the next element.
-    // If the current element is not equal to the next element, we increment the index j and assign the current element to the jth index.
-    // If the current element is equal to the next element, we skip the current element and move to the next element.
-    // Than, the last element is assigned to the jth index.
-    // We resize the array to the value of j, to remove the duplicates.
 }
 
 void two_elements_whose_sum_closest_to_0(vector<int> &v){
@@ -2486,7 +2916,7 @@ void ll_make_intersect(llnode* a, llnode* b,int pos){
 
     llnode *tempa = a;
     llnode *tempb = b;
-    
+
     while((count != pos)&&(tempa->next != NULL)){
         tempa= tempa -> next;
         count++;
@@ -2579,7 +3009,7 @@ llnode* ll_reverseknodes(llnode* &head,int k){
         head->next = ll_reverseknodes(nxt,k);
     }
     return prev;
-    
+
 }
 
 void ll_makecycle(llnode* &head,int pos){
@@ -2621,7 +3051,7 @@ void ll_deletecycle(llnode* &head)
         llnode* fast = head;
         int count = 1;
 
-        
+
         do{
             fast = fast->next->next;
             slow = slow->next;
@@ -2634,7 +3064,7 @@ void ll_deletecycle(llnode* &head)
                 fast = fast->next;
             }
         slow->next = NULL;
-        
+
     }
 
 void ll_kappend(llnode* &head,int k,int n)
@@ -2649,7 +3079,7 @@ void ll_kappend(llnode* &head,int k,int n)
         int count = 1;
         llnode* newhead;
         llnode* newtail;
-        
+
         while(temp->next != NULL)
             {
                 if(count == k)
@@ -2660,7 +3090,7 @@ void ll_kappend(llnode* &head,int k,int n)
                 temp = temp->next;
                 count++;
             }
-        
+
         temp->next = head;
         head = newhead;
         newtail->next = NULL;
@@ -2705,7 +3135,7 @@ void cll_insertathead(llnode* &head, int val)
     {
         llnode* n = new llnode(val);
         llnode* temp = head;
-        
+
         if(head == NULL)
             {
                 n->next = n;
@@ -2723,8 +3153,8 @@ void cll_insertathead(llnode* &head, int val)
 
 void cll_insertattail(llnode* &head, int val)
     {
-        /* The head is passed by reference because we have to modify our Linked List. 
-         * This causes insertion from the end of doubly linked list. 
+        /* The head is passed by reference because we have to modify our Linked List.
+         * This causes insertion from the end of doubly linked list.
          */
         if(head == NULL)
             {
@@ -2734,7 +3164,7 @@ void cll_insertattail(llnode* &head, int val)
 
         llnode* n = new llnode(val);
         llnode* temp =  head;
-        
+
         while(temp->next!=head)
             {
                 temp = temp->next;
@@ -2777,7 +3207,7 @@ void cll_deletee(llnode* &head, int pos)
             }
         llnode* todelete = temp->next;
         temp->next = temp->next->next;
-        
+
         delete todelete;
     }
 
@@ -2795,7 +3225,6 @@ void cll_display(llnode* head)
     }
 
 /*------------------------------------------------------------------------------------------------------------*/
-
 /*------------------------------------------------------------------------------------------------------------*/
 /* DOUBLY LINKED LIST */
 
@@ -2812,8 +3241,8 @@ void dll_insertathead(dllnode* &head, int val)
 
 void dll_insertattail(dllnode* &head, int val)
     {
-        /* The head is passed by reference because we have to modify our Linked List. 
-         * This causes insertion from the end of doubly linked list. 
+        /* The head is passed by reference because we have to modify our Linked List.
+         * This causes insertion from the end of doubly linked list.
          */
         if(head == NULL)
             {
@@ -2823,7 +3252,7 @@ void dll_insertattail(dllnode* &head, int val)
 
         dllnode* n = new dllnode(val);
         dllnode* temp =  head;
-        
+
         while(temp->next!=NULL)
             {
                 temp = temp->next;
@@ -2855,7 +3284,7 @@ void dll_delete(dllnode* &head, int pos)
                 temp = temp->next;
                 count++;
             }
-        
+
         temp->prev->next = temp->next;
         if(temp->next != NULL)
             {
@@ -2962,7 +3391,7 @@ int gcd(int a, int b){
 
 
 int find_gcd(int *a,int n){
-    
+
     int res = a[0];
     for(int i=1;i<n;i++){
         res = gcd(a[i],res);
@@ -2971,7 +3400,7 @@ int find_gcd(int *a,int n){
             return 1;
         }
     }
-    
+
     return res;
 }
 
@@ -3017,151 +3446,9 @@ void divisor_of_natural_number(ll n){
     }
 
     sort(v.begin(),v.end());
-    
+
     for(ll i: v){
         cout<<i<<" ";
-    }
-}
-
-bool check_array_sorted(int *a, int n){
-    
-    if(n == 0 || n == 1){
-        return true;
-    }
-
-    for(int i=1;i<n;i++){
-        if(a[i-1] > a[i]){
-            return false;
-        }
-    }
-
-    return true;
-}
-
-void reverse_array(int *a, int n){
-    int start = 0, end = n-1;
-
-    while(start<end){
-        swap(a[start],a[end]);
-        start++;
-        end--;
-    }
-}
-
-
-void frequency_of_number_in_array(int *a,int n){
-    map<int,int> mp;
-    for(int i=0;i<n;i++){
-        mp[a[i]]++;
-    }
-
-    for(auto x: mp){
-        cout<<x.first<<" "<<x.second<<endl;
-    }
-}
-
-void find_highest_and_lowest_frequency_element(int *a, int n){
-    map<int,int> mp;
-    for(int i=0;i<n;i++){
-        mp[a[i]]++;
-    }
-
-    int max_freq = INT_MIN, min_freq = INT_MAX;
-    int max_ele = 0, min_ele = 0;
-
-    for(auto x: mp){
-        if(x.second>max_freq){
-            max_freq = x.second;
-            max_ele = x.first;
-        }
-
-        if(x.second<min_freq){
-            min_freq = x.second;
-            min_ele = x.first;
-        }
-    }
-
-    cout<<max_ele<<" "<<max_freq<<endl;
-    cout<<min_ele<<" "<<min_freq<<endl;
-}
-
-void second_largest_and_smallest_element_in_array(int *a,int n){
-
-    if(n==0){
-        cout<<"Invalid Input";
-        return;
-    }
-
-    if(n==1){
-        cout<<a[0];
-        return;
-    }
-
-    int small = INT_MAX, second_small = INT_MAX;
-    int large = INT_MIN, second_large = INT_MIN;
-
-    for(int i=0;i<n;i++){
-        if(a[i]<small){
-            second_small = small;
-            small = a[i];
-        }
-
-        else if(a[i]<second_small && a[i]!=small){
-            second_small = a[i];
-        }
-
-        if(a[i]>large){
-            second_large = large;
-            large = a[i];
-        }
-
-        else if(a[i]>second_large && a[i]!=large){
-            second_large = a[i];
-        }
-    }
-
-    cout<<second_small<<" "<<second_large;
-}
-
-bool check_if_array_sorted_even_if_rotated(int *a,int n){
-    if(n==0 || n==1){
-        return true;
-    }
-
-    int count = 0;
-
-    for(int i=1;i<n;i++){
-        if(a[i-1]-a[i]>=0){
-            count++;
-        }
-    }
-
-    if(a[0]<a[n-1]){
-        count++;
-    }
-
-    return (count<=1);
-}
-
-void rotate_array_k_times_right(int *a,int n,int k){
-    if(n==0 || n==1){
-        return;
-    }
-
-    if(k==n){
-        return;
-    }
-
-    if(k>n){
-        k = k%n;
-    }
-
-    for(int i=0;i<k;i++){
-        int temp = a[n-1];
-        for(int j=n-1;j>0;j--){
-            a[j] = a[j-1];
-        }
-        a[0] = temp;
     }
 }
 
@@ -3171,41 +3458,6 @@ void rotate_vector_k_times_right(vector<int> &nums,int k){
     reverse(nums.begin(),nums.end());
     reverse(nums.begin(),nums.begin()+k);
     reverse(nums.begin()+k,nums.end());
-}
-
-void move_all_the_zeros_to_right_array(int *a,int n){
-
-    int insertatpos = 0;
-
-    for(int i=0;i<n;i++){
-        if(a[i]!=0){
-            a[insertatpos] = a[i];
-            insertatpos++;
-        }
-    }
-
-    while(insertatpos < n){
-        a[insertatpos] = 0;
-        insertatpos++;
-    }
-}
-
-vector<int> union_of_array(int *a,int *b, int an, int bn){
-    set<int> s;
-    for(int i=0;i<an;i++){
-        s.insert(a[i]);
-    }
-
-    for(int i=0;i<bn;i++){
-        s.insert(b[i]);
-    }
-
-    vector<int> unionn;
-    for(auto &x: s){
-        unionn.push_back(x);
-    }
-    
-    return unionn;
 }
 
 int find_missing_number_N(int *a, int n){
@@ -3224,7 +3476,7 @@ int find_missing_number_N(int *a, int n){
 
 bool balanced_paranthesis_using_stack(string s){
     stack<char> st;
-        
+
     for(int i=0;i<s.length();i++)
         {
             if(s[i]=='(' || s[i]=='{' || s[i]=='[' )
@@ -3266,11 +3518,11 @@ void print_stack(stack<int> s)
     if (s.empty()){
         return;
     }
-    
+
     int x = s.top();
     s.pop();
     cout << x << ' ';
- 
+
     print_stack(s);
     s.push(x);
 }
@@ -3291,6 +3543,22 @@ void reverse_stack(stack<int> &st)
         st = temp;
     }
 
+vector< vector<int> > match_overlapping_sub_intervals(vector< vector<int> >& v) {
+    // Sort the vector based on its starting elements
+    sort(v.begin(), v.end());
+
+    vector<vector<int> > ans;
+
+    for (int i = 0; i < v.size(); i++) {
+        if (ans.empty() || v[i][0] > ans.back()[1]) {
+            ans.push_back(v[i]);
+        } else {
+            ans.back()[1] = max(ans.back()[1], v[i][1]);
+        }
+    }
+
+    return ans;
+}
 
 
 int largest_rectangle_on_histogram(vector<int> v){
@@ -3333,68 +3601,92 @@ int largest_rectangle_on_histogram(vector<int> v){
 }
 
 int _3sum(int *a, int n, int sum){
-    
+
+    sort(a,a+n);
+    int left = 0, right = 0,curr_sum = 0;
+
     for(int i=0;i<n-2;i++){
-        
-        for(int j=i+1;j<n-1;j++){
-            
-            for(int k=j+1;k<n;k++){
-                
-                if(a[i]+a[j]+a[k] == sum){
-                    cout<<a[i]<<" "<<a[j]<<" "<<a[k];
+
+        // Skip duplicates of the first element
+        if(i>0 && a[i] == a[i-1]){
+            continue;
+        }
+
+        left = i+1;
+        right = n-1;
+
+        while(left<right){
+            curr_sum = a[i] + a[left] + a[right];
+
+            if(curr_sum == sum){
+                cout<<a[i]<<" "<<a[left]<<" "<<a[right];
+                cout<<endl;
+
+                // Skip duplicates of Left Element
+                while(left<right && a[left] == a[left + 1]){continue;}
+                // Skip duplicates of Right Element
+                while(left<right && a[right] == a[right - 1]){continue;}
+                left++;
+                right--;
+            }
+
+            else if(curr_sum<sum){
+                left++;
+            }
+
+            else{
+                right--;
+            }
+        }
+
+
+    }
+
+    return 0;
+
+}
+
+void _4sum(int *a, int n, int sum){
+
+    sort(a,a+n);
+
+    for(int i=0;i<n;i++){
+
+        if(i>0 && a[i] == a[i-1]){continue;} // Skip the duplicates of the first iterator
+
+        for(int j=i+1;j<n;j++){
+
+            if(j>i+1 && a[j] == a[j-1]){continue;} // Skip the duplicates of the second iterator
+
+            int k = j+1;
+            int l = n-1;
+
+            while(k<l){
+                int s = a[i] + a[j] + a[k] + a[l];
+                if(s == sum){
+                    cout<<a[i]<<" "<<a[j]<<" "<<a[k]<<" "<<a[l];
                     cout<<endl;
+                    k++;
+                    l--;
+
+                    // Skipping Duplicates
+                    while(k<l && a[k] == a[k-1]) {k++;}
+                    while(k<l && a[l] == a[l+1]) {l--;}
+
+
                 }
 
+                else if(s<sum){k++;}
+
+                else{l--;}
             }
 
         }
-
     }
-
-    return 0;
-
 }
 
-int count_max_consc_1s_array(int *a, int n){
 
-    int maxx = INT_MIN, cnt = 0;
 
-    for(int i=0;i<n;i++){
-        if(a[i] == 1){
-            cnt++;
-        }
-
-        else{
-            cnt = 0;
-        }
-        maxx = max(cnt,maxx);
-    }
-
-    return maxx;
-}
-
-int longest_subarray_sum_k(int *a, int n , int summ){
-
-    int tsum = 0,maxsize = 0;
-    for(int i=0;i<n;i++){
-        for(int j=i;j<n;j++){
-            for(int k=i;k<=j;k++){
-                tsum += a[k];
-            }
-            if(tsum==summ){
-                maxsize = max(maxsize,j-i+1);
-            }
-
-            tsum = 0;
-        }
-    }
-
-    if(maxsize){
-        return maxsize;
-    }
-
-    return 0;
-}
 
 vector<int> _2sum(vector<int>& a, int sum) {
     vector<pair<int, int> > v;
@@ -3415,18 +3707,18 @@ vector<int> _2sum(vector<int>& a, int sum) {
 
     while (b < e) {
         csum = v[b].first + v[e].first;
-        
+
         if (csum == sum) {
             vector<int> res;
             res.push_back(v[b].second); // Add 1 to the index to get the 1-based index
             res.push_back(v[e].second); // Add 1 to the index to get the 1-based index
             return res;
-        } 
-        
+        }
+
         else if (csum < sum) {
             b++;
-        } 
-        
+        }
+
         else {
             e--;
         }
@@ -3441,7 +3733,7 @@ vector<int> _2sum(vector<int>& a, int sum) {
 int boyer_moore_voting_algo(int *a, int n){
 
     /**
-     * This technique can be used in questions such as 
+     * This technique can be used in questions such as
      * Find the majority element that occur N/2 times.
     */
 
@@ -3467,7 +3759,7 @@ int boyer_moore_voting_algo(int *a, int n){
         if (a[i] == ele) cnt1++;
     }
 
-    if (cnt1 > floor(n/2)){ 
+    if (cnt1 > floor(n/2)){
         return ele;
     }
 
@@ -3495,13 +3787,13 @@ int minimum_add_make_paranthesis_valid(string &s){
     int count = 0;
 
     for(int i=0;i<s.length();i++){
-        
+
         if(s[i] == '('){
             st.push(s[i]);
         }
 
         else if(s[i] == ')'){
-            
+
             if(st.empty()){
                 count++;
             }
@@ -3510,7 +3802,7 @@ int minimum_add_make_paranthesis_valid(string &s){
                 st.pop();
             }
         }
-        
+
     }
 
     return (count + st.size());
@@ -3521,7 +3813,7 @@ int minimum_add_make_paranthesis_valid(string &s){
 /* BINARY TREE OPERATIONS */
 
 btnode* buildTree(vector<int> pre, vector<int> in,int s,int e,int &idx){
-    
+
     if(s>e || idx >= pre.size() || pre[idx] == -1){
         idx++;
         return NULL; // s>e this means that the subtree is non-existent.
@@ -3543,7 +3835,7 @@ btnode* buildTree(vector<int> pre, vector<int> in,int s,int e,int &idx){
 }
 
 int search_in_inorder(vector<int> in,int s,int e,int curr){
-    
+
     for(int i=s;i<=e;i++){
         if(in[i] == curr){
             return i;
@@ -3616,9 +3908,9 @@ void print_kth_level_of_bt(btnode* bt,int i){
 }
 
 void levelorder(btnode* bt){
-    
+
     int h = height_bt(bt);
-    
+
     for(int i=1;i<=h;i++){
         print_kth_level_of_bt(bt,i);
     }
@@ -3675,7 +3967,7 @@ int diameter_bt(btnode* bt){
     int rdia = diameter_bt(bt->right);
 
     return max(currdia,max(ldia,rdia));
-    
+
 }
 
 /*------------------------------------------------------------------------------------------------------------*/
@@ -3713,7 +4005,7 @@ int rearrange_elements_by_sign_sorted(int* a, int n){
     quicksort_array(neg,nl,0,nl-1);
 
     int index = 0;
-    
+
 
     if (pl < nl) {
         for (int i = 0; i < pl; i++) {
@@ -3724,7 +4016,7 @@ int rearrange_elements_by_sign_sorted(int* a, int n){
         for (int i = pl; i < nl; i++) {
             a[index++] = neg[i];
         }
-    } 
+    }
     else {
         for (int i = 0; i < nl; i++) {
             a[index++] = pos[i];
@@ -3737,31 +4029,7 @@ int rearrange_elements_by_sign_sorted(int* a, int n){
     }
 }
 
-void quicksort_array(int *a, int n,int b, int e){
 
-    if(n==0 || n == 1){
-        return;
-    }
-
-    if(b<e){
-        int pivot = pivot_quicksort_array(a,n,b,e);
-        quicksort_array(a,n,b,pivot-1);
-        quicksort_array(a,n,pivot+1,e);
-    }
-}
-
-int pivot_quicksort_array(int *a, int n, int b,int e){
-    int pivot = a[e];
-    int i = b-1;
-    for(int j=b;j<e;j++){
-        if(a[j]<pivot){
-            i++;
-            swap(a[i],a[j]);
-        }
-    }
-    swap(a[i+1],a[e]);
-    return (i+1);
-}
 
 void swap(int &a, int &b){
     int temp = a;
@@ -3888,6 +4156,16 @@ void lastar(int n){
     }
 }
 
+void pascal_triangle(int n){
+    for(int i=0;i<n+1;i++){
+
+        for(int j=0;j<=i;j++){
+            cout<<binomoal_coeff(i,j)<<" ";
+        }
+        cout<<endl;
+    }
+}
+
 void lexicographic_greater_permutation_main(){
     vector<int> v,ans;
     vector_input(v);
@@ -3936,23 +4214,6 @@ void lexicographic_greater_permutation(vector<int> &v,vector<int> &ans,vector<bo
             }
     }
 
-
-vector<int> leaders_in_array(int *a, int n){
-    vector<int> ans;
-
-    int max =  a[n-1];
-    ans.push_back(max);
-
-    for(int i=n-1;i>=0;i--){
-        if(a[i]>max){
-            max = a[i];
-            ans.push_back(max);
-        }
-    }
-    
-    return ans;
-}
-
 int longest_successive_elements(int *a, int n){
     if(n==0 || n==1){
         return n;
@@ -3980,32 +4241,6 @@ int longest_successive_elements(int *a, int n){
     return longest;
 }
 
-bool linear_search_array(int *a,int n,int num){
-    for(int i=0;i<n;i++){
-        if(a[i]==num){
-            return true;
-        }
-    }
-    return false;
-}
-
-int count_all_subarray_sum_k(int *a, int n, int k){
-
-    int cnt = 0;
-    int sum = 0;
-    for(int i=0;i<n;i++){
-        sum = 0; 
-        for(int j=i;j<n;j++){
-            sum += a[j];
-
-            if(sum == k){
-                cnt++;
-            }
-        }
-    }
-
-    return cnt;
-}
 
 /*------------------------------------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------------------*/
@@ -4123,6 +4358,123 @@ void print_matrix(int **a, int n, int m){
         }
         cout<<endl;
     }
+}
+
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
+
+
+int binomoal_coeff(int n,int k){
+    int res = 1;
+
+    if(k>n-k){
+        k = n-k;
+    }
+
+    for(int i=1;i<=k;i++){
+        res = res * (n-i+1)/i;
+    }
+
+    return res;
+}
+
+vector<int> majority_element_n3(int *a, int n){
+    map<int,int> mp; // Map the elements against it's count
+    vector<int> l;  // Result Vector, maximum there can be 3 elements with n/3 times occurance in the array but we will only take first 2.
+
+    int mini = (n/3) + 1;
+
+    for(int i=0;i<n;i++){
+        mp[a[i]]++;
+
+        if(mp[a[i]] == mini){
+            l.push_back(a[i]);
+        }
+
+        if(l.size() == 2){
+            break;
+        }
+    }
+
+    return l;
+}
+
+
+
+
+
+
+/*------------------------------------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------------------*/
+/* MAP OPERATIONS */
+
+map<int,int> map_input_int(){
+    int n;
+    cin>>n;
+
+    map<int,int> mp;
+
+    for(int i=0;i<n;i++){
+        int key;
+        int value;
+        cin>>key>>value;
+        mp[key] = value;
+    }
+
+    return mp;
+}
+
+void print_map_int(map<int,int> mp){
+
+    for(const auto& itr : mp){
+        cout<<itr.first<<"->"<<itr.second<<endl;
+    }
+
+    return;
+}
+
+int good_sequence_frequency_equals_number(int *a, int n){
+    unordered_map<int,int> mp;
+
+    for(int i=0;i<n;i++){
+        mp[a[i]]++;
+    }
+
+    int result = 0;
+
+    for(auto i=mp.begin();i!=mp.end();i++){
+
+        int num = i->first;
+        int count = i->second;
+
+        if(count == num){
+            continue;
+        }
+
+        else if(count>num){
+            result += count-num;
+        }
+
+        else{
+            result += count;
+        }
+    }
+
+    return result;
+}
+
+bool compare_value_sort_map_by_value(pair<int,int> a, pair<int,int> b){
+    return a.second < b.second;
+}
+
+void sort_map_by_value_int(map<int,int> mp){
+    vector<pair<int,int> > v;
+
+    for(auto& it: mp){
+        v.push_back(it);
+    }
+
+    sort(v.begin(),v.end(),compare_value_sort_map_by_value);
 }
 
 /*------------------------------------------------------------------------------------------------------------*/
