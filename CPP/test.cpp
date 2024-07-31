@@ -361,6 +361,10 @@ int height_bt(btnode*);
 int summ_all_nodes_bt(btnode*);
 int count_nodes_bt(btnode*);
 int diameter_bt(btnode*);
+btnode* insertnodebt(btnode*, int);
+void deleteDeepestNode(btnode*, btnode*);
+btnode* deletenodebt(btnode*,int);
+int getLevelNodebt(btnode*,int ,int);
 
 // Display the Binary Tree
 void preorder(btnode*);
@@ -416,7 +420,11 @@ void remove_duplicates_from_sorted_array(vector<int> &v);
 void frequency_of_number_in_array(int *,int);
 void move_all_the_zeros_to_right_array(int *,int);
 int count_max_consc_1s_array(int *, int);
-int rearrange_elements_by_sign_sorted(int*, int);
+void rearrange_elements_by_sign_sorted(int*, int);
+int subarrays_with_xor_k(int *, int , int );
+int count_inversions_in_array(int *, int );
+int count_inversions_in_array_mergesort(int*,int,int);
+int count_inversions_in_array_merge(int*,int,int,int);
 
 /* Algorithms */
 
@@ -829,7 +837,7 @@ int knapsack_problem(int,int ,vector<int> ,vector<int> );
 
 int trapping_rainwater(vector<int> &v);
 
-int top_left_to_bottom_right_no_blockage(int,int);
+int top_left_to_bottom_right_no_blockagThe(int,int);
 
 void find_highest_and_lowest_frequency_element(int *, int);
 
@@ -849,15 +857,15 @@ int longest_successive_elements(int *, int);
 
 int main()
 {
-    int n;
-    cin>>n;
 
-    int *a =  new int [n];
-    array_input(a,n);
+    vector<int> pre, in;
+    int k;
+    vector_input(pre);
+    vector_input(in);
 
-    int result = max_product_subarray(a,n);
-    cout<<result;
-
+    int idx = 0;
+    btnode* bt = buildTree(pre,in,0,pre.size()-1,idx);
+    
     return 0;
 }
 
@@ -1203,6 +1211,134 @@ int pivot_quicksort_array(int *a, int n, int b,int e){
     swap(a[i+1],a[e]);
     return (i+1);
 }
+
+
+int subarrays_with_xor_k(int *a, int n, int k){
+
+    /**
+    * Here, we will be using the concept of prefix XOR.
+    * xr: This variable holds the prefix XOR of subarray ending at index i
+    * cnt: Count the number of suba-arrays who's XOR is k.
+    * mp: A map to store how many times each prefix XOR value has occurred.
+    *
+    */
+
+    int xr = 0;
+    map<int, int> mp;
+    mp[xr]++;
+
+    /**
+    * This might come in your mind that why we are taking xr = 0 and, than incrementing it's value in the map.
+    * At the very beginning, before we start traversing throught the array xr = 0, hence we need to set mp[0] to 1,
+    * as initialization of the map.
+    *
+    * When we encounter a subarray from the start of the array whose XOR equals k, the prefix XOR upto the current index will be k.
+    * By initializing mp[0] = 1, we are able to consider the case when the prefix XOR upto the current index is k.
+    */
+
+    int cnt = 0;
+
+    for(int i=0;i<n;i++){
+        xr = xr ^ a[i]; // Calculate prefix XOR upto index i
+        int x = xr ^ k; // Find a value needed to obtain XOR k
+        cnt += mp[x]; // Add occurence of x to the count
+        mp[xr]++; // Update map with current prefix XOR
+    }
+
+    return cnt;
+}
+
+
+
+int count_inversions_in_array(int *a, int n){
+
+    // Time Complexity of this problem is O(nlogn).
+    // Space Complexity of this problem is O(n).
+
+    /**
+     * We will be using the concept of divide and conquer to solve this problem via merge sort.
+     * We will count the number of inversions while merging the two sorted arrays.
+     * Will use a temp array to store the elements of 2 sorted array after merging.
+     * The range of the `lar` array is left to mid and `rar` array is mid+1 to right.
+     * Using the two-pointers, we select 2 elements from each half,
+     * and consider the smallest among them, and insert it into the temp array.
+     * After that, remaining elements in both the halfs will be copied as it is into the temp array.
+     * Now, just transfer the elements of the temp array to range left to right in the original array.
+    */
+
+
+    return count_inversions_in_array_mergesort(a,0,n-1);
+
+    /*
+
+    Brute Force Approach
+
+    int count = 0; // Count the nuumber of inversions
+
+    for(int i=0;i<n;i++){
+
+        for(int j=i+1;j<n;j++){
+
+            if(a[i]>a[j]){
+                count++;
+            }
+        }
+    }
+
+    return count;
+
+    */
+}
+
+
+int count_inversions_in_array_mergesort(int *a, int b, int e) {
+    int cnt = 0;
+    if (b >= e) {
+        return cnt;
+    }
+    int mid = (b + e) / 2;
+    cnt += count_inversions_in_array_mergesort(a, b, mid);
+    cnt += count_inversions_in_array_mergesort(a, mid + 1, e);
+    cnt += count_inversions_in_array_merge(a, b, mid, e);
+
+    return cnt;
+}
+
+int count_inversions_in_array_merge(int *a, int l, int m, int e) {
+    vector<int> temp;
+    int left = l;
+    int right = m + 1;
+    int cnt = 0;
+
+    while (left <= m && right <= e) {
+        if (a[left] <= a[right]) {
+            temp.push_back(a[left]);
+            left++;
+        } else {
+            temp.push_back(a[right]);
+            cnt += m - left + 1;
+            right++;
+        }
+    }
+
+    while (left <= m) {
+        temp.push_back(a[left]);
+        left++;
+    }
+
+    while (right <= e) {
+        temp.push_back(a[right]);
+        right++;
+    }
+
+    for (int i = l; i <= e; i++) {
+        a[i] = temp[i - l];
+    }
+
+    return cnt;
+}
+
+
 
 /*------------------------------------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------------------*/
@@ -2686,6 +2822,7 @@ int tiling_problem(int n, int m){
             count[i] = 2;
         }
     }
+    return count[n];
 }
 
 int ways_to_reach_nth_stair_by_taking_atmost_k_steps(int n, int k){
@@ -3815,7 +3952,7 @@ int minimum_add_make_paranthesis_valid(string &s){
 btnode* buildTree(vector<int> pre, vector<int> in,int s,int e,int &idx){
 
     if(s>e || idx >= pre.size() || pre[idx] == -1){
-        idx++;
+        if (idx < pre.size()){idx++;}
         return NULL; // s>e this means that the subtree is non-existent.
     }
 
@@ -3853,7 +3990,7 @@ void preorder(btnode* root){
 
     cout<<root->data<<" ";
     preorder(root->left);
-    preorder(root->right);;
+    preorder(root->right);
 }
 
 // Inorder Traversal of the Binary Tree
@@ -3970,6 +4107,197 @@ int diameter_bt(btnode* bt){
 
 }
 
+btnode* insertnodebt(btnode* bt, int data){
+
+    // If the tree is empty since the begining itself, the current node being inserted will become the root node.
+    if(bt == NULL){
+        bt = new btnode(data);
+        return bt;
+    }
+
+    /**
+     * Else, we do a level order traversal of the Binary Tree, untill we find a child place empty or missing.
+     * */
+
+    queue<btnode*> q;
+    q.push(bt);
+
+    while(!q.empty()){
+        btnode* temp = q.front();
+        q.pop();
+
+        if(temp->left != NULL){
+            q.push(temp->left);
+        }
+
+        // If the left child of the Binary Tree is missing insert it as the left child.
+
+        else{
+            temp->left = new btnode(data);
+            return bt;
+        }
+
+
+        if(temp->right != NULL){
+            q.push(temp->right);
+        }
+
+
+        // If the right child of the Binary Tree is missing inser it as the right child.
+
+        else{
+            temp->right = new btnode(data);
+            return bt;
+        }
+    }
+
+    return bt;
+
+}
+
+btnode* deletenodebt(btnode* bt, int k){
+
+    // If the tree is empty. return NULL
+    if(bt==NULL){
+        return NULL;
+    }
+
+    // If the tree has only one node
+    if(bt->left == NULL && bt->right == NULL){
+        if(bt->data == k){
+            // If the node to be deleted is the root node, return NULL
+            return NULL;
+        }
+
+        // Otherwise return the root node itself
+        else{
+            return bt;
+        }
+    }
+
+    // We will do level order traversal of the tree
+    queue<btnode*> q;
+    q.push(bt);
+
+    btnode* temp;
+    btnode* key = NULL; // Will store the node to be deleted.
+
+    // We will do level order traversal to find the deepest node, anb the node to be deleted.
+
+    while(!q.empty()){
+        temp = q.front();
+        q.pop();
+
+        // If the node with value to be deleted is found stor it's reference.
+        if(temp->data == k){
+            key = temp;
+        }
+
+        // Push left and right child of the node to the queue, it they exist.
+        if(temp->left){
+            q.push(temp->left);
+        }
+
+        if(temp->right){
+            q.push(temp->right);
+        }
+    }
+
+    // If the node to be deleted is found 
+    if(key != NULL){
+        // Replace the key node with the deepest node, which is temp right now.
+        int x =  temp->data;
+        key->data = x;
+        // Now, delete the deepest node in the tree.
+        deleteDeepestNode(bt,temp);
+    }
+
+    // Return the modified tree.
+    return bt;
+
+}
+
+void deleteDeepestNode(btnode* bt, btnode* dnode){
+    
+    queue<btnode*> q;
+    q.push(bt);
+
+    // Level order traversal to find the deepest node.
+    btnode* temp;
+    while(!q.empty()){
+        temp = q.front();
+        q.pop();
+
+        // If, we found the deepest node, delete it.
+        if(temp == dnode){
+            temp = NULL;
+            delete(dnode);
+            return;
+        }
+
+        // If the right child exists
+        if(temp->right){
+            
+            // If the right child is the deepest node, delete it.
+            if(temp->right ==  dnode){
+                temp->right = NULL;
+                delete(dnode);
+                return;
+            }
+
+            // If not put it into the queue.
+            else{
+                q.push(temp->right);
+            }
+        }
+
+        // If the left child exists
+        if(temp->left){
+
+            // If the left child is the deepest node, delete it.
+            if(temp->left == dnode){
+                temp->left = NULL;
+                delete(dnode);
+                return;
+            }
+
+            // If not put it into the queue.
+            else{
+                q.push(temp->left);
+            }
+        }
+    }
+}
+
+int getLevelNodebt(btnode* temp,int k,int level){
+
+    // If the tree is empty, return 0
+    if(temp == NULL){
+        return 0;
+    }
+
+    // If the current node is the node to be searched, return the level.
+    if(temp->data == k){
+        return level;
+    }
+
+    // Recursively check in the left subtree, increasing the level by 1.
+    int downlevel = getLevelNodebt(temp->left,k,level+1);
+    // If the node is found in the left subtree, return the level.
+    if(downlevel){
+        return downlevel;
+    }
+
+    // Recursively check in the Right subtree, increasing the level by 1.
+    downlevel = getLevelNodebt(temp->right,k,level+1);
+    
+    if(downlevel){
+        return downlevel;
+    }
+
+    return 0;
+}
+
 /*------------------------------------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------------------*/
 
@@ -3985,11 +4313,10 @@ int stock_buy_and_sell(int *a, int n){
     return max_profit;
 }
 
-int rearrange_elements_by_sign_sorted(int* a, int n){
+void rearrange_elements_by_sign_sorted(int* a, int n){
     int* pos = new int [n];
     int* neg = new int [n];
     int nl = 0, pl = 0;
-
     for(int i=0;i<n;i++){
         if(a[i]<0){
             neg[nl] = a[i];
