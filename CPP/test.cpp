@@ -851,6 +851,8 @@ void lexicographic_greater_permutation(vector<int> &v,vector<int> &ans,vector<bo
 
 int longest_successive_elements(int *, int);
 
+int first_non_repeating_character(string);
+
 /*****************************************************************************************************************/
 /******************************** MAIN SECTION OF PROGRAM ********************************************************/
 /*****************************************************************************************************************/
@@ -865,6 +867,7 @@ int main()
 
     int idx = 0;
     btnode* bt = buildTree(pre,in,0,pre.size()-1,idx);
+    preorder(bt);
     
     return 0;
 }
@@ -4806,3 +4809,21 @@ void sort_map_by_value_int(map<int,int> mp){
 
 /*------------------------------------------------------------------------------------------------------------*/
 /*------------------------------------------------------------------------------------------------------------*/
+
+int first_non_repeating_character(string s){
+    unordered_map<char,int> mp;
+
+    for(int i=0;i<s.length();i++){
+        mp[s[i]]++;
+    }
+
+    for(int i=0;i<s.length();i++){
+        if(mp[s[i]] == 1){
+            return i;
+        }
+    }
+
+    return 0;
+    // Time Complexity is O(n).
+    // Space Complexity is O(n).
+}
