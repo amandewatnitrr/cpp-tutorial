@@ -16,6 +16,50 @@
 	"buffers":
 	[
 		{
+			"contents": "Package Control Messages\n========================\n\n\nBracketHighlighter\n------------------\n\n  # BracketHighlighter 2.32.0\n  \n  New release!\n  \n  A restart might be required. If you see issues immediately after the update  \n  please try restarting.\n  \n  ## 2.32\n  \n  - **NEW**: Opt in to Python 3.8.\n  - **FIX**: Fix issues with \"SINUMERIK840D\" language.\n\n\nTheme - Monokai Pro\n-------------------\n\n  Monokai Pro\n  ===========\n  \n  ✨ Step Into the Light ✨\n  -------------------------\n  \n  Say hello to the official Monokai Pro Light theme. Ideal for coding in\n  bright environments or for those who prefer a lighter look. With the\n  additional \"Sun\" filter, you'll also get a warm coding experience.\n  \n  \n  Carefully calibrated for light environments\n  -------------------------------------------\n  \n  Monokai Pro Light is thoughtfully designed to make your workspace feel\n  comfortable in bright light. Whether you're working in natural\n  daylight or just prefer a brighter interface, this theme ensures\n  clarity and focus every step of the way.\n  \n  \n  One-time registration\n  ---------------------\n  \n  Upgrade your coding environment with a lifetime license to Monokai\n  Pro and remove all pop-up messages. Register now and enjoy forever:\n  https://monokai.pro/sublime-text\n\n\nTheme - Spacegray\n-----------------\n\n  New in Spacegray 2.0.0:\n  \n    !!! No longer supports ST2 or ST3 !!!\n    Latest ST3 supporting version is 1.3.5.\n  \n    - refactored color schemes\n  \n      * converted to *.sublime-color-scheme format\n      * various customization and rule updates to adjust to recent scope changes\n      * enables overrides via `UI: Customize Color Scheme`\n      * easier maintenance\n  \n    - refactored themes\n  \n      * define base16 palette using variables\n      * support for most ST4+ UI elements\n      * save a lot of lines of code\n  \n    - refactored theme customization and settings\n  \n      * added `font_face` and `font_size` variables for sublime-themes\n      * use most default ST4 theme settings\n      * rename Spacegray related settings to `theme.spacegray. ...`\n      * replace various boolean settings by real value settings\n  \n      Please refer to [README](https://github.com/SublimeText/Spacegray/blob/main/README.md) for details.\n  \n  Fixes\n  \n    - all out-standing github issues are fixed\n\n  New in Spacegray 1.4.0:\n  \n    - VS Code style sidebar VCS coloring\n  \n      Enable by adding this to your settings:\n      \"spacegray_sidebar_vcs_label\": true,\n  \n      And if you also want to color expanded folders:\n      \"spacegray_sidebar_vcs_expanded\": true,\n  \n  Fixes\n  \n    - Fix indentation issue in \"spacegray_fileicons\"\n",
+			"settings":
+			{
+				"buffer_size": 2646,
+				"line_ending": "Unix",
+				"name": "Package Control Messages",
+				"read_only": true,
+				"scratch": true
+			},
+			"undo_stack":
+			[
+				[
+					1,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nBracketHighlighter\n------------------\n\n  # BracketHighlighter 2.32.0\n  \n  New release!\n  \n  A restart might be required. If you see issues immediately after the update  \n  please try restarting.\n  \n  ## 2.32\n  \n  - **NEW**: Opt in to Python 3.8.\n  - **FIX**: Fix issues with \"SINUMERIK840D\" language.\n"
+					},
+					"AQAAAAAAAAAAAAAAYQEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					4,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nTheme - Monokai Pro\n-------------------\n\n  Monokai Pro\n  ===========\n  \n  ✨ Step Into the Light ✨\n  -------------------------\n  \n  Say hello to the official Monokai Pro Light theme. Ideal for coding in\n  bright environments or for those who prefer a lighter look. With the\n  additional \"Sun\" filter, you'll also get a warm coding experience.\n  \n  \n  Carefully calibrated for light environments\n  -------------------------------------------\n  \n  Monokai Pro Light is thoughtfully designed to make your workspace feel\n  comfortable in bright light. Whether you're working in natural\n  daylight or just prefer a brighter interface, this theme ensures\n  clarity and focus every step of the way.\n  \n  \n  One-time registration\n  ---------------------\n  \n  Upgrade your coding environment with a lifetime license to Monokai\n  Pro and remove all pop-up messages. Register now and enjoy forever:\n  https://monokai.pro/sublime-text\n"
+					},
+					"AQAAAGEBAAAAAAAA/QQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAvwAAAAAAAAC/AAAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					5,
+					1,
+					"package_control_message",
+					{
+						"message": "\n\nTheme - Spacegray\n-----------------\n\n  New in Spacegray 2.0.0:\n  \n    !!! No longer supports ST2 or ST3 !!!\n    Latest ST3 supporting version is 1.3.5.\n  \n    - refactored color schemes\n  \n      * converted to *.sublime-color-scheme format\n      * various customization and rule updates to adjust to recent scope changes\n      * enables overrides via `UI: Customize Color Scheme`\n      * easier maintenance\n  \n    - refactored themes\n  \n      * define base16 palette using variables\n      * support for most ST4+ UI elements\n      * save a lot of lines of code\n  \n    - refactored theme customization and settings\n  \n      * added `font_face` and `font_size` variables for sublime-themes\n      * use most default ST4 theme settings\n      * rename Spacegray related settings to `theme.spacegray. ...`\n      * replace various boolean settings by real value settings\n  \n      Please refer to [README](https://github.com/SublimeText/Spacegray/blob/main/README.md) for details.\n  \n  Fixes\n  \n    - all out-standing github issues are fixed\n\n  New in Spacegray 1.4.0:\n  \n    - VS Code style sidebar VCS coloring\n  \n      Enable by adding this to your settings:\n      \"spacegray_sidebar_vcs_label\": true,\n  \n      And if you also want to color expanded folders:\n      \"spacegray_sidebar_vcs_expanded\": true,\n  \n  Fixes\n  \n    - Fix indentation issue in \"spacegray_fileicons\"\n"
+					},
+					"AQAAAP0EAAAAAAAAVgoAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAvwAAAAAAAAC/AAAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		},
+		{
 			"file": "/Users/akd/Github/cpp-tutorial/CPP/test.cpp",
 			"redo_stack":
 			[
@@ -27,7 +71,7 @@
 						"file": "res://Packages/Default/Add Line.sublime-macro"
 					},
 					"AwAAAOdhAAAAAAAA62EAAAAAAAAAAAAA7GEAAAAAAADsYQAAAAAAAAQAAAAgICAg62EAAAAAAADrYQAAAAAAAAEAAAAK",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADsYQAAAAAAAOxhAAAAAAAAAAAAAAAA8L8"
+					"BAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAA7GEAAAAAAADsYQAAAAAAAAAAAAAAAPC/"
 				],
 				[
 					16,
@@ -37,7 +81,7 @@
 						"file": "res://Packages/Default/Add Line.sublime-macro"
 					},
 					"AwAAAOZhAAAAAAAA6mEAAAAAAAAAAAAA62EAAAAAAADrYQAAAAAAAAQAAAAgICAg6mEAAAAAAADqYQAAAAAAAAEAAAAK",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADrYQAAAAAAAOthAAAAAAAAAAAAAAAA8L8"
+					"BAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAA62EAAAAAAADrYQAAAAAAAAAAAAAAAPC/"
 				],
 				[
 					13,
@@ -47,7 +91,7 @@
 						"file": "res://Packages/Default/Add Line.sublime-macro"
 					},
 					"AgAAAOZhAAAAAAAA5mEAAAAAAAAEAAAAICAgIOVhAAAAAAAA5WEAAAAAAAABAAAACg",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAADqYQAAAAAAAOphAAAAAAAAAAAAAAAA8L8"
+					"BAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAA6mEAAAAAAADqYQAAAAAAAAAAAAAAAPC/"
 				]
 			],
 			"settings":
@@ -83,7 +127,7 @@
 						"use_debugger": false
 					},
 					"AQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					5,
@@ -94,7 +138,7 @@
 						"text": "7\n10 11 7 -1 9 15 8\n7\n7 11 -1 10 15 9 8\n12\n"
 					},
 					"AQAAAAEAAAAAAAAALAAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAAQAAAAAAAAABAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					8,
@@ -105,7 +149,7 @@
 						"text": "1"
 					},
 					"AQAAACwAAAAAAAAALQAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAALAAAAAAAAAAsAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAACwAAAAAAAAALAAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					11,
@@ -116,7 +160,7 @@
 						"text": "0 11 7 9 15 8 "
 					},
 					"AQAAAC0AAAAAAAAAOwAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAALQAAAAAAAAAtAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAC0AAAAAAAAALQAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					14,
@@ -132,7 +176,7 @@
 						"text": "7\n10 11 7 -1 9 15 8\n7\n7 11 -1 10 15 9 8\n12\n\n10 11 7 9 15 8\n\n"
 					},
 					"AQAAAAEAAAAAAAAAPQAAAAAAAAA6AAAANwoxMCAxMSA3IC0xIDkgMTUgOAo3CjcgMTEgLTEgMTAgMTUgOSA4CjEyCjEwIDExIDcgOSAxNSA4IA",
-					"AQAAAAAAAAABAAAAOwAAAAAAAAA7AAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAADsAAAAAAAAAOwAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					19,
@@ -143,7 +187,7 @@
 						"text": "7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n5\n"
 					},
 					"AQAAAD0AAAAAAAAAYQAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAPQAAAAAAAAA9AAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAD0AAAAAAAAAPQAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					22,
@@ -154,7 +198,7 @@
 						"text": "1 2 4 3 6 7 "
 					},
 					"AQAAAGEAAAAAAAAAbQAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAYQAAAAAAAABhAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAGEAAAAAAAAAYQAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					25,
@@ -170,7 +214,7 @@
 						"text": "7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n5\n\n1 2 4 3 6 7\n\n"
 					},
 					"AQAAAD0AAAAAAAAAbwAAAAAAAAAwAAAANwoxIDIgNCAtMSAzIDYgNwo3CjQgMiAtMSAxIDYgMyA3CjUKMSAyIDQgMyA2IDcg",
-					"AQAAAAAAAAABAAAAbQAAAAAAAABtAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAG0AAAAAAAAAbQAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					39,
@@ -182,7 +226,7 @@
 						"id": 0
 					},
 					"AgAAAAEAAAAAAAAAAQAAAAAAAAA8AAAANwoxMCAxMSA3IC0xIDkgMTUgOAo3CjcgMTEgLTEgMTAgMTUgOSA4CjEyCgoxMCAxMSA3IDkgMTUgOAoKAQAAAAAAAAA0AAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAKwAAAAAAAAABAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAACsAAAAAAAAAAQAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					55,
@@ -198,7 +242,7 @@
 						"text": ""
 					},
 					"AQAAAAEAAAAAAAAAAQAAAAAAAAAzAAAANwoxIDIgNCAtMSAzIDYgNwo3CjQgMiAtMSAxIDYgMyA3CgoxMCAxMSA3IDkgMTUgOAoK",
-					"AQAAAAAAAAABAAAAMgAAAAAAAAAkAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAADIAAAAAAAAAJAAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					58,
@@ -214,7 +258,7 @@
 						"text": "\n\n"
 					},
 					"AQAAAAAAAAAAAAAAAgAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAMwAAAAAAAAAzAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAADMAAAAAAAAAMwAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					61,
@@ -225,7 +269,7 @@
 						"text": "7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n"
 					},
 					"AQAAAAEAAAAAAAAAIwAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAAQAAAAAAAAABAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAEAAAAAAAAAAQAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					64,
@@ -236,7 +280,7 @@
 						"text": "1"
 					},
 					"AQAAACMAAAAAAAAAJAAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAIwAAAAAAAAAjAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAACMAAAAAAAAAIwAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					67,
@@ -247,7 +291,7 @@
 						"text": " 2 4 3 6 7 "
 					},
 					"AQAAACQAAAAAAAAALwAAAAAAAAAAAAAA",
-					"AQAAAAAAAAABAAAAJAAAAAAAAAAkAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAACQAAAAAAAAAJAAAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					70,
@@ -263,7 +307,7 @@
 						"text": "7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n\n1 2 4 3 6 7"
 					},
 					"AQAAAAEAAAAAAAAALwAAAAAAAAAuAAAANwoxIDIgNCAtMSAzIDYgNwo3CjQgMiAtMSAxIDYgMyA3CjEgMiA0IDMgNiA3IA",
-					"AQAAAAAAAAABAAAALwAAAAAAAAAvAAAAAAAAAAAAAAAAAPC/"
+					"AwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAC8AAAAAAAAALwAAAAAAAAAAAAAAAADwvw"
 				]
 			]
 		}
@@ -328,7 +372,7 @@
 			]
 		]
 	],
-	"build_varint": "Run",
+	"build_varint": "",
 	"command_palette":
 	{
 		"height": 0.0,
@@ -447,7 +491,7 @@
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 30.0
 	},
 	"find_in_files":
 	{
@@ -485,8 +529,136 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/Users/akd/Github/cpp-tutorial/CPP/test.cpp",
 					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2646,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								191,
+								191
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
+							"auto_indent": false,
+							"bracket_highlighter.busy": false,
+							"bracket_highlighter.locations":
+							{
+								"close":
+								{
+								},
+								"icon":
+								{
+								},
+								"open":
+								{
+								},
+								"unmatched":
+								{
+								}
+							},
+							"bracket_highlighter.regions":
+							[
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_angle_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_round_content",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close",
+								"bh_single_quote_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_unmatched_content"
+							],
+							"color_helper.refresh": true,
+							"color_helper.scan":
+							{
+								"allow_scanning": false,
+								"color_class":
+								[
+									{
+										"class": "css-level-4",
+										"scopes": ""
+									}
+								],
+								"color_trigger": "(?xi)\n(?:\n    \\b(?<![-#&$])(?:\n        color\\((?!\\s*-)|(?:hsla?|(?:ok)?(?:lch|lab)|hwb|rgba?)\\(\n) |\n\\b(?<![-#&$])[\\w]{3,}(?![(-])\\b|(?<![&])\\#)\n",
+								"current_ext": null,
+								"current_syntax": "Text/Plain text",
+								"enabled": true,
+								"last_updated": 1745541162.14,
+								"scanning": "-comment"
+							},
+							"default_dir": "/Users/akd/Github/cpp-tutorial",
+							"gutter": false,
+							"rainbow_checked": true,
+							"rainbowth.lispy": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_width": 2,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 758.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/akd/Github/cpp-tutorial/CPP/test.cpp",
 					"semi_transient": false,
 					"settings":
 					{
@@ -578,23 +750,6 @@
 								"bh_round_content"
 							],
 							"color_helper.refresh": true,
-							"color_helper.scan":
-							{
-								"allow_scanning": false,
-								"color_class":
-								[
-									{
-										"class": "css-level-4",
-										"scopes": ""
-									}
-								],
-								"color_trigger": "(?xi)\n(?:\n    \\b(?<![-#&$])(?:\n        color\\((?!\\s*-)|(?:hsla?|(?:ok)?(?:lch|lab)|hwb|rgba?)\\(\n) |\n\\b(?<![-#&$])[\\w]{3,}(?![(-])\\b|(?<![&])\\#)\n",
-								"current_ext": ".cpp",
-								"current_syntax": "C++/C++",
-								"enabled": true,
-								"last_updated": 1722754550.27,
-								"scanning": "-comment"
-							},
 							"color_scheme": "Monokai Pro (Filter Spectrum).sublime-color-scheme",
 							"rainbow_checked": true,
 							"rainbowth.lispy": false,
@@ -603,10 +758,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 14526.5,
+						"translation.y": 14531.5,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 1,
 					"stack_multiselect": false,
 					"type": "text"
 				}
@@ -616,7 +771,7 @@
 			"sheets":
 			[
 				{
-					"buffer": 1,
+					"buffer": 2,
 					"selected": true,
 					"semi_transient": false,
 					"settings":
@@ -652,46 +807,26 @@
 							},
 							"bracket_highlighter.regions":
 							[
-								"bh_tag",
-								"bh_tag_center",
-								"bh_tag_open",
-								"bh_tag_close",
-								"bh_tag_content",
-								"bh_default",
-								"bh_default_center",
-								"bh_default_open",
-								"bh_default_close",
-								"bh_default_content",
-								"bh_curly",
-								"bh_curly_center",
-								"bh_curly_open",
-								"bh_curly_close",
-								"bh_curly_content",
-								"bh_c_define",
-								"bh_c_define_center",
-								"bh_c_define_open",
-								"bh_c_define_close",
-								"bh_c_define_content",
-								"bh_double_quote",
-								"bh_double_quote_center",
-								"bh_double_quote_open",
-								"bh_double_quote_close",
-								"bh_double_quote_content",
-								"bh_regex",
-								"bh_regex_center",
-								"bh_regex_open",
-								"bh_regex_close",
-								"bh_regex_content",
-								"bh_square",
-								"bh_square_center",
-								"bh_square_open",
-								"bh_square_close",
-								"bh_square_content",
 								"bh_unmatched",
 								"bh_unmatched_center",
 								"bh_unmatched_open",
 								"bh_unmatched_close",
 								"bh_unmatched_content",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_c_define_content",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_curly_content",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_double_quote_content",
 								"bh_angle",
 								"bh_angle_center",
 								"bh_angle_open",
@@ -702,29 +837,34 @@
 								"bh_single_quote_open",
 								"bh_single_quote_close",
 								"bh_single_quote_content",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_square_content",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_regex_content",
 								"bh_round",
 								"bh_round_center",
 								"bh_round_open",
 								"bh_round_close",
-								"bh_round_content"
+								"bh_round_content",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_tag_content",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_default_content"
 							],
-							"color_helper.scan":
-							{
-								"allow_scanning": false,
-								"color_class":
-								[
-									{
-										"class": "css-level-4",
-										"scopes": ""
-									}
-								],
-								"color_trigger": "(?xi)\n(?:\n    \\b(?<![-#&$])(?:\n        color\\((?!\\s*-)|(?:hsla?|(?:ok)?(?:lch|lab)|hwb|rgba?)\\(\n) |\n\\b(?<![-#&$])[\\w]{3,}(?![(-])\\b|(?<![&])\\#)\n",
-								"current_ext": null,
-								"current_syntax": "FastOlympicCoding/TestSyntax",
-								"enabled": true,
-								"last_updated": 1722754550.27,
-								"scanning": "-comment"
-							},
+							"color_helper.refresh": true,
+							"color_scheme": "Mariana.sublime-color-scheme",
 							"default_dir": "/Users/akd/Github/cpp-tutorial/CPP",
 							"delete_forb": true,
 							"edit_mode": false,
@@ -748,7 +888,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 26.0
+		"height": 30.0
 	},
 	"input":
 	{
@@ -800,7 +940,7 @@
 	"project": "cpp-tutorial.sublime-project",
 	"replace":
 	{
-		"height": 48.0
+		"height": 56.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -830,14 +970,14 @@
 		],
 		"width": 0.0
 	},
-	"selected_group": 1,
+	"selected_group": 0,
 	"settings":
 	{
 	},
 	"show_minimap": true,
 	"show_open_files": true,
 	"show_tabs": true,
-	"side_bar_visible": false,
+	"side_bar_visible": true,
 	"side_bar_width": 240.0,
 	"status_bar_visible": true,
 	"template_settings":

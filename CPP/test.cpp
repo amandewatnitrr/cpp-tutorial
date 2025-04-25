@@ -864,7 +864,6 @@ int main()
     int k;
     vector_input(pre);
     vector_input(in);
-
     int idx = 0;
     btnode* bt = buildTree(pre,in,0,pre.size()-1,idx);
     preorder(bt);
