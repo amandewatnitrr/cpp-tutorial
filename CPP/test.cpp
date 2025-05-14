@@ -841,6 +841,9 @@ int top_left_to_bottom_right_no_blockagThe(int,int);
 
 void find_highest_and_lowest_frequency_element(int *, int);
 
+int array_into_k_subarrays_minimize_total_cost(int *, int, int);
+int solve_array_into_k_subarrays_minimize_total_cost(int *,int ,int, int );
+
 int stock_buy_and_sell(int *, int);
 
 vector<int> _2sum(vector<int> &, int);
@@ -853,6 +856,8 @@ int longest_successive_elements(int *, int);
 
 int first_non_repeating_character(string);
 
+int minimum_deletes_for_atmost_k_distinct_characters(string s, int k);
+
 /*****************************************************************************************************************/
 /******************************** MAIN SECTION OF PROGRAM ********************************************************/
 /*****************************************************************************************************************/
@@ -860,14 +865,13 @@ int first_non_repeating_character(string);
 int main()
 {
 
-    vector<int> pre, in;
     int k;
-    vector_input(pre);
-    vector_input(in);
-    int idx = 0;
-    btnode* bt = buildTree(pre,in,0,pre.size()-1,idx);
-    preorder(bt);
-    
+    string s;
+
+    input_string(s);
+    cin>>k;
+    cout<<"Minimum number of deletions: "<<minimum_deletes_for_atmost_k_distinct_characters(s,k);
+
     return 0;
 }
 
@@ -2351,6 +2355,128 @@ void combination_sum_39_leetcode(int i,int target,vector<int>& ans,vector<int>& 
         combination_sum_39_leetcode(i+1,target,ans,v,ansm);
 
     }
+
+int array_into_k_subarrays_minimize_total_cost(int *ar, int n, int k) {
+
+
+
+    /*
+     * We need to divide an array exactly into `k` subarrays such that the total cost defined as the sum of the squares
+     * of the sums of the squares of the sums of each subarray is minimized.
+     *
+     * k here represents the number of subarrays it must be divided into.
+     *
+     */
+
+
+    // Create prefix sum array
+
+    int *prefix = new int[n+1];
+    prefix[0] = 0;
+
+    // Populate prefix sums
+    for (int i=0; i<n; i++) {
+        prefix[i+1] = prefix[i] + ar[i];
+    }
+
+    // Now, recursively calculate from 0 index with k splits
+    return solve_array_into_k_subarrays_minimize_total_cost(prefix, 0, k, n);
+
+
+}
+int solve_array_into_k_subarrays_minimize_total_cost(int *prefix, int start, int sl, int n) {
+
+    // This is the function to recursively calculate the minimum cost.
+    // start: current starting index in the array
+    // sl: remaining subarrays to create
+    // prefix: array storing the cummulative sums
+
+    if (sl == 1) {
+        int sum = prefix[n] - prefix[start];
+        return pow(sum,2);
+    }
+
+    int min_total =  INT_MAX;
+
+    // Calculate last valid split position (ensure enough elements left)
+    int end = n - sl;
+
+    // Try all possible split points between [start, end]
+    for (int i = start; i<=end; i++) {
+        // Calculate sum and cost of current subarray
+        int csum = prefix[i+1] - prefix[start];
+        int ccost = pow(csum,2);
+
+        // Recursively calculate cost of remaining subarrays
+        int rcost = solve_array_into_k_subarrays_minimize_total_cost(prefix,i+1,sl-1,n);
+
+        // Keep looking for Minimum Cost
+        if (ccost + rcost < min_total) {
+            min_total = ccost + rcost;
+        }
+
+    }
+
+    return min_total;
+}
+
+int minimum_deletes_for_atmost_k_distinct_characters(string s, int k) {
+    /*
+     * You are given a string s consisting of lowercase English letters, and an integer k.
+     * Your task is to delete some (possibly none) of the characters in the string so that the number of distinct characters in the resulting string is at most k.
+     * Return the minimum number of deletions required to achieve this.
+     *
+     * Input: s = "abc", k = 2
+     * Output: 1
+     *
+     * Input: s = "yyyzz", k = 1
+     * Output: 2
+     *
+     *
+     */
+
+    // Count the frequency of each character in the string
+
+    unordered_map<char, int> freq;
+    for (char c : s) {
+        freq[c]++;
+    }
+
+    // Extract the frequencies into a vector for sorting
+
+    vector<int> counts;
+    for (auto &p : freq) {
+        counts.push_back(p.second);
+    }
+
+    // Sort frequencies in descending order to prioritize the most frequent characters
+    sort(counts.rbegin(), counts.rend());
+
+
+    // If there are k or fewer distinct characters, no deletions needed
+    if (counts.size() <= k) {
+        return 0;
+    }
+
+    // Calculate the sum of the top k most frequent character counts
+    int sum_top_k = 0;
+    for (int i = 0; i < k; ++i) {
+        sum_top_k += counts[i];
+    }
+
+    // Calculate total characters in the original string
+    int total_chars = 0;
+    for (int count : counts) {
+        total_chars += count;
+    }
+
+    return total_chars - sum_top_k;
+
+
+}
+
+
+
 void combination_sum_II_40_leetcode(int i,int target,vector<int>& ans,vector<int>& v,vector<vector<int> >& ansm)
     {
         /*
@@ -2860,6 +2986,8 @@ int ways_to_reach_nth_stair_by_taking_atmost_k_steps(int n, int k){
     }
     return pw[n];
 }
+
+
 
 void two_elements_whose_sum_closest_to_0(vector<int> &v){
     int sum, min_sum= INT_MAX;
