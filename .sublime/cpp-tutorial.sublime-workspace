@@ -27,7 +27,7 @@
 						"file": "res://Packages/Default/Add Line.sublime-macro"
 					},
 					"AwAAAOdhAAAAAAAA62EAAAAAAAAAAAAA7GEAAAAAAADsYQAAAAAAAAQAAAAgICAg62EAAAAAAADrYQAAAAAAAAEAAAAK",
-					"BwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAA7GEAAAAAAADsYQAAAAAAAAAAAAAAAPC/"
+					"CQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAOxhAAAAAAAA7GEAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					16,
@@ -37,7 +37,7 @@
 						"file": "res://Packages/Default/Add Line.sublime-macro"
 					},
 					"AwAAAOZhAAAAAAAA6mEAAAAAAAAAAAAA62EAAAAAAADrYQAAAAAAAAQAAAAgICAg6mEAAAAAAADqYQAAAAAAAAEAAAAK",
-					"BwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAA62EAAAAAAADrYQAAAAAAAAAAAAAAAPC/"
+					"CQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAOthAAAAAAAA62EAAAAAAAAAAAAAAADwvw"
 				],
 				[
 					13,
@@ -47,21 +47,21 @@
 						"file": "res://Packages/Default/Add Line.sublime-macro"
 					},
 					"AgAAAOZhAAAAAAAA5mEAAAAAAAAEAAAAICAgIOVhAAAAAAAA5WEAAAAAAAABAAAACg",
-					"BwAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAA6mEAAAAAAADqYQAAAAAAAAAAAAAAAPC/"
+					"CQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwvwAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8AAAAAAQAAAOphAAAAAAAA6mEAAAAAAAAAAAAAAADwvw"
 				]
 			],
 			"settings":
 			{
-				"buffer_size": 116743,
+				"buffer_size": 120744,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"contents": "\n7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n\n1 2 4 3 6 7\n\n7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n5\n\n1 2 4 3 6 7\n\n",
+			"contents": "\n7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n\nMinimum number of deletions: 0\n\n7\n1 2 4 -1 3 6 5\n7\n4 2 -1 1 6 3 5\n5\n\nMinimum number of deletions: 0\n\n",
 			"settings":
 			{
-				"buffer_size": 99,
+				"buffer_size": 137,
 				"line_ending": "Unix",
 				"name": "test.cpp -run",
 				"read_only": true,
@@ -83,7 +83,7 @@
 						"use_debugger": false
 					},
 					"AQAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8L8"
+					"AQAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/"
 				],
 				[
 					5,
@@ -94,7 +94,7 @@
 						"text": "7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n"
 					},
 					"AQAAAAEAAAAAAAAAIwAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAABAAAAAAAAAAEAAAAAAAAAAAAAAAAA8L8"
+					"AQAAAAAAAAABAAAAAQAAAAAAAAABAAAAAAAAAAAAAAAAAPC/"
 				],
 				[
 					8,
@@ -102,10 +102,10 @@
 					"test_manager",
 					{
 						"action": "insert_opd_out",
-						"text": "1"
+						"text": "M"
 					},
 					"AQAAACMAAAAAAAAAJAAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAjAAAAAAAAACMAAAAAAAAAAAAAAAAA8L8"
+					"AQAAAAAAAAABAAAAIwAAAAAAAAAjAAAAAAAAAAAAAAAAAPC/"
 				],
 				[
 					11,
@@ -113,10 +113,10 @@
 					"test_manager",
 					{
 						"action": "insert_opd_out",
-						"text": " 2 4 3 6 7 "
+						"text": "inimum number of deletions: 0"
 					},
-					"AQAAACQAAAAAAAAALwAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAkAAAAAAAAACQAAAAAAAAAAAAAAAAA8L8"
+					"AQAAACQAAAAAAAAAQQAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAJAAAAAAAAAAkAAAAAAAAAAAAAAAAAPC/"
 				],
 				[
 					14,
@@ -127,12 +127,12 @@
 						"region":
 						[
 							1,
-							47
+							65
 						],
-						"text": ""
+						"text": "7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n\nMinimum number of deletions: 0\n\n"
 					},
-					"AQAAAAEAAAAAAAAAAQAAAAAAAAAuAAAANwoxIDIgNCAtMSAzIDYgNwo3CjQgMiAtMSAxIDYgMyA3CjEgMiA0IDMgNiA3IA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAvAAAAAAAAAC8AAAAAAAAAAAAAAAAA8L8"
+					"AQAAAAEAAAAAAAAARAAAAAAAAABAAAAANwoxIDIgNCAtMSAzIDYgNwo3CjQgMiAtMSAxIDYgMyA3Ck1pbmltdW0gbnVtYmVyIG9mIGRlbGV0aW9uczogMA",
+					"AQAAAAAAAAABAAAAQQAAAAAAAABBAAAAAAAAAAAAAAAAAPC/"
 				],
 				[
 					19,
@@ -140,10 +140,10 @@
 					"test_manager",
 					{
 						"action": "insert_opd_input",
-						"text": "7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n5\n"
+						"text": "7\n1 2 4 -1 3 6 5\n7\n4 2 -1 1 6 3 5\n5\n"
 					},
-					"AQAAAAEAAAAAAAAAJQAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAABAAAAAAAAAAEAAAAAAAAAAAAAAAAA8L8"
+					"AQAAAEQAAAAAAAAAaAAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAARAAAAAAAAABEAAAAAAAAAAAAAAAAAPC/"
 				],
 				[
 					22,
@@ -151,10 +151,10 @@
 					"test_manager",
 					{
 						"action": "insert_opd_out",
-						"text": "1 2 4 3 6 7 "
+						"text": "Minimum number of deletions: 0"
 					},
-					"AQAAACUAAAAAAAAAMQAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAlAAAAAAAAACUAAAAAAAAAAAAAAAAA8L8"
+					"AQAAAGgAAAAAAAAAhgAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAaAAAAAAAAABoAAAAAAAAAAAAAAAAAPC/"
 				],
 				[
 					25,
@@ -164,105 +164,13 @@
 						"action": "replace",
 						"region":
 						[
-							1,
-							49
+							68,
+							134
 						],
-						"text": ""
+						"text": "7\n1 2 4 -1 3 6 5\n7\n4 2 -1 1 6 3 5\n5\n\nMinimum number of deletions: 0\n\n"
 					},
-					"AQAAAAEAAAAAAAAAAQAAAAAAAAAwAAAANwoxIDIgNCAtMSAzIDYgNwo3CjQgMiAtMSAxIDYgMyA3CjUKMSAyIDQgMyA2IDcg",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAxAAAAAAAAADEAAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					29,
-					1,
-					"test_manager",
-					{
-						"action": "replace",
-						"region":
-						[
-							1,
-							1
-						],
-						"text": "7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n5\n\n1 2 4 3 6 7\n\n"
-					},
-					"AQAAAAEAAAAAAAAAMwAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAABAAAAAAAAAAEAAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					32,
-					1,
-					"test_manager",
-					{
-						"action": "replace",
-						"region":
-						[
-							1,
-							1
-						],
-						"text": "7\n1 2 4 -1 3 6 7\n7\n4 2 -1 1 6 3 7\n\n1 2 4 3 6 7\n\n"
-					},
-					"AQAAAAEAAAAAAAAAMQAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAAAzAAAAAAAAADMAAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					36,
-					1,
-					"test_manager",
-					{
-						"action": "insert_opd_input",
-						"text": ""
-					},
-					"AQAAAGMAAAAAAAAAYwAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABjAAAAAAAAAGMAAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					39,
-					1,
-					"test_manager",
-					{
-						"action": "insert_opd_out",
-						"text": ""
-					},
-					"AQAAAGMAAAAAAAAAYwAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABjAAAAAAAAAGMAAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					42,
-					1,
-					"test_manager",
-					{
-						"action": "insert_opd_out",
-						"text": ""
-					},
-					"AQAAAGMAAAAAAAAAYwAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABjAAAAAAAAAGMAAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					45,
-					1,
-					"test_manager",
-					{
-						"action": "replace",
-						"region":
-						[
-							99,
-							99
-						],
-						"text": "\n\n\n"
-					},
-					"AQAAAGMAAAAAAAAAZgAAAAAAAAAAAAAA",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABjAAAAAAAAAGMAAAAAAAAAAAAAAAAA8L8"
-				],
-				[
-					51,
-					1,
-					"test_manager",
-					{
-						"action": "delete_test",
-						"id": 2
-					},
-					"AQAAAGMAAAAAAAAAYwAAAAAAAAADAAAACgoK",
-					"AgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPC/AAAAAAEAAABmAAAAAAAAAGYAAAAAAAAAAAAAAAAA8L8"
+					"AQAAAEQAAAAAAAAAiQAAAAAAAABCAAAANwoxIDIgNCAtMSAzIDYgNQo3CjQgMiAtMSAxIDYgMyA1CjUKTWluaW11bSBudW1iZXIgb2YgZGVsZXRpb25zOiAw",
+					"AQAAAAAAAAABAAAAhgAAAAAAAACGAAAAAAAAAAAAAAAAAPC/"
 				]
 			]
 		}
@@ -350,6 +258,10 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"Olymo",
+				"FastOlympicCoding: Run"
+			],
 			[
 				"Olym",
 				"FastOlympicCoding: Run"
@@ -490,7 +402,7 @@
 	],
 	"find":
 	{
-		"height": 28.0
+		"height": 26.0
 	},
 	"find_in_files":
 	{
@@ -534,45 +446,41 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 116743,
+						"buffer_size": 120744,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								42964,
-								42964
+								0,
+								0
 							]
 						],
 						"settings":
 						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								}
+							],
 							"bracket_highlighter.busy": false,
 							"bracket_highlighter.locations":
 							{
 								"close":
 								{
-									"1":
-									[
-										42974,
-										42975
-									]
 								},
 								"icon":
 								{
-									"1":
-									[
-										"Packages/BracketHighlighter/icons/curly_bracket.png",
-										"region.purplish"
-									]
 								},
 								"open":
 								{
-									"1":
-									[
-										42938,
-										42939
-									]
 								},
 								"unmatched":
 								{
@@ -637,12 +545,29 @@
 								"bh_unmatched_content"
 							],
 							"color_helper.refresh": true,
-							"color_scheme": "Monokai Pro (Filter Spectrum).sublime-color-scheme",
+							"color_helper.scan":
+							{
+								"allow_scanning": false,
+								"color_class":
+								[
+									{
+										"class": "css-level-4",
+										"scopes": ""
+									}
+								],
+								"color_trigger": "(?xi)\n(?:\n    \\b(?<![-#&$])(?:\n        color\\((?!\\s*-)|(?:hsla?|(?:ok)?(?:lch|lab)|hwb|rgba?)\\(\n) |\n\\b(?<![-#&$])[\\w]{3,}(?![(-])\\b|(?<![&])\\#)\n",
+								"current_ext": ".cpp",
+								"current_syntax": "C++/C++",
+								"enabled": true,
+								"last_updated": 1749675508.14,
+								"scanning": "-comment"
+							},
 							"copilot.completion.is_visible": false,
 							"copilot.completion.is_visible_panel_completions": false,
 							"copilot.completion.is_waiting_completion": false,
 							"copilot.completion.is_waiting_panel_completions": false,
 							"copilot.completion.original_layout": null,
+							"lsp_active": true,
 							"lsp_uri": "file:///Users/akd/Github/cpp-tutorial/CPP/test.cpp",
 							"rainbow_checked": true,
 							"rainbowth.lispy": false,
@@ -669,19 +594,30 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 99,
+						"buffer_size": 137,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								99,
-								99
+								137,
+								137
 							]
 						],
 						"settings":
 						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								}
+							],
 							"bracket_highlighter.busy": false,
 							"bracket_highlighter.locations":
 							{
@@ -756,18 +692,31 @@
 								"bh_unmatched_close",
 								"bh_unmatched_content"
 							],
-							"color_helper.refresh": true,
+							"color_helper.scan":
+							{
+								"allow_scanning": false,
+								"color_class":
+								[
+									{
+										"class": "css-level-4",
+										"scopes": ""
+									}
+								],
+								"color_trigger": "(?xi)\n(?:\n    \\b(?<![-#&$])(?:\n        color\\((?!\\s*-)|(?:hsla?|(?:ok)?(?:lch|lab)|hwb|rgba?)\\(\n) |\n\\b(?<![-#&$])[\\w]{3,}(?![(-])\\b|(?<![&])\\#)\n",
+								"current_ext": null,
+								"current_syntax": "FastOlympicCoding/TestSyntax",
+								"enabled": true,
+								"last_updated": 1749675508.14,
+								"scanning": "-comment"
+							},
+							"copilot.completion._is_modified": false,
 							"copilot.completion.is_visible": false,
-							"copilot.completion.is_visible_panel_completions": false,
-							"copilot.completion.is_waiting_completion": false,
-							"copilot.completion.is_waiting_panel_completions": false,
-							"copilot.completion.original_layout": null,
 							"default_dir": "/Users/akd/Github/cpp-tutorial/CPP",
 							"delete_forb": true,
 							"edit_mode": false,
 							"fold_buttons": false,
 							"line_numbers": false,
-							"lsp_uri": "buffer:69",
+							"lsp_uri": "buffer:48",
 							"rainbow_checked": true,
 							"rainbowth.lispy": false,
 							"syntax": "Packages/FastOlympicCoding/TestSyntax.tmLanguage",
@@ -786,7 +735,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 28.0
+		"height": 26.0
 	},
 	"input":
 	{
@@ -824,7 +773,10 @@
 	"menu_visible": true,
 	"output.LSP Log Panel":
 	{
-		"height": 0.0
+		"height": 0.0,
+		"history":
+		[
+		]
 	},
 	"output.Terminus":
 	{
@@ -832,7 +784,10 @@
 	},
 	"output.diagnostics":
 	{
-		"height": 0.0
+		"height": 0.0,
+		"history":
+		[
+		]
 	},
 	"output.exec":
 	{
@@ -840,13 +795,16 @@
 	},
 	"output.find_results":
 	{
-		"height": 0.0
+		"height": 0.0,
+		"history":
+		[
+		]
 	},
 	"pinned_build_system": "Packages/User/cpp_runner.sublime-build",
 	"project": "cpp-tutorial.sublime-project",
 	"replace":
 	{
-		"height": 52.0
+		"height": 48.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -889,6 +847,7 @@
 		"copilot.conversation.follow_up": "",
 		"copilot.conversation.is_visible": false,
 		"copilot.conversation.is_waiting_conversation": false,
+		"copilot.conversation.last_active_view_id": 15,
 		"copilot.conversation.original_layout": null,
 		"copilot.conversation.reference_block_state":
 		{
@@ -896,7 +855,8 @@
 		"copilot.conversation.suggested_title": "",
 		"copilot.copilotignore.patterns":
 		{
-		}
+		},
+		"lsp_show_inlay_hints": false
 	},
 	"show_minimap": true,
 	"show_open_files": true,

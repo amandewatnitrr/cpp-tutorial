@@ -858,6 +858,8 @@ int first_non_repeating_character(string);
 
 int minimum_deletes_for_atmost_k_distinct_characters(string s, int k);
 
+bool equalSumGridPartition(int **,int,int);
+
 /*****************************************************************************************************************/
 /******************************** MAIN SECTION OF PROGRAM ********************************************************/
 /*****************************************************************************************************************/
@@ -2418,6 +2420,38 @@ int solve_array_into_k_subarrays_minimize_total_cost(int *prefix, int start, int
     }
 
     return min_total;
+}
+
+bool equalSumGridPartition(int **ar,int n,int m) {
+    int *sr = new int[n];
+    int *sc = new int[m];
+
+    for (int i=0; i<n; i++) {
+        sr[i]=0;
+        for (int j=0; j<m; j++) {
+            sr[i] += ar[i][j];
+        }
+    }
+
+    for (int j=0; j<m; j++) {
+        sc[j]=0;
+        for (int i=0; i<n; i++) {
+            sc[j] += ar[i][j];
+        }
+    }
+
+    int st = 0;
+    for (int i=0; i<n; i++) {
+        st += sr[i];
+    }
+
+    if (st%2 != 0) {
+        return false;
+    }
+
+    int target = st/2;
+
+
 }
 
 int minimum_deletes_for_atmost_k_distinct_characters(string s, int k) {
