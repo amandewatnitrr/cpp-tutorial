@@ -774,6 +774,7 @@ int reverse_the_number(int );
 void divisor_of_natural_number(ll);
 int fibonaci_nth_term(int);
 int binomoal_coeff(int ,int);
+int add_2_numbers_without_plus_minus(int , int );
 
 
 // String Operations
@@ -1063,6 +1064,22 @@ int count_max_consc_1s_array(int *a, int n){
 }
 
 vector<int> union_of_array(int *a,int *b, int an, int bn){
+
+    /*
+     * In this problem, we will be using set data structure to store the unique elements of both the arrays.
+     * The set data structure in C++ is implemented as a balanced binary search tree, which allows for efficient insertion and lookup operations.
+     * The time complexity of this approach is O((an+bn)log(an+bn)) due to the insertion of elements into the set, and the space complexity is O(an+bn) in the worst case when all elements are unique.
+     * After inserting all the elements from both arrays into the set, we can iterate through the set to create a vector that contains the union of the two arrays.
+     * The final time complexity of this approach is O(nlog(n)) and the space complexity is O(n).
+     * 
+     * Dry Run:
+     * Let's say we have two arrays: a = [13, 3, 4, 8] and b = [4, 1, 2, 3].
+     * We will insert all the elements of array a into the set, which will give us s = {13, 3, 4, 8}.
+     * Next, we will insert all the elements of array b into the set, which will give us s = {13, 3, 4, 8, 1, 2}.
+     * Now, we will iterate through the set and create a vector unionn that contains all the unique elements from both arrays, which will give us unionn = [1, 2, 3, 4, 8, 13].
+     * Finally, we will return the vector unionn as the output, which contains the union of the two arrays. 
+     */
+
     set<int> s;
     for(int i=0;i<an;i++){
         s.insert(a[i]);
@@ -1152,6 +1169,7 @@ int max_product_subarray(int *a,int n){
      * min_prod keeps track of the minimum product ending at current index i.
      * Cause a negative number in the array can cause the largest product to become the smallest product.
     */
+
 
     int max_prod = a[0],min_prod = a[0],result = a[0];
 
@@ -1419,6 +1437,24 @@ int binarysearch(vector<int> &a, int h)
 
 void bubblesort(vector<int> &v)
     {
+
+        /*
+         * Bubble Sort is the simplest sorting algorithm that works by repeatedly swapping the adjacent elements if they are in wrong order.
+         * Time Complexity of Bubble Sort is O(n^2) in worst and average case, and O(n) in best case when the array is already sorted.
+         * Space Complexity of Bubble Sort is O(1) as it is an in-place sorting algorithm.
+         * Bubble Sort is a stable sorting algorithm as it does not change the relative order of equal elements.
+         * Bubble Sort is an adaptive sorting algorithm as it can detect if the array is already sorted
+         * and can stop the algorithm if no swaps are needed, which makes it efficient for nearly sorted arrays.
+         * ---------------------------------------------------------------------------------------------------------------------
+         *
+         * Dry run for [10, 5, 2, 3, 1]
+         * Pass 1: [5, 2, 3, 1, 10] (10 is in correct position)
+         * Pass 2: [2, 3, 1, 5, 10] (5 is in correct position)
+         * Pass 3: [2, 1, 3, 5, 10] (3 is in correct position)
+         * Pass 4: [1, 2, 3, 5, 10] (2 is in correct position)
+         * Pass 5: [1, 2, 3, 5, 10] (1 is in correct position)
+         * Total Passes: 5
+         */
         int temp=0;
         for(int i=0;i<v.size();i++)
             {
@@ -4867,6 +4903,31 @@ int binomoal_coeff(int n,int k){
     }
 
     return res;
+}
+
+int add_2_numbers_without_plus_minus(int a, int b){
+    /*
+     * Binary numbers can be added by either:
+     * Sum without carry = a XOR b
+     * or Carry = (a AND b) << 1
+     * Here, bitwise operators &(AND) and ^(XOR) come into picture
+     * Shifting carry left by 1 is done because carry is added to the next correct bit.
+     * Keep doing until the carry becomes 0, which means that there is nothing left to add.
+     * Time Complexity is O(1)
+     * 
+     * Dry run with a = 6 (110 in binary) and b = 5 (101 in binary):
+     * 1. Initial values: a = 6 (110), b = 5 (101)
+     * 2. First iteration: carry = (6 & 5) << 1 = (100) << 1 = 1000 (8 in decimal)
+     * 3. Second iteration: a = 6 ^ 5 = 011 (3 in decimal), b = 1000 (8 in decimal)
+     * 4. Third iteration: carry = (3 & 8) << 1 = 0 << 1 = 0
+     * 5. Final result: a = 3 ^ 8 = 1011 (11 in decimal)
+     */
+    while(b != 0) {
+        int carry = (a & b) << 1; 
+        a = a ^ b;               
+        b = carry;               
+    }
+    return a;
 }
 
 vector<int> majority_element_n3(int *a, int n){
