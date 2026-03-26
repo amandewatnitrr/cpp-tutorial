@@ -5033,6 +5033,18 @@ void sort_map_by_value_int(map<int,int> mp){
 /*------------------------------------------------------------------------------------------------------------*/
 
 int first_non_repeating_character(string s){
+
+    /*
+     * Problem Statement: Given a string, find the index of the first non-repeating character in it. If it doesn't exist, return -1.
+     * Approach: We can use a map to store the frequency of each character in the string. 
+     * Then, we can iterate through the string again and check the frequency of each character in the map. The first character with a frequency of 1 is our answer.
+     * Time Complexity is O(n) and Space Complexity is O(n).
+     * 
+     * Dry Run: For the string "leetcode", the map will be {'l': 1, 'e': 3, 't': 1, 'c': 1, 'o': 1, 'd': 1}. The first non-repeating character is 'l' at index 0.
+     * For the string "loveleetcode", the map will be {'l': 2, 'o': 2, 'v': 1, 'e': 4, 't': 1, 'c': 1, 'd': 1}. The first non-repeating character is 'v' at index 2.
+     * For the string "aabb", the map will be {'a': 2, 'b': 2}. There are no non-repeating characters, so we return -1.
+     */
+
     unordered_map<char,int> mp;
 
     for(int i=0;i<s.length();i++){
