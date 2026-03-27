@@ -279,6 +279,7 @@ bool ll_detectcycle(llnode* head);
 void ll_kappend(llnode* &,int ,int );
 void ll_deletecycle(llnode* &head);
 void ll_bubblesort(llnode* &);
+llnode* ll_addtwonumbers(llnode* &head1, llnode* &head2);
 void ll_main();
 
 /* Circular Linked List */
@@ -3450,6 +3451,78 @@ void ll_bubblesort(llnode*& head) {
             break; // optimization: exit early if no swaps occurred
         }
     }
+}
+
+llnode* ll_addtwonumbers(llnode* &l1, llnode* &l2){
+
+    /*
+     * You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+     * You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+     * Input: l1 = [2,4,3], l2 = [5,6,4]
+     * Output: [7,0,8]
+     * Explanation: 342 + 465 = 807.
+     * 
+     * Approach:
+     * We can use a dummy node to simplify the code and handle edge cases. We will iterate through both linked lists simultaneously, adding corresponding digits along with any carry from the previous addition. If one linked list is shorter than the other, we will treat missing digits as 0. We will continue this process until we have processed all digits from both linked lists and there is no carry left. Finally, we will return the next node of the dummy node, which will be the head of the resulting linked list.
+     * 
+     * Time Complexity: O(max(m, n)), where m and n are the lengths of the two linked lists.
+     * Space Complexity: O(max(m, n)) for the resulting linked list.
+     * 
+     * Dry Run:
+     * Input: l1 = [2,4,3], l2 = [5,6,4]
+     * Output: [7,0,8]
+     * Step 1: 
+     * Initialize dummy node and carry:
+     * dummy -> 0, carry = 0
+     * temp -> dummy
+     * Step 2:
+     * Add digits from l1 and l2:
+     * Iteration 1: d1 = 2, d2 = 5, sum = 7, digit = 7, carry = 0
+     * Create new node with digit 7 and attach to temp:
+     * dummy -> 0 -> 7
+     * temp -> 7
+     * Move to next nodes in l1 and l2:
+     * l1 -> 4, l2 -> 6
+     * Iteration 2: d1 = 4, d2 = 6, sum = 10, digit = 0, carry = 1
+     * Create new node with digit 0 and attach to temp:
+     * dummy -> 0 -> 7 -> 0
+     * temp -> 0
+     * Move to next nodes in l1 and l2:
+     * l1 -> 3, l2 -> 4
+     * Iteration 3: d1 = 3, d2 = 4, sum = 8, digit = 8, carry = 0
+     * Create new node with digit 8 and attach to temp:
+     * dummy -> 0 -> 7 -> 0 -> 8
+     * temp -> 8
+     * Move to next nodes in l1 and l2:
+     * l1 -> NULL, l2 -> NULL
+     * Step 3:
+     * Return the next node of dummy as the head of the resulting linked list.
+     * Result: [7,0,8]
+     */
+
+    llnode* dummy = new llnode(0);
+    llnode* temp = dummy;
+    int carry = 0;
+
+    while(l1!=NULL || l2!=NULL || carry!=0){
+        int d1 = (l1!=NULL) ? l1->data : 0;
+        int d2 = (l2!=NULL) ? l2->data : 0;
+
+        int sum = d1 + d2 + carry;
+        int digit = sum % 10;
+        carry = sum/10;
+
+        llnode* newNode = new llnode(digit);
+        temp->next = newNode;
+        temp = temp->next;
+
+        l1 = (l1!=NULL) ? l1->next : NULL;
+        l2 = (l2!=NULL) ? l2->next : NULL;
+    }
+
+    llnode* result = dummy->next;
+    delete dummy; // free the dummy node
+    return result; 
 }
 
 void ll_display(llnode* head)
