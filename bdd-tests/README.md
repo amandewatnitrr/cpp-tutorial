@@ -27,7 +27,6 @@ The Behave hooks compile the harness automatically before the first scenario.
 ## Latest Behave report
 
 <!-- BEGIN:behave-report-summary -->
-- ✏️ **README was manually edited outside a Behave run** — this section has been restored by Behave.
 Open the latest generated report here:
 
 - [build/behave-report.html](build/behave-report.html)
@@ -37,8 +36,8 @@ Latest local run summary (auto-updated after each Behave run):
 - Passed: 90
 - Failed: 0
 - Skipped: 0
-- Total test time: 2.131s
-- Generated at: 2026-06-18 23:42:48 UTC
+- Total test time: 2.487s
+- Generated at: 2026-06-18 23:52:26 UTC
 
 If the link is missing, run `behave` once from this folder to generate the report.
 <!-- END:behave-report-summary -->
