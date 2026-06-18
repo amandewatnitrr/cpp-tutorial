@@ -2,6 +2,7 @@ from html import escape
 from pathlib import Path
 import subprocess
 from collections import OrderedDict
+import hashlib
 import time
 
 
@@ -48,15 +49,61 @@ def _display_text(value):
     return escape(text).replace("-&gt;", " &rarr; ")
 
 
-def _build_readme_summary_block(scenario_results, total_duration):
+def _compute_file_hash(path):
+    sha = hashlib.sha256()
+    sha.update(Path(path).read_bytes())
+    return sha.hexdigest()
+
+
+def _check_report_tampered(report_path):
+    hash_path = Path(report_path).parent / ".behave-report.sha256"
+    if not report_path.exists() or not hash_path.exists():
+        return False
+    stored = hash_path.read_text(encoding="utf-8").strip()
+    current = _compute_file_hash(report_path)
+    return current != stored
+
+
+def _store_report_hash(report_path):
+    hash_path = Path(report_path).parent / ".behave-report.sha256"
+    hash_path.write_text(_compute_file_hash(report_path), encoding="utf-8")
+
+
+def _check_readme_tampered(readme_path):
+    hash_path = Path(readme_path).parent / "build" / ".behave-readme.sha256"
+    if not Path(readme_path).exists() or not hash_path.exists():
+        return False
+    stored = hash_path.read_text(encoding="utf-8").strip()
+    current = _compute_file_hash(readme_path)
+    return current != stored
+
+
+def _store_readme_hash(readme_path):
+    hash_path = Path(readme_path).parent / "build" / ".behave-readme.sha256"
+    hash_path.write_text(_compute_file_hash(readme_path), encoding="utf-8")
+
+
+def _build_readme_summary_block(scenario_results, total_duration, tamper_warning=False, readme_tampered=False):
     passed = sum(1 for item in scenario_results if _status_name(item["status"]) == "passed")
     failed = sum(1 for item in scenario_results if _status_name(item["status"]) == "failed")
     skipped = sum(1 for item in scenario_results if _status_name(item["status"]) == "skipped")
     generated_at = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime())
+    tamper_line = (
+        "- \u26a0\ufe0f **Previous report was manually modified** \u2014 content may not reflect actual results.\n"
+        if tamper_warning
+        else ""
+    )
+    readme_tamper_line = (
+        "- \u270f\ufe0f **README was manually edited outside a Behave run** \u2014 this section has been restored by Behave.\n"
+        if readme_tampered
+        else ""
+    )
 
     return (
         "<!-- BEGIN:behave-report-summary -->\n"
-        "Open the latest generated report here:\n\n"
+        + tamper_line
+        + readme_tamper_line
+        + "Open the latest generated report here:\n\n"
         "- [build/behave-report.html](build/behave-report.html)\n\n"
         "Latest local run summary (auto-updated after each Behave run):\n\n"
         f"- Passed: {passed}\n"
@@ -69,14 +116,14 @@ def _build_readme_summary_block(scenario_results, total_duration):
     )
 
 
-def _update_readme_with_latest_report(root, scenario_results, total_duration):
+def _update_readme_with_latest_report(root, scenario_results, total_duration, tamper_warning=False, readme_tampered=False):
     readme_path = root / "README.md"
     if not readme_path.exists():
         return
 
     begin_marker = "<!-- BEGIN:behave-report-summary -->"
     end_marker = "<!-- END:behave-report-summary -->"
-    summary_block = _build_readme_summary_block(scenario_results, total_duration)
+    summary_block = _build_readme_summary_block(scenario_results, total_duration, tamper_warning, readme_tampered)
 
     content = readme_path.read_text(encoding="utf-8")
     has_markers = begin_marker in content and end_marker in content
@@ -92,12 +139,18 @@ def _update_readme_with_latest_report(root, scenario_results, total_duration):
     readme_path.write_text(updated, encoding="utf-8")
 
 
-def _write_html_report(report_path, scenario_results):
+def _write_html_report(report_path, scenario_results, tamper_warning=False):
         passed = sum(1 for item in scenario_results if _status_name(item["status"]) == "passed")
         failed = sum(1 for item in scenario_results if _status_name(item["status"]) == "failed")
         skipped = sum(1 for item in scenario_results if _status_name(item["status"]) == "skipped")
         total_duration = sum(float(item.get("duration", 0.0)) for item in scenario_results)
         failed_results = [item for item in scenario_results if _status_name(item["status"]) == "failed"]
+        tamper_banner_html = (
+            '<div class="tamper-banner">'
+            "\u26a0\ufe0f <strong>Warning:</strong> The previous version of this report was manually "
+            "modified in a code editor. The content below reflects the latest genuine Behave run."
+            "</div>"
+        ) if tamper_warning else ""
 
         grouped = OrderedDict()
         for result in scenario_results:
@@ -537,6 +590,17 @@ def _write_html_report(report_path, scenario_results):
             color: var(--muted);
         }}
 
+        .tamper-banner {{
+            background: rgba(251, 191, 36, 0.12);
+            border: 1px solid rgba(251, 191, 36, 0.45);
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            color: #fbbf24;
+            font-size: 15px;
+            line-height: 1.5;
+        }}
+
         @media (max-width: 720px) {{
             body {{ padding: 16px; }}
             .summary {{ grid-template-columns: 1fr; }}
@@ -549,6 +613,7 @@ def _write_html_report(report_path, scenario_results):
 </head>
 <body>
     <main class="shell">
+        {tamper_banner_html}
         <section class="hero">
             <p class="eyebrow">Behave BDD Report</p>
             <h1>Test results for cpp-tutorial</h1>
@@ -594,6 +659,8 @@ def before_all(context):
     context.feature_durations = {}
     context.run_started = time.perf_counter()
     context.behave_report_path = report_path
+    context.report_tampered = _check_report_tampered(report_path)
+    context.readme_tampered = _check_readme_tampered(root / "README.md")
 
     command = [
         "c++",
@@ -655,6 +722,10 @@ def after_all(context):
     for item in context.scenario_results:
         item["feature_duration"] = context.feature_durations.get(item["feature"], 0.0)
     context.total_duration = total_duration
-    _write_html_report(context.behave_report_path, getattr(context, "scenario_results", []))
+    tampered = getattr(context, "report_tampered", False)
+    readme_tampered = getattr(context, "readme_tampered", False)
+    _write_html_report(context.behave_report_path, getattr(context, "scenario_results", []), tampered)
+    _store_report_hash(context.behave_report_path)
     root = Path(__file__).resolve().parents[1]
-    _update_readme_with_latest_report(root, getattr(context, "scenario_results", []), total_duration)
+    _update_readme_with_latest_report(root, getattr(context, "scenario_results", []), total_duration, tampered, readme_tampered)
+    _store_readme_hash(root / "README.md")
