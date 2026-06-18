@@ -16,10 +16,28 @@ The wrapper uses a shared bridge header so future harnesses can call other funct
 python3 -m pip install -r requirements.txt
 ```
 
-2. Run the Behave suite from this folder:
+1. Run the Behave suite from this folder:
 
 ```bash
 behave
 ```
 
 The Behave hooks compile the harness automatically before the first scenario.
+
+## Latest Behave report
+
+<!-- BEGIN:behave-report-summary -->
+Open the latest generated report here:
+
+- [build/behave-report.html](build/behave-report.html)
+
+Latest local run summary (auto-updated after each Behave run):
+
+- Passed: 90
+- Failed: 0
+- Skipped: 0
+- Total test time: 2.082s
+- Generated at: 2026-06-18 23:08:21 UTC
+
+If the link is missing, run `behave` once from this folder to generate the report.
+<!-- END:behave-report-summary -->

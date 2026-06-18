@@ -48,6 +48,50 @@ def _display_text(value):
     return escape(text).replace("-&gt;", " &rarr; ")
 
 
+def _build_readme_summary_block(scenario_results, total_duration):
+    passed = sum(1 for item in scenario_results if _status_name(item["status"]) == "passed")
+    failed = sum(1 for item in scenario_results if _status_name(item["status"]) == "failed")
+    skipped = sum(1 for item in scenario_results if _status_name(item["status"]) == "skipped")
+    generated_at = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime())
+
+    return (
+        "<!-- BEGIN:behave-report-summary -->\n"
+        "Open the latest generated report here:\n\n"
+        "- [build/behave-report.html](build/behave-report.html)\n\n"
+        "Latest local run summary (auto-updated after each Behave run):\n\n"
+        f"- Passed: {passed}\n"
+        f"- Failed: {failed}\n"
+        f"- Skipped: {skipped}\n"
+        f"- Total test time: {_format_duration(total_duration)}\n"
+        f"- Generated at: {generated_at}\n\n"
+        "If the link is missing, run `behave` once from this folder to generate the report.\n"
+        "<!-- END:behave-report-summary -->"
+    )
+
+
+def _update_readme_with_latest_report(root, scenario_results, total_duration):
+    readme_path = root / "README.md"
+    if not readme_path.exists():
+        return
+
+    begin_marker = "<!-- BEGIN:behave-report-summary -->"
+    end_marker = "<!-- END:behave-report-summary -->"
+    summary_block = _build_readme_summary_block(scenario_results, total_duration)
+
+    content = readme_path.read_text(encoding="utf-8")
+    has_markers = begin_marker in content and end_marker in content
+
+    if has_markers:
+        start_index = content.index(begin_marker)
+        end_index = content.index(end_marker) + len(end_marker)
+        updated = content[:start_index] + summary_block + content[end_index:]
+    else:
+        section = "\n\n## Latest Behave report\n\n" + summary_block + "\n"
+        updated = content.rstrip() + section
+
+    readme_path.write_text(updated, encoding="utf-8")
+
+
 def _write_html_report(report_path, scenario_results):
         passed = sum(1 for item in scenario_results if _status_name(item["status"]) == "passed")
         failed = sum(1 for item in scenario_results if _status_name(item["status"]) == "failed")
@@ -612,3 +656,5 @@ def after_all(context):
         item["feature_duration"] = context.feature_durations.get(item["feature"], 0.0)
     context.total_duration = total_duration
     _write_html_report(context.behave_report_path, getattr(context, "scenario_results", []))
+    root = Path(__file__).resolve().parents[1]
+    _update_readme_with_latest_report(root, getattr(context, "scenario_results", []), total_duration)
