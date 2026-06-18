@@ -1,45 +1,56 @@
-# Behave BDD tests for cpp-tutorial
+# Behave BDD Test Suite for cpp-tutorial
 
-This folder contains a small Behave setup that exercises functions from [CPP/test.cpp](../CPP/test.cpp) without modifying that file.
+This folder contains the Behave-based acceptance suite for [CPP/test.cpp](../CPP/test.cpp), executed through a shared C++ harness without modifying the source file.
 
-## Current coverage
+## At a glance
 
-The first scenario validates `array_input(int *v, int n)` by compiling a tiny wrapper executable and checking that the values read from standard input are copied into the array in the same order.
+| Area | Details |
+| --- | --- |
+| Target source | [CPP/test.cpp](../CPP/test.cpp) |
+| Test framework | Behave (`behave==1.2.6`) |
+| Harness entry | `bdd-tests/cpp/bddtesting.cpp` |
+| Live report | [build/behave-report.html](build/behave-report.html) |
 
-The wrapper uses a shared bridge header so future harnesses can call other functions from [CPP/test.cpp](../CPP/test.cpp) directly without repeating the include shim.
+## Coverage notes
 
-## Run
+- The suite started with `array_input(int *v, int n)` and expanded to broader C++ function behaviors through a shared harness.
+- The bridge header allows additional wrappers to be added without repeating include shims.
 
-1. Install the Python dependency:
+## Run locally
+
+1. Install dependencies:
 
 ```bash
 python3 -m pip install -r requirements.txt
 ```
 
-1. Run the Behave suite from this folder:
+1. Run the full suite:
 
 ```bash
-behave --no-capture 2>&1
+behave
 ```
 
-The Behave hooks compile the harness automatically before the first scenario.
+The Behave hooks compile the harness automatically before scenarios execute.
 
 ## Latest Behave report
 
 <!-- BEGIN:behave-report-summary -->
-Open the latest generated report here:
+### Report dashboard
 
-- [build/behave-report.html](build/behave-report.html)
+![Passed](https://img.shields.io/badge/Passed-90-22c55e?style=for-the-badge) ![Failed](https://img.shields.io/badge/Failed-0-ef4444?style=for-the-badge) ![Skipped](https://img.shields.io/badge/Skipped-0-f59e0b?style=for-the-badge)
 
-Latest local run summary (auto-updated after each Behave run):
+[Open latest HTML report](build/behave-report.html)
 
-- Passed: 90
-- Failed: 0
-- Skipped: 0
-- Total test time: 2.487s
-- Generated at: 2026-06-18 23:52:26 UTC
+| Metric | Value |
+| --- | --- |
+| Passed | **90** |
+| Failed | **0** |
+| Skipped | **0** |
+| Total test time | **2.047s** |
+| Generated at | `2026-06-18 23:56:12 UTC` |
+
+Regenerate this dashboard:
+Run `behave` from `bdd-tests/` to refresh both this summary and the HTML report.
 
 If the link is missing, run `behave` once from this folder to generate the report.
 <!-- END:behave-report-summary -->
-
-<!-- manual edit test -->

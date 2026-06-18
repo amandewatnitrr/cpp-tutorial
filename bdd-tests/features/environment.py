@@ -88,29 +88,36 @@ def _build_readme_summary_block(scenario_results, total_duration, tamper_warning
     failed = sum(1 for item in scenario_results if _status_name(item["status"]) == "failed")
     skipped = sum(1 for item in scenario_results if _status_name(item["status"]) == "skipped")
     generated_at = time.strftime("%Y-%m-%d %H:%M:%S UTC", time.gmtime())
+
     tamper_line = (
-        "- \u26a0\ufe0f **Previous report was manually modified** \u2014 content may not reflect actual results.\n"
+        "> ⚠️ **Previous report was manually modified** — content may not reflect actual results.\n\n"
         if tamper_warning
         else ""
     )
     readme_tamper_line = (
-        "- \u270f\ufe0f **README was manually edited outside a Behave run** \u2014 this section has been restored by Behave.\n"
+        "> ✏️ **README was manually edited outside a Behave run** — this section has been restored by Behave.\n\n"
         if readme_tampered
         else ""
     )
 
     return (
         "<!-- BEGIN:behave-report-summary -->\n"
+        "### Report dashboard\n\n"
+        f"![Passed](https://img.shields.io/badge/Passed-{passed}-22c55e?style=for-the-badge) "
+        f"![Failed](https://img.shields.io/badge/Failed-{failed}-ef4444?style=for-the-badge) "
+        f"![Skipped](https://img.shields.io/badge/Skipped-{skipped}-f59e0b?style=for-the-badge)\n\n"
         + tamper_line
         + readme_tamper_line
-        + "Open the latest generated report here:\n\n"
-        "- [build/behave-report.html](build/behave-report.html)\n\n"
-        "Latest local run summary (auto-updated after each Behave run):\n\n"
-        f"- Passed: {passed}\n"
-        f"- Failed: {failed}\n"
-        f"- Skipped: {skipped}\n"
-        f"- Total test time: {_format_duration(total_duration)}\n"
-        f"- Generated at: {generated_at}\n\n"
+        + "[Open latest HTML report](build/behave-report.html)\n\n"
+        "| Metric | Value |\n"
+        "| --- | --- |\n"
+        f"| Passed | **{passed}** |\n"
+        f"| Failed | **{failed}** |\n"
+        f"| Skipped | **{skipped}** |\n"
+        f"| Total test time | **{_format_duration(total_duration)}** |\n"
+        f"| Generated at | `{generated_at}` |\n\n"
+        "Regenerate this dashboard:\n"
+        "Run `behave` from `bdd-tests/` to refresh both this summary and the HTML report.\n\n"
         "If the link is missing, run `behave` once from this folder to generate the report.\n"
         "<!-- END:behave-report-summary -->"
     )
