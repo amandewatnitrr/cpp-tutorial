@@ -1,7 +1,3 @@
-# Behave BDD tamper-detection hashes (local state, not source)
-bdd-tests/build/.behave-report.sha256
-bdd-tests/build/.behave-readme.sha256
-
 # Compiled BDD harness binary
 bdd-tests/build/bddtesting
 
