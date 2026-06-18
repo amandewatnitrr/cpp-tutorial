@@ -1,0 +1,2228 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Behave Test Report</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --bg: #0b1020;
+            --panel: rgba(14, 20, 39, 0.86);
+            --panel-border: rgba(255, 255, 255, 0.08);
+            --text: #e7ecff;
+            --muted: #9aa7c7;
+            --passed: #34d399;
+            --failed: #fb7185;
+            --skipped: #fbbf24;
+            --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), transparent 28%),
+                radial-gradient(circle at right, rgba(52, 211, 153, 0.16), transparent 24%),
+                linear-gradient(160deg, #060913 0%, #0b1020 55%, #070a12 100%);
+            color: var(--text);
+            padding: 32px;
+        }
+
+        .shell {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            background: var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 28px;
+            padding: 28px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+        }
+
+        .eyebrow {
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            font-size: 12px;
+            color: var(--muted);
+            margin: 0 0 10px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            line-height: 1.05;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .metric {
+            padding: 18px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .metric .label {
+            display: block;
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .metric .value {
+            display: block;
+            font-size: 34px;
+            font-weight: 700;
+        }
+
+        .value.passed { color: var(--passed); }
+        .value.failed { color: var(--failed); }
+        .value.skipped { color: var(--skipped); }
+
+        .report-duration {
+            margin: 18px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .grid {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .failed-overview {
+            margin-top: 20px;
+            background: var(--panel);
+            border: 1px solid rgba(251, 113, 133, 0.35);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+        }
+
+        .failed-overview-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .failed-overview-top h2 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .failed-empty {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .failed-item {
+            border: 1px solid rgba(251, 113, 133, 0.3);
+            background: rgba(251, 113, 133, 0.08);
+            border-radius: 20px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .failed-item-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            gap: 10px;
+        }
+
+        .failed-item h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .failed-reason {
+            margin: 12px 0 0;
+            color: var(--text);
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .feature-section {
+            width: 100%;
+            background: var(--panel);
+            border: 1px solid var(--panel-border);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+            overflow: hidden;
+        }
+
+        .feature-section[open] {
+            border-color: rgba(255, 255, 255, 0.14);
+        }
+
+        .feature-summary {
+            list-style: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            padding: 22px 24px;
+        }
+
+        .feature-summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .feature-summary h2 {
+            font-size: 24px;
+            margin-top: 2px;
+        }
+
+        .summary-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .toggle-hint {
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .toggle-icon {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            font-size: 18px;
+            line-height: 1;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .toggle-icon::before {
+            content: "⌄";
+            transform: translateY(-2px);
+        }
+
+        .feature-section[open] .toggle-icon {
+            transform: rotate(180deg);
+            background: rgba(52, 211, 153, 0.12);
+            border-color: rgba(52, 211, 153, 0.25);
+        }
+
+        .feature-stats {
+            margin: 8px 0 0;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .feature-items {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 0;
+            padding: 0 24px 24px;
+        }
+
+        .card {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--panel-border);
+            border-radius: 22px;
+            padding: 20px;
+        }
+
+        .card.passed { border-color: rgba(52, 211, 153, 0.25); }
+        .card.failed { border-color: rgba(251, 113, 133, 0.3); }
+        .card.skipped { border-color: rgba(251, 191, 36, 0.28); }
+
+        .card-top {
+            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .card-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .feature {
+            margin: 0 0 6px;
+            color: var(--muted);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            padding: 8px 12px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .badge.passed { background: rgba(52, 211, 153, 0.15); color: var(--passed); }
+        .badge.failed { background: rgba(251, 113, 133, 0.15); color: var(--failed); }
+        .badge.skipped { background: rgba(251, 191, 36, 0.15); color: var(--skipped); }
+        .badge.unknown { background: rgba(255, 255, 255, 0.08); color: var(--muted); }
+        .badge.duration { background: rgba(96, 165, 250, 0.14); color: #93c5fd; }
+
+        .detail {
+            margin: 14px 0 0;
+            color: var(--muted);
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .kv {
+            margin-top: 12px;
+            padding: 14px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .kv .k {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .kv pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+            color: var(--text);
+            font: inherit;
+        }
+
+        .empty {
+            margin-top: 24px;
+            padding: 24px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            color: var(--muted);
+        }
+
+        @media (max-width: 720px) {
+            body { padding: 16px; }
+            .summary { grid-template-columns: 1fr; }
+            .card-top { flex-direction: column; }
+            .feature-summary { flex-direction: column; align-items: flex-start; }
+            .summary-pill { justify-content: flex-start; }
+            .toggle-icon { align-self: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <section class="hero">
+            <p class="eyebrow">Behave BDD Report</p>
+            <h1>Test results for cpp-tutorial</h1>
+            <div class="summary">
+                <div class="metric">
+                    <span class="label">Passed</span>
+                    <span class="value passed">90</span>
+                </div>
+                <div class="metric">
+                    <span class="label">Failed</span>
+                    <span class="value failed">0</span>
+                </div>
+                <div class="metric">
+                    <span class="label">Skipped</span>
+                    <span class="value skipped">0</span>
+                </div>
+            </div>
+            <p class="report-duration">Total test time: 874.010ms</p>
+        </section>
+
+        
+        <section class="failed-overview">
+            <div class="failed-overview-top">
+                <h2>Failed Tests</h2>
+                <span class="badge failed">0 failed</span>
+            </div>
+            <p class="failed-empty">No failed scenarios in this run.</p>
+        </section>
+        
+
+        <section class="grid">
+            
+                        <details class="feature-section">
+                            <summary class="feature-summary">
+                                <div>
+                                    <p class="feature">2D array matrix operations</p>
+                                    <h2>5 tests</h2>
+                                    <p class="feature-stats">5 passed · 0 failed · 0 skipped · 233.908ms</p>
+                                </div>
+                                <span class="summary-pill">
+                                    <span class="badge passed">5 scenarios</span>
+                                    <span class="toggle-icon" aria-hidden="true"></span>
+                                </span>
+                            </summary>
+                            <div class="feature-items">
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>reads and prints a matrix</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">206.588ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>2 3
+1 2 3
+4 5 6</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 2 3
+4 5 6</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 2 3 
+4 5 6 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints a matrix directly</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.154ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>2 2
+7 8
+9 10</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>7 8
+9 10</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>7 8 
+9 10 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>sets matrix row and column to zero for first zero occurrence</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.729ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3 3
+1 2 3
+4 0 6
+7 8 9</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 0 3
+0 0 0
+7 0 9</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 0 3 
+0 0 0 
+7 0 9 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>rotates a square matrix clockwise</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.374ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3 3
+1 2 3
+4 5 6
+7 8 9</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>7 4 1
+8 5 2
+9 6 3</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>7 4 1 
+8 5 2 
+9 6 3 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints spiral traversal of matrix</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.063ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3 3
+1 2 3
+4 5 6
+7 8 9</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 2 3 6 9 8 7 4 5</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 2 3 6 9 8 7 4 5 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                            </div>
+                        </details>
+                        
+                        <details class="feature-section">
+                            <summary class="feature-summary">
+                                <div>
+                                    <p class="feature">array questions</p>
+                                    <h2>31 tests</h2>
+                                    <p class="feature-stats">31 passed · 0 failed · 0 skipped · 233.156ms</p>
+                                </div>
+                                <span class="summary-pill">
+                                    <span class="badge passed">31 scenarios</span>
+                                    <span class="toggle-icon" aria-hidden="true"></span>
+                                </span>
+                            </summary>
+                            <div class="feature-items">
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>copies input values into a 1D array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.895ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+3 8 13 21 34</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>3 8 13 21 34</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>3 8 13 21 34
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints all subarrays of an array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.761ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3
+1 2 3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1
+1 2
+1 2 3
+2
+2 3
+3</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 
+1 2 
+1 2 3 
+2 
+2 3 
+3 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>traverses and prints an array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.929ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3
+4 6 8</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>4 6 8</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>4 6 8 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>inserts an element at a given position</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.876ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>4
+3 99
+10 20 30 40</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>10 10 99 30 40</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>10 10 99 30 40
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>quick sorts an array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.539ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>6
+5 3 8 6 2 7</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>2 3 5 6 7 8</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>2 3 5 6 7 8
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>gets pivot index for partitioned quicksort array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.731ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+4 3 2 1 5</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>4
+4 3 2 1 5</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>4
+4 3 2 1 5
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>checks if an array is sorted using iteration</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.177ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+1 2 3 4 5</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>checks if an array is sorted using recursion</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.793ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+1 3 5 7 9</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>checks if an array is sorted even if rotated</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.755ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+3 4 5 1 2</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>reverses an array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.016ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+1 2 3 4 5</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>5 4 3 2 1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>5 4 3 2 1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>finds second smallest and second largest values</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.680ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>6
+7 1 9 3 5 2</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>2 7</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>2 7
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>rotates an array to the right by k positions</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.583ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+2
+1 2 3 4 5</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>4 5 1 2 3</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>4 5 1 2 3
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>computes union of two arrays</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">11.825ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>4 5
+1 2 3 4
+3 4 5 6 7</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 2 3 4 5 6 7</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 2 3 4 5 6 7
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>finds a missing number in range 1 to n</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">11.599ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>4
+1 2 4 0</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>3
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints distinct elements from an array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.756ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>8
+4 2 4 3 2 1 1 5</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 2 3 4 5</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 2 3 4 5 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>finds longest subarray with sum k</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.650ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>6 6
+1 2 3 1 1 1</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>4</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>4
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints next lexicographic permutation of input vector</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.430ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3
+1 2 3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 3 2</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 3 2 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>finds leaders in an array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.096ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>6
+16 17 4 3 5 2</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>2 5 17</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>2 5 17
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>performs linear search in an array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.712ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5 21
+3 8 13 21 34</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>counts all subarrays having sum k</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.015ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5 3
+1 2 1 1 1</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>3
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>finds maximum product subarray</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.121ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>4
+2 3 -2 4</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>6</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>6
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>finds first and last occurrences in unsorted array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.505ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5 1
+4 1 2 1 3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>2 4</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>2 4
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>removes duplicates from sorted array values</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.033ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>8
+1 1 2 2 3 4 4 5</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 2 3 4 5</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 2 3 4 5
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints frequency of each number in an array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.490ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>7
+4 4 2 1 2 2 1</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 2
+2 3
+4 2</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 2
+2 3
+4 2
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>moves all zeros to the right of array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.250ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>7
+0 1 0 3 12 0 5</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 3 12 5 0 0 0</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 3 12 5 0 0 0
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>counts maximum consecutive ones in array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.096ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>6
+1 1 0 1 1 1</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>3
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>rearranges array elements by sign and sorted order</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.625ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>6
+3 -1 -2 4 -5 6</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>3 -5 4 -2 6 -1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>3 -5 4 -2 6 -1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>counts subarrays with xor k</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.369ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5 6
+4 2 2 6 4</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>4</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>4
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>counts inversions in an array</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.244ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+3 1 2 5 4</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>3
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>counts inversions using merge sort recursion</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.795ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+3 1 2 5 4</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>3
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>merges two sorted parts and counts split inversions</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">11.812ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5 0 2 4
+1 3 5 2 4</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>3
+1 2 3 4 5</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>3
+1 2 3 4 5
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                            </div>
+                        </details>
+                        
+                        <details class="feature-section">
+                            <summary class="feature-summary">
+                                <div>
+                                    <p class="feature">bit manipulation operations</p>
+                                    <h2>7 tests</h2>
+                                    <p class="feature-stats">7 passed · 0 failed · 0 skipped · 58.320ms</p>
+                                </div>
+                                <span class="summary-pill">
+                                    <span class="badge passed">7 scenarios</span>
+                                    <span class="toggle-icon" aria-hidden="true"></span>
+                                </span>
+                            </summary>
+                            <div class="feature-items">
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>gets the bit value at index i</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.668ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5 2</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>sets the bit at index i</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">10.276ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5 1</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>7</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>7
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>clears the bit at index i</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.849ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>7 1</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>5</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>5
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>updates the bit at index i to target value</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.339ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5 0 0</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>4</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>4
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints binary representation of a number</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.198ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>10</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1010</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1010
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>counts zeros and ones in binary representation</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.685ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>10</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>2 2</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>2 2
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>computes ones complement of a number</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.305ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>10</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>5</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>5
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                            </div>
+                        </details>
+                        
+                        <details class="feature-section">
+                            <summary class="feature-summary">
+                                <div>
+                                    <p class="feature">linked list operations</p>
+                                    <h2>11 tests</h2>
+                                    <p class="feature-stats">11 passed · 0 failed · 0 skipped · 85.988ms</p>
+                                </div>
+                                <span class="summary-pill">
+                                    <span class="badge passed">11 scenarios</span>
+                                    <span class="toggle-icon" aria-hidden="true"></span>
+                                </span>
+                            </summary>
+                            <div class="feature-items">
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>inserts nodes at head in linked list</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">9.929ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>4
+1 2 3 4</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>4 &rarr; 3 &rarr; 2 &rarr; 1 &rarr; NULL</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>4 &rarr; 3 &rarr; 2 &rarr; 1 &rarr; NULL
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>inserts nodes at tail in linked list</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.702ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>4
+1 2 3 4</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; NULL</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; NULL
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>searches an element in linked list</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.988ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+10 20 30 40 50
+30</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>deletes a node by value in linked list</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.884ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+10 20 30 40 50
+30</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>10 &rarr; 20 &rarr; 40 &rarr; 50 &rarr; NULL</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>10 &rarr; 20 &rarr; 40 &rarr; 50 &rarr; NULL
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>returns linked list length</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.117ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+2 4 6 8 10</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>5</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>5
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>reverses the linked list</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.958ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>4
+11 22 33 44</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>44 &rarr; 33 &rarr; 22 &rarr; 11 &rarr; NULL</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>44 &rarr; 33 &rarr; 22 &rarr; 11 &rarr; NULL
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>reverses linked list in groups of k nodes</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.081ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+1 2 3 4 5
+2</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>2 &rarr; 1 &rarr; 4 &rarr; 3 &rarr; 5 &rarr; NULL</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>2 &rarr; 1 &rarr; 4 &rarr; 3 &rarr; 5 &rarr; NULL
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>detects a cycle in linked list</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.795ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+1 2 3 4 5
+2</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>removes cycle and prints linked list</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">9.037ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+1 2 3 4 5
+2</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 5 &rarr; NULL</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 5 &rarr; NULL
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>bubble sorts linked list</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.177ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+4 2 5 1 3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 5 &rarr; NULL</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 &rarr; 2 &rarr; 3 &rarr; 4 &rarr; 5 &rarr; NULL
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>adds two numbers represented by linked lists</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.320ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3
+2 4 3
+3
+5 6 4</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>7 &rarr; 0 &rarr; 8 &rarr; NULL</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>7 &rarr; 0 &rarr; 8 &rarr; NULL
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                            </div>
+                        </details>
+                        
+                        <details class="feature-section">
+                            <summary class="feature-summary">
+                                <div>
+                                    <p class="feature">mathematical operations</p>
+                                    <h2>14 tests</h2>
+                                    <p class="feature-stats">14 passed · 0 failed · 0 skipped · 107.163ms</p>
+                                </div>
+                                <span class="summary-pill">
+                                    <span class="badge passed">14 scenarios</span>
+                                    <span class="toggle-icon" aria-hidden="true"></span>
+                                </span>
+                            </summary>
+                            <div class="feature-items">
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>computes gcd of two numbers</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.499ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>12 18</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>6</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>6
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>finds gcd of an array of numbers</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.961ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3
+12 18 24</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>6</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>6
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>finds lcm of an array of numbers</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">10.131ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3
+4 6 8</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>24</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>24
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>checks armstrong number</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.759ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>153</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>counts digits in a number</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.912ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>1000</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>4</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>4
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>checks even number</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.438ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>10</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>checks odd number</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.498ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>11</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>computes shorter angle between hour and minute hand</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.234ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3 30</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>75</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>75
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>checks perfect number</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.201ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>28</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>checks two numbers are the same</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.537ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>42 42</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints divisors of a natural number</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.575ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>12</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 2 3 4 6 12</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 2 3 4 6 12 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>computes nth fibonacci term</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.629ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>7</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>13</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>13
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>computes binomial coefficient</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.388ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5 2</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>10</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>10
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>adds numbers without plus or minus</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.399ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>6 5</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>11</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>11
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                            </div>
+                        </details>
+                        
+                        <details class="feature-section">
+                            <summary class="feature-summary">
+                                <div>
+                                    <p class="feature">sorting algorithms</p>
+                                    <h2>11 tests</h2>
+                                    <p class="feature-stats">11 passed · 0 failed · 0 skipped · 80.869ms</p>
+                                </div>
+                                <span class="summary-pill">
+                                    <span class="badge passed">11 scenarios</span>
+                                    <span class="toggle-icon" aria-hidden="true"></span>
+                                </span>
+                            </summary>
+                            <div class="feature-items">
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>finds an element using binary search</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.869ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+1 3 5 7 9
+7</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>4</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>4
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>sorts values using bubble sort</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.303ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+5 1 4 2 8</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 2 4 5 8</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 2 4 5 8
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>sorts values using insertion sort</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.846ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+9 5 1 4 3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 3 4 5 9</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 3 4 5 9
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>sorts values using selection sort</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.751ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+64 25 12 22 11</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>11 12 22 25 64</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>11 12 22 25 64
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>merges two sorted halves</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.155ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>6
+1 3 5 2 4 6
+0 2 5</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 2 3 4 5 6</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 2 3 4 5 6
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>sorts values using merge sort</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">8.728ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>5
+9 4 6 2 7</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>2 4 6 7 9</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>2 4 6 7 9
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>sorts values using quick sort</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.805ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>6
+10 7 8 9 1 5</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 5 7 8 9 10</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 5 7 8 9 10
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>swaps two quicksort positions</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.463ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>4
+1 2 3 4
+1 3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1 4 3 2</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 4 3 2
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>partitions quicksort around the pivot</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.332ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>7
+10 80 30 90 40 50 70
+0 6</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>4
+10 30 40 50 70 90 80</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>4
+10 30 40 50 70 90 80
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>performs dutch national flag sort</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.947ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>4
+0 0 1 2</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>0 0 1 2</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>0 0 1 2
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>produces wave sorted output</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.670ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>6
+1 2 3 4 5 6</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>2 1 4 3 6 5</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>2 1 4 3 6 5
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                            </div>
+                        </details>
+                        
+                        <details class="feature-section">
+                            <summary class="feature-summary">
+                                <div>
+                                    <p class="feature">string operations</p>
+                                    <h2>3 tests</h2>
+                                    <p class="feature-stats">3 passed · 0 failed · 0 skipped · 20.178ms</p>
+                                </div>
+                                <span class="summary-pill">
+                                    <span class="badge passed">3 scenarios</span>
+                                    <span class="toggle-icon" aria-hidden="true"></span>
+                                </span>
+                            </summary>
+                            <div class="feature-items">
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>reads a full line using input_string</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">7.393ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>hello world from behave</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>hello world from behave</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>hello world from behave
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints a full string using print_string</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.419ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>copilot string test</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>copilot string test</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>copilot string test
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints each character using print_string_by_char</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.366ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>hello</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>hello</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>hello
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                            </div>
+                        </details>
+                        
+                        <details class="feature-section">
+                            <summary class="feature-summary">
+                                <div>
+                                    <p class="feature">triangle patterns</p>
+                                    <h2>8 tests</h2>
+                                    <p class="feature-stats">8 passed · 0 failed · 0 skipped · 54.427ms</p>
+                                </div>
+                                <span class="summary-pill">
+                                    <span class="badge passed">8 scenarios</span>
+                                    <span class="toggle-icon" aria-hidden="true"></span>
+                                </span>
+                            </summary>
+                            <div class="feature-items">
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints a left base star triangle</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.830ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>*
+* *
+* * *</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>* 
+* * 
+* * * 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints a right base star triangle</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.223ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>  *
+ **
+***</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>  *
+ **
+***
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints the mirrored left triangle</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">5.957ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>
+* * *
+* *
+*</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>
+* * * 
+* * 
+* 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints an equilateral triangle pattern</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">10.690ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>   *
+  * *
+ * * *</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>   *
+  * *
+ * * *
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints a diamond pattern</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.225ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>  *
+ ***
+*****
+ ***
+  *</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>  *
+ ***
+*****
+ ***
+  *
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints a left base triangle pattern</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.462ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>
+*
+* *
+* * *
+* *
+*</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>
+* 
+* * 
+* * * 
+* * 
+* 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints a right base triangle pattern</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">6.048ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>
+  *
+ **
+***
+ **
+  *</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>
+  *
+ **
+***
+ **
+  *
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                                <article class="card passed">
+                                    <div class="card-top">
+                                        <div>
+                                            <h2>prints Pascal triangle</h2>
+                                        </div>
+                                        <span class="card-meta">
+                                            <span class="badge passed">Passed</span>
+                                            <span class="badge duration">5.993ms</span>
+                                        </span>
+                                    </div>
+                                    <div class="kv"><span class="k">Input</span><pre>3</pre></div>
+                                    <div class="kv"><span class="k">Expected</span><pre>1
+1 1
+1 2 1
+1 3 3 1</pre></div>
+                                    <div class="kv"><span class="k">Actual</span><pre>1 
+1 1 
+1 2 1 
+1 3 3 1 
+</pre></div>
+                                    <p class="detail"></p>
+                                </article>
+                                
+                            </div>
+                        </details>
+                        
+        </section>
+    </main>
+</body>
+</html>
