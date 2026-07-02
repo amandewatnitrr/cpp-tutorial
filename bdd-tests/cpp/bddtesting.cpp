@@ -1397,6 +1397,196 @@ static int run_ll_addtwonumbers()
     return 0;
 }
 
+static bool read_circular_linked_list(llnode *&head)
+{
+    int n = 0;
+    if (!(cin >> n))
+    {
+        return false;
+    }
+
+    head = nullptr;
+    for (int i = 0; i < n; ++i)
+    {
+        int value = 0;
+        if (!(cin >> value))
+        {
+            return false;
+        }
+
+        if (head == nullptr)
+        {
+            cll_insertathead(head, value);
+        }
+        else
+        {
+            cll_insertattail(head, value);
+        }
+    }
+
+    return true;
+}
+
+static bool build_circular_list_by_tail_inserts(llnode *&head, int n)
+{
+    for (int i = 0; i < n; ++i)
+    {
+        int value = 0;
+        if (!(cin >> value))
+        {
+            return false;
+        }
+
+        if (head == nullptr)
+        {
+            cll_insertathead(head, value);
+        }
+        else
+        {
+            cll_insertattail(head, value);
+        }
+    }
+
+    return true;
+}
+
+static void free_circular_linked_list(llnode *head)
+{
+    if (head == nullptr)
+    {
+        return;
+    }
+
+    if (head->next == nullptr)
+    {
+        delete head;
+        return;
+    }
+
+    llnode *current = head->next;
+    while (current != nullptr && current != head)
+    {
+        llnode *next = current->next;
+        delete current;
+        current = next;
+    }
+
+    delete head;
+}
+
+static int run_cll_insertathead()
+{
+    int n = 0;
+    if (!(cin >> n))
+    {
+        return 1;
+    }
+
+    llnode *head = nullptr;
+    if (!build_circular_list_by_tail_inserts(head, n))
+    {
+        free_circular_linked_list(head);
+        return 1;
+    }
+
+    int value = 0;
+    if (!(cin >> value))
+    {
+        free_circular_linked_list(head);
+        return 1;
+    }
+
+    cll_insertathead(head, value);
+    cll_display(head);
+    free_circular_linked_list(head);
+    return 0;
+}
+
+static int run_cll_insertattail()
+{
+    int n = 0;
+    if (!(cin >> n))
+    {
+        return 1;
+    }
+
+    llnode *head = nullptr;
+    if (!build_circular_list_by_tail_inserts(head, n))
+    {
+        free_circular_linked_list(head);
+        return 1;
+    }
+
+    int value = 0;
+    if (!(cin >> value))
+    {
+        free_circular_linked_list(head);
+        return 1;
+    }
+
+    cll_insertattail(head, value);
+    cll_display(head);
+    free_circular_linked_list(head);
+    return 0;
+}
+
+static int run_cll_deleteathead()
+{
+    llnode *head = nullptr;
+    if (!read_circular_linked_list(head))
+    {
+        return 1;
+    }
+
+    if (head == nullptr)
+    {
+        return 0;
+    }
+
+    cll_deleteathead(head);
+    cll_display(head);
+    free_circular_linked_list(head);
+    return 0;
+}
+
+static int run_cll_deletee()
+{
+    llnode *head = nullptr;
+    if (!read_circular_linked_list(head))
+    {
+        return 1;
+    }
+
+    int pos = 0;
+    if (!(cin >> pos))
+    {
+        free_circular_linked_list(head);
+        return 1;
+    }
+
+    if (head != nullptr)
+    {
+        cll_deletee(head, pos);
+    }
+
+    cll_display(head);
+    free_circular_linked_list(head);
+    return 0;
+}
+
+static int run_cll_display()
+{
+    llnode *head = nullptr;
+    if (!read_circular_linked_list(head))
+    {
+        return 1;
+    }
+
+    cll_display(head);
+    free_circular_linked_list(head);
+    return 0;
+}
+
 static int **read_matrix(int rows, int cols)
 {
     return matrix_input(rows, cols);
@@ -1786,6 +1976,31 @@ int main(int argc, char **argv)
     if (function_name == "ll_addtwonumbers")
     {
         return run_ll_addtwonumbers();
+    }
+
+    if (function_name == "cll_insertathead")
+    {
+        return run_cll_insertathead();
+    }
+
+    if (function_name == "cll_insertattail")
+    {
+        return run_cll_insertattail();
+    }
+
+    if (function_name == "cll_deleteathead")
+    {
+        return run_cll_deleteathead();
+    }
+
+    if (function_name == "cll_deletee")
+    {
+        return run_cll_deletee();
+    }
+
+    if (function_name == "cll_display")
+    {
+        return run_cll_display();
     }
 
     if (function_name == "lbstar")

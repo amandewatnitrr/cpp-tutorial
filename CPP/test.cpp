@@ -3559,6 +3559,7 @@ void cll_insertathead(llnode* &head, int val)
             }
         temp->next = n;
         n->next = head;
+        head = n;
     }
 
 void cll_insertattail(llnode* &head, int val)
@@ -3568,7 +3569,7 @@ void cll_insertattail(llnode* &head, int val)
          */
         if(head == NULL)
             {
-                ll_insertathead(head,val);
+                cll_insertathead(head,val);
                 return;
             }
 

@@ -37,17 +37,17 @@ The Behave hooks compile the harness automatically before scenarios execute.
 <!-- BEGIN:behave-report-summary -->
 ### Report dashboard
 
-![Passed](https://img.shields.io/badge/Passed-90-22c55e?style=for-the-badge) ![Failed](https://img.shields.io/badge/Failed-0-ef4444?style=for-the-badge) ![Skipped](https://img.shields.io/badge/Skipped-0-f59e0b?style=for-the-badge)
+![Passed](https://img.shields.io/badge/Passed-95-22c55e?style=for-the-badge) ![Failed](https://img.shields.io/badge/Failed-0-ef4444?style=for-the-badge) ![Skipped](https://img.shields.io/badge/Skipped-0-f59e0b?style=for-the-badge)
 
 [Open latest HTML report](build/behave-report.html)
 
 | Metric | Value |
 | --- | --- |
-| Passed | **90** |
+| Passed | **95** |
 | Failed | **0** |
 | Skipped | **0** |
-| Total test time | **2.047s** |
-| Generated at | `2026-06-18 23:56:12 UTC` |
+| Total test time | **2.138s** |
+| Generated at | `2026-07-02 04:44:42 UTC` |
 
 Regenerate this dashboard:
 Run `behave` from `bdd-tests/` to refresh both this summary and the HTML report.
